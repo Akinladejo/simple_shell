@@ -1,9 +1,8 @@
+#include "shell.h"
 /*
  * File: shell.c
  * Author: Akinladejo Andrew and Osei Kofi
  */
-
-#include "shell.h"
 
 void signalHandler(int sig);
 int executeCommand(char **args, char **front);
