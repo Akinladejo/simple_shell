@@ -3,97 +3,236 @@
 
 #include <sys/types.h>
 
-// Struct containing vital shell information
-typedef struct ShellInfo {
-    char *name;
-    char *inputLine;
-    char *directive;
-    char **options;
-    char *directivePath;
-    int *errorCount;
-    int *exitNumber;
-    int *logicalRelation;
-    int *isRunnable;
-    struct ShellInfo *nextDirective;
-    char ***envCopy;
-    int *unsetNull;
+/**
+ * @struct ShellInfo
+ * @brief Structure containing important shell information
+ */
+typedef struct ShellInfo
+{
+    char *shell_name;
+    char *input_buffer;
+    char *current_command;
+    char **command_options;
+    char *command_path;
+    int *error_count;
+    int *exit_number;
+    int *logical_relation;
+    int *is_runnable;
+    struct ShellInfo *next_command;
+    char ***environment_copy;
+    int *unset_environment;
 } ShellInfo;
 
-// Struct for built-ins
-typedef struct BuiltInOperations {
-    char *directive;
-    ssize_t (*function)(ShellInfo *shell);
-} BuiltIns;
+/**
+ * @struct BuiltIn
+ * @brief Structure for built-in commands
+ */
+typedef struct BuiltIn
+{
+    char *command;
+    ssize_t (*function)(ShellInfo *shell_info);
+} BuiltIn;
 
-// Struct for built-ins
-typedef struct Assistance {
-    char *directive;
-    void (*helpFunction)(void);
+/**
+ * @struct HelpInfo
+ * @brief Structure for built-in help commands
+ */
+typedef struct HelpInfo
+{
+    char *built_in_command;
+    void (*help_function)(void);
 } HelpInfo;
 
-// Function Declarations
+/**
+ * @brief Get the value of an environment variable
+ */
+char *_get_environment_variable(const char *name, char **env);
 
-// Environment Operations
-char *_fetchEnvironment(const char *name, char **env);
-char *_locatePath(char *directive, char **env, ShellInfo *shell);
+/**
+ * @brief Get the absolute path of a command
+ */
+char *_get_absolute_path(char *command, char **env, ShellInfo *shell_info);
 
-// String Operations
-char *_duplicateString(char *str);
-char *concatenateStrings(char *s1, char *s2);
-size_t _stringLength(const char *s);
-char *_copyString(char *destination, const char *source);
-char *_tokenizeString(char *str, const char *delim);
+/**
+ * @brief Duplicate a string
+ */
+char *_str_duplicate(char *str);
 
-// Directive Operations
-char **fetchParameters(char *inputLine, ShellInfo *shell);
-int executeDirective(char *program, char *directive[], char **env, ShellInfo *shell);
-void addDirectiveToShell(ShellInfo *shell, char *inputLine, char *directive, char **parameters);
-void addPathToDirective(ShellInfo *shell, char *pathDirective);
+/**
+ * @brief Concatenate two strings
+ */
+char *concatenate_strings(char *s1, char *s2);
 
-// Input Handling
-ssize_t fetchLine(char **inputLine, size_t *bufSize, int fd);
-void freeDoublePointer(char **p);
-size_t stringArrayLength(char **array);
-char **checkInput(int argc, char **argv, size_t *bufSize, char **inputLine, ShellInfo *shell);
+/**
+ * @brief Get the length of a string
+ */
+int string_length(char *s);
 
-// Shell Initialization and Error Handling
-ShellInfo *initializeShellInfo(char *argv0, int *errCount, int *exitNum,
-                               int *relation, int *runnable, char ***env, int *unsetNull);
-int handleShellError(int errCount, ShellInfo *shell, int exitNum);
+/**
+ * @brief Copy a string
+ */
+char *_string_copy(char *destination, char *source);
 
-// Built-in Operations
-ssize_t runBuiltInOperations(ShellInfo *shell);
-ssize_t exitDirective(ShellInfo *shell);
-ssize_t helpDirective(ShellInfo *shell);
+/**
+ * @brief Tokenize a string
+ */
+char *_string_token(char *str, const char *delimiter);
 
-// String Comparison and Conversion
-int compareStrings(const char *s1, const char *s2);
-long convertToInteger(const char *s);
-long calculatePower(long base, long exponent);
+/**
+ * @brief Get parameters from a buffer
+ */
+char **get_parameters(char *buffer, ShellInfo *shell_info);
 
-// String Array Operations
-char **copyStringArray(char **array, size_t oldSize, size_t newSize);
+/**
+ * @brief Execute a command
+ */
+int execute_command(char *program, char *command[], char **env, ShellInfo *shell_info);
 
-// Environment Variable Operations
-char **setEnvironmentVariable(char **env, const char *variable, const char *value, ShellInfo *shell);
-char **unsetEnvironmentVariable(char **env, const char *variable, ShellInfo *shell);
+/**
+ * @brief Handle a signal
+ */
+void handle_signal(int signal_number);
 
-// Numeric Operations
-int isDigit(int c);
-int isNumericString(const char *s);
+/**
+ * @brief Handle another signal
+ */
+void handle_signal2(int signal_number);
 
-// Directory Operations
-ssize_t changeDirectory(ShellInfo *shell);
+/**
+ * @brief Get a line of input
+ */
+int get_line(char **buffer, size_t *buffer_size, int file_descriptor);
 
-// Comment Removal
-char *removeComment(char *str);
+/**
+ * @brief Free a double pointer
+ */
+void free_double_pointer(char **pointer);
 
-// Display Operations
-void displayString(const char *s);
-void helpUnsetEnvironment(void);
-void helpChangeDirectory(void);
-void helpHelp(void);
-void helpAlias(void);
-void showHelp(void);
+/**
+ * @brief Get the length of a string array
+ */
+int string_array_length(char **array);
+
+/**
+ * @brief Check and process input
+ */
+char **check_input(int argument_count, char **arguments, size_t *buffer_size,
+                   char **buffer, ShellInfo *shell_info);
+
+/**
+ * @brief Initialize the shell information structure
+ */
+ShellInfo *initialize_shell_info(char *argv0, int *error_number, int *exit_number,
+                                 int *logical_relation, int *is_runnable, char ***environment, int *unset_environment);
+
+/**
+ * @brief Handle errors
+ */
+int handle_error(int error_number, ShellInfo *shell_info, int exit_number);
+
+/**
+ * @brief Add a command to the shell information
+ */
+void add_command(ShellInfo *shell_info, char *input_buffer, char *command, char **parameters);
+
+/**
+ * @brief Add a path to the current command
+ */
+void add_path_to_command(ShellInfo *shell_info, char *path_command);
+
+/**
+ * @brief Execute built-in commands
+ */
+ssize_t execute_built_ins(ShellInfo *shell_info);
+
+/**
+ * @brief Handle the exit command
+ */
+ssize_t exit_command(ShellInfo *shell_info);
+
+/**
+ * @brief Compare two strings
+ */
+int compare_strings(char *string1, char *string2);
+
+/**
+ * @brief Convert a string to an integer
+ */
+long convert_to_integer(char *string);
+
+/**
+ * @brief Calculate the power of a number
+ */
+long power(long base, long exponent);
+
+/**
+ * @brief Copy a double pointer with resizing
+ */
+char **copy_double_pointer(char **pointer, int old_size, int new_size);
+
+/**
+ * @brief Set an environment variable
+ */
+char **set_environment_variable(char **env, char *variable, char *value, ShellInfo *shell_info);
+
+/**
+ * @brief Unset an environment variable
+ */
+char **unset_environment_variable(char **env, char *variable, ShellInfo *shell_info);
+
+/**
+ * @brief Check if a character is a digit
+ */
+int is_digit(int character);
+
+/**
+ * @brief Check if a string is a number
+ */
+int is_number(char *string);
+
+/**
+ * @brief Change the current directory
+ */
+ssize_t change_directory(ShellInfo *shell_info);
+
+/**
+ * @brief Remove comments from a string
+ */
+char *remove_comments(char *string);
+
+/**
+ * @brief Handle the help command
+ */
+ssize_t help_command(ShellInfo *shell_info);
+
+/**
+ * @brief Print a string
+ */
+void print_string(char *string);
+
+/**
+ * @brief Display help for the unsetenv command
+ */
+void display_help_unsetenv(void);
+
+/**
+ * @brief Display help for the cd command
+ */
+void display_help_change_directory(void);
+
+/**
+ * @brief Display help for the help command
+ */
+void display_help_help(void);
+
+/**
+ * @brief Display help for the alias command
+ */
+void display_help_alias(void);
+
+/**
+ * @brief Print general help
+ */
+void print_help(void);
 
 #endif
