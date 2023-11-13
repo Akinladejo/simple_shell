@@ -1,9 +1,9 @@
+#include "shell.h"
 #include <limits.h>
 #include <sys/types.h>
 #include <stdlib.h>
 #include <stdio.h>
 #include <unistd.h>
-#include "shell.h"
 
 /**
  * exit_command - Built-in command to exit the shell
@@ -15,8 +15,9 @@ ssize_t exit_command(ShellInfo *shell_info)
 {
     long valueToExit;
 
-    if (shell_info->command_options[1] == NULL || is_number(shell_info->command_options[1]))
+    switch (shell_info->command_options[1] == NULL || is_number(shell_info->command_options[1]))
     {
+    case 1:
         valueToExit = convert_to_integer(shell_info->command_options[1]);
 
         if (valueToExit >= 0 && valueToExit < INT_MAX)
@@ -32,11 +33,16 @@ ssize_t exit_command(ShellInfo *shell_info)
             free(shell_info);
             exit(valueToExit);
         }
+        break;
+
+    default:
+        /* Error handling */
+        handle_error(2, shell_info, 2);
+        free(shell_info->command_options);
+        return -1;
     }
 
-    handle_error(2, shell_info, 2);
-    free(shell_info->command_options);
-    return -1;
+    return -1; /* Should not reach here, added to satisfy the compiler */
 }
 
 /**
@@ -60,16 +66,19 @@ ssize_t env_command(ShellInfo *shell_info)
 
     envCopy = *(shell_info->environment_copy);
 
-    if (shell_info->command_options[1] == NULL)
+    switch (shell_info->command_options[1] == NULL)
     {
+    case 1:
+        /* Print the environment */
         for (; envCopy && *envCopy; envCopy++)
         {
             write(1, *envCopy, string_length(*envCopy));
             write(1, "\n", 1);
         }
-    }
-    else
-    {
+        break;
+
+    default:
+        /* Error handling */
         handle_error(0, shell_info, 2);
         check = -1;
     }
@@ -105,6 +114,7 @@ ssize_t setenv_command(ShellInfo *shell_info)
     }
     if (variable == 0)
     {
+        /* Error handling */
         write(2, "Invalid VARIABLE\n", 17);
         *(shell_info->exit_number) = 2;
         free(shell_info->command_options);
@@ -144,24 +154,28 @@ ssize_t unsetenv_command(ShellInfo *shell_info)
         return (free(shell_info->command_options), -1);
     }
 
-    if (variable == 0)
+    switch (variable == 0)
     {
+    case 1:
+        /* Variable not provided */
+        free(shell_info->command_options);
+        return 1;
+
+    default:
+        newEnvironment = unset_environment_variable(*(shell_info->environment_copy), variable, shell_info);
+
+        if (newEnvironment == 0 && *(shell_info->unset_environment) == 0)
+        {
+            /* Error handling */
+            free(shell_info->command_options);
+            *(shell_info->exit_number) = 2;
+            return -1;
+        }
+
+        *(shell_info->environment_copy) = newEnvironment;
         free(shell_info->command_options);
         return 1;
     }
-
-    newEnvironment = unset_environment_variable(*(shell_info->environment_copy), variable, shell_info);
-
-    if (newEnvironment == 0 && *(shell_info->unset_environment) == 0)
-    {
-        free(shell_info->command_options);
-        *(shell_info->exit_number) = 2;
-        return -1;
-    }
-
-    *(shell_info->environment_copy) = newEnvironment;
-    free(shell_info->command_options);
-    return 1;
 }
 
 /**
@@ -180,9 +194,11 @@ ssize_t execute_built_ins(ShellInfo *shell_info)
         {"cd", change_directory},
         {"help", help_command}};
 
-    int i = 6, builtCheck; /* length of builtIns array */
+    int i = 6; /* length of builtIns array */
+    ssize_t builtCheck = 0;
 
     while (i--)
+    {
         if (compare_strings(shell_info->current_command, builtIns[i].command))
         {
             *(shell_info->error_count) += 1;
@@ -191,6 +207,7 @@ ssize_t execute_built_ins(ShellInfo *shell_info)
                 *(shell_info->exit_number) = 0;
             return builtCheck;
         }
+    }
 
     return 0;
 }
