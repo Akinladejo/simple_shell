@@ -71,7 +71,7 @@ int string_length(char *s);
 /**
  * @brief Copy a string
  */
-char *_string_copy(char *destination, char *source);
+char *_strcpy(char *dest, char *src)
 
 /**
  * @brief Tokenize a string
