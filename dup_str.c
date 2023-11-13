@@ -45,14 +45,13 @@ int string_length(char *s)
  * Return: Pointer to the destination string
  * On error: NULL for inappropriate entry
  */
-char *_strcpy(char *dest, char *src)
-{
+char *_string_copy(char *destination, char *source);{
     int i = 0;
 
-    for (i = 0; *(src + i) != '\0'; i++)
-        *(dest + i) = *(src + i);
+    for (i = 0; *(source + i) != '\0'; i++)
+        *(destination + i) = *(src + i);
 
-    *(dest + i) = *(src + i); /* Adding '\0' character */
+    *(destestination + i) = *(source + i); /* Adding '\0' character */
 
-    return dest;
+    return destination;
 }
