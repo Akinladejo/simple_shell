@@ -61,7 +61,7 @@ char *_itoa(int n)
     char *str = malloc(length);
     if (!str)
     {
-        write(2, "Memory Error", 22);
+        handle_error(7, NULL, 1);  // Memory error
         return NULL;
     }
 
@@ -102,7 +102,7 @@ char *generate_error_info(int errn, char *result, char *option);
  */
 int create_error(int errn, ShellInfo *shell_info, int exit_num)
 {
-    int error_count = shell_info->error_count[0];
+    int error_count = *(shell_info->error_count);
     char *current_command = shell_info->current_command;
     char **command_options = shell_info->command_options;
     char *shell_name = shell_info->shell_name;
@@ -116,7 +116,7 @@ int create_error(int errn, ShellInfo *shell_info, int exit_num)
     char *result = concatenate_strings(shell_name, ": ");
     if (!result)
     {
-        return (write(2, "Memory Error", 22), -1);
+        return handle_error(7, shell_info, 1);  // Memory error
     }
 
     char *temp_result = concatenate_strings(result, _itoa(error_count));
@@ -124,7 +124,7 @@ int create_error(int errn, ShellInfo *shell_info, int exit_num)
 
     if (!temp_result)
     {
-        return (write(2, "Memory Error", 22), -1);
+        return handle_error(7, shell_info, 1);  // Memory error
     }
 
     result = concatenate_strings(temp_result, ": ");
@@ -146,8 +146,7 @@ int create_error(int errn, ShellInfo *shell_info, int exit_num)
 
     if (!temp_result)
     {
-        write(2, "Memory Error", 22);
-        return -1;
+        return handle_error(7, shell_info, 1);  // Memory error
     }
 
     int length = 0;
@@ -160,7 +159,7 @@ int create_error(int errn, ShellInfo *shell_info, int exit_num)
     write(2, "\n", 1);
 
     free(temp_result);
-    shell_info->exit_number[0] = exit_num;
+    *(shell_info->exit_number) = exit_num;
     return 0;
 }
 
@@ -177,13 +176,13 @@ char *generate_error_info(int errn, char *result, char *option)
     char *temp_result = NULL;
     char *colspace = ": ";
 
-    if (errn == 2)
+    switch (errn)
     {
+    case 2:
         temp_result = concatenate_strings(result, colspace);
         if (!temp_result)
         {
-            write(2, "Memory Error", 22);
-            return NULL;
+            return handle_error(7, NULL, 1);  // Memory error
         }
 
         char *temp = concatenate_strings(temp_result, option);
@@ -191,21 +190,22 @@ char *generate_error_info(int errn, char *result, char *option)
         temp_result = temp;
         if (!temp_result)
         {
-            write(2, "Memory Error", 22);
-            return NULL;
+            return handle_error(7, NULL, 1);  // Memory error
         }
-    }
+        break;
 
-    if (errn > 3)
-    {
-        char *temp = concatenate_strings(temp_result, option);
-        free(temp_result);
-        temp_result = temp;
-        if (!temp_result)
+    default:
+        if (errn > 3)
         {
-            write(2, "Memory Error", 22);
-            return NULL;
+            char *temp = concatenate_strings(temp_result, option);
+            free(temp_result);
+            temp_result = temp;
+            if (!temp_result)
+            {
+                return handle_error(7, NULL, 1);  // Memory error
+            }
         }
+        break;
     }
 
     return temp_result;
