@@ -38,7 +38,7 @@ char *_string_token(char *str, const char *delimiter)
 
     default:
         // Skip leading delimiter characters
-        while (*step && strchr(delimiter, *step))
+        while (*step && _strchr(delimiter, *step))
             ++step;
 
         // If the end is reached after skipping delimiters, set isEnd and return NULL
@@ -52,12 +52,12 @@ char *_string_token(char *str, const char *delimiter)
         char *start = step;
 
         // Move step to the end of the token
-        while (*step && !strchr(delimiter, *step))
+        while (*step && !_strchr(delimiter, *step))
             ++step;
 
         // If there are more tokens, replace the delimiter with '\0' and move step to the next character
         if (*step)
-            *step++ = '\0';
+            *_strchr(delimiter, *step) = '\0';
         // If there are no more tokens, set isEnd
         else
             isEnd = 1;
