@@ -1,32 +1,34 @@
 /**
- * unset_environment_variable - Unsets an environmental variable
+ * @brief Unsets an environmental variable
  *
- * @env: Array of environment variables
- * @variable: Environment variable to unset
- * @shell_info: Struct with shell info
+ * @param env Array of environment variables
+ * @param variable Environment variable to unset
+ * @param shell_info Struct with shell info
  *
- * Return: Modified environment array on success, NULL on error
+ * @return Modified environment array on success, NULL on error
  */
-char **unset_environment_variable(char **env, char *variable, ShellInfo *shell_info)
+char **unset_environment_variable(char **env, const char *variable, ShellInfo *shell_info)
 {
-    int i, j, check, l, lenv, found;
-    char **copy;
-
-    /* Check for null inputs */
+    // Check for null inputs
     if (!env || !variable)
     {
         handle_error(3, shell_info, 1);
         return NULL;
     }
 
-    /* Get the lengths of the variable and the environment array */
-    l = string_length(variable);
-    lenv = string_array_length(env);
+    // Get the lengths of the variable and the environment array
+    size_t var_length = string_length(variable);
+    size_t env_length = string_array_length(env);
 
-    /* Search for the variable in the environment array */
-    for (i = 0, found = 0; i < lenv; i++)
+    // Search for the variable in the environment array
+    size_t i, j;
+    int found = 0;
+
+    for (i = 0; i < env_length; i++)
     {
-        for (check = 0, j = 0; j < l && env[i][j] != '\0'; j++)
+        int check = 0;
+
+        for (j = 0; j < var_length && env[i][j] != '\0'; j++)
         {
             if (variable[j] == '=')
             {
@@ -40,37 +42,48 @@ char **unset_environment_variable(char **env, char *variable, ShellInfo *shell_i
             }
         }
 
-        if (check == l && env[i][check] == '=')
+        if (check == var_length && env[i][check] == '=')
         {
             found = 1;
             break;
         }
     }
 
-    /* If the variable was not found, return an error */
-    if (!found)
+    // Use a switch statement to handle different cases
+    switch (found)
     {
+    case 0:
+        // If the variable was not found, return an error
         write(2, "VARIABLE not found\n", 19);
         return NULL;
-    }
 
-    /* Create a copy of the environment array, without the variable to be unset */
-    if (lenv > 1)
-    {
-        copy = copy_double_pointer(env, lenv - 1, i);
-        if (!copy)
+    case 1:
+        // Create a copy of the environment array, without the variable to be unset
+        char **copy = NULL;
+
+        if (env_length > 1)
         {
-            handle_error(7, shell_info, 1);
-            return NULL;
-        }
-    }
-    else
-    {
-        copy = NULL;
-        shell_info->unset_environment[0] = 1;
-    }
+            copy = copy_double_pointer(env, env_length - 1, i);
 
-    /* Free the old environment array and return the new one */
-    free_double_pointer(env);
-    return copy;
+            if (!copy)
+            {
+                handle_error(7, shell_info, 1);
+                return NULL;
+            }
+        }
+        else
+        {
+            copy = NULL;
+            shell_info->unset_environment[0] = 1;
+        }
+
+        // Free the old environment array and return the new one
+        free_double_pointer(env);
+        return copy;
+
+    default:
+        // Should not reach here, but handle it just in case
+        handle_error(8, shell_info, 1);
+        return NULL;
+    }
 }
