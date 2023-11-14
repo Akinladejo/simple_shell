@@ -1,5 +1,5 @@
-#include <stdlib.h>
 #include "shell.h"
+#include <stdlib.h>
 
 /**
  * _str_duplicate - Duplicate a string
@@ -8,21 +8,20 @@
  * Return: Pointer to the duplicated string
  * On error: NULL for inappropriate entry or memory allocation failure
  */
-char *_str_duplicate(char *str)
-{
-    char *duplicate;
+char *_str_duplicate(char *str) {
+	char *duplicate;
 
-    if (!str)
-        return NULL;
+	if (!str)
+		return NULL;
 
-    duplicate = malloc((_strlen(str) * sizeof(*duplicate)) + 1);
+	duplicate = malloc((_strlen(str) * sizeof(*duplicate)) + 1);
 
-    if (!duplicate)
-        return NULL;
+	if (!duplicate)
+		return NULL;
 
-    _strcpy(duplicate, str);
+	_strcpy(duplicate, str);
 
-    return duplicate;
+	return duplicate;
 }
 
 /**
@@ -32,10 +31,7 @@ char *_str_duplicate(char *str)
  * Return: Length of the string
  * On error: -1 for inappropriate entry
  */
-int string_length(char *s)
-{
-    return ((!*s) ? 0 : 1 + string_length(s + 1));
-}
+int string_length(char *s) { return ((!*s) ? 0 : 1 + string_length(s + 1)); }
 
 /**
  * _strcpy - Copy a source string to a destination string
@@ -45,13 +41,14 @@ int string_length(char *s)
  * Return: Pointer to the destination string
  * On error: NULL for inappropriate entry
  */
-char *_string_copy(char *destination, char *source);{
-    int i = 0;
+char *_string_copy(char *destination, char *source);
+{
+	int i = 0;
 
-    for (i = 0; *(source + i) != '\0'; i++)
-        *(destination + i) = *(src + i);
+	for (i = 0; *(source + i) != '\0'; i++)
+		*(destination + i) = *(src + i);
 
-    *(destestination + i) = *(source + i); /* Adding '\0' character */
+	*(destestination + i) = *(source + i); /* Adding '\0' character */
 
-    return destination;
+	return destination;
 }

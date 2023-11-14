@@ -7,40 +7,37 @@
  * @struct ShellInfo
  * @brief Structure containing important shell information
  */
-typedef struct ShellInfo
-{
-    char *shell_name;
-    char *input_buffer;
-    char *current_command;
-    char **command_options;
-    char *command_path;
-    int *error_count;
-    int *exit_number;
-    int *logical_relation;
-    int *is_runnable;
-    struct ShellInfo *next_command;
-    char ***environment_copy;
-    int *unset_environment;
+typedef struct ShellInfo {
+	char *shell_name;
+	char *input_buffer;
+	char *current_command;
+	char **command_options;
+	char *command_path;
+	int *error_count;
+	int *exit_number;
+	int *logical_relation;
+	int *is_runnable;
+	struct ShellInfo *next_command;
+	char ***environment_copy;
+	int *unset_environment;
 } ShellInfo;
 
 /**
  * @struct BuiltIn
  * @brief Structure for built-in commands
  */
-typedef struct BuiltIn
-{
-    char *command;
-    ssize_t (*function)(ShellInfo *shell_info);
+typedef struct BuiltIn {
+	char *command;
+	ssize_t (*function)(ShellInfo *shell_info);
 } BuiltIn;
 
 /**
  * @struct HelpInfo
  * @brief Structure for built-in help commands
  */
-typedef struct HelpInfo
-{
-    char *built_in_command;
-    void (*help_function)(void);
+typedef struct HelpInfo {
+	char *built_in_command;
+	void (*help_function)(void);
 } HelpInfo;
 
 /**
@@ -86,7 +83,8 @@ char **get_parameters(char *buffer, ShellInfo *shell_info);
 /**
  * @brief Execute a command
  */
-int execute_command(char *program, char *command[], char **env, ShellInfo *shell_info);
+int execute_command(char *program, char *command[], char **env,
+		    ShellInfo *shell_info);
 
 /**
  * @brief Handle a signal
@@ -117,13 +115,15 @@ int string_array_length(char **array);
  * @brief Check and process input
  */
 char **check_input(int argument_count, char **arguments, size_t *buffer_size,
-                   char **buffer, ShellInfo *shell_info);
+		   char **buffer, ShellInfo *shell_info);
 
 /**
  * @brief Initialize the shell information structure
  */
-ShellInfo *initialize_shell_info(char *argv0, int *error_number, int *exit_number,
-                                 int *logical_relation, int *is_runnable, char ***environment, int *unset_environment);
+ShellInfo *initialize_shell_info(char *argv0, int *error_number,
+				 int *exit_number, int *logical_relation,
+				 int *is_runnable, char ***environment,
+				 int *unset_environment);
 
 /**
  * @brief Handle errors
@@ -133,7 +133,8 @@ int handle_error(int error_number, ShellInfo *shell_info, int exit_number);
 /**
  * @brief Add a command to the shell information
  */
-void add_command(ShellInfo *shell_info, char *input_buffer, char *command, char **parameters);
+void add_command(ShellInfo *shell_info, char *input_buffer, char *command,
+		 char **parameters);
 
 /**
  * @brief Add a path to the current command
@@ -173,12 +174,14 @@ char **copy_double_pointer(char **pointer, int old_size, int new_size);
 /**
  * @brief Set an environment variable
  */
-char **set_environment_variable(char **env, char *variable, char *value, ShellInfo *shell_info);
+char **set_environment_variable(char **env, char *variable, char *value,
+				ShellInfo *shell_info);
 
 /**
  * @brief Unset an environment variable
  */
-char **unset_environment_variable(char **env, char *variable, ShellInfo *shell_info);
+char **unset_environment_variable(char **env, char *variable,
+				  ShellInfo *shell_info);
 
 /**
  * @brief Check if a character is a digit
