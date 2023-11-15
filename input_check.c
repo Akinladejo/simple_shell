@@ -15,7 +15,7 @@
  * @buffer: Buffer in the prompt
  * @shell_info: Struct containing shell information
  *
- * Return: On success, returns a command array. On error, returns NULL.
+ * Return: On success, returns a command array. On error, exits the program.
  */
 char **check_input(int argument_count, char **arguments, size_t *buffer_size,
                    char **buffer, ShellInfo *shell_info) {
@@ -42,7 +42,7 @@ char **check_input(int argument_count, char **arguments, size_t *buffer_size,
                 if (isatty(STDIN_FILENO))
                     write(1, "\n", 1);
 
-                return (exit(exit_number));
+                exit(exit_number);
             }
 
             if (**buffer == '#' || !characters || **buffer == '\n')
@@ -56,7 +56,7 @@ char **check_input(int argument_count, char **arguments, size_t *buffer_size,
             command = malloc(sizeof(char *) * argument_count);
             if (!command) {
                 handle_error(7, shell_info, 1);
-                return (NULL);
+                exit(1);
             }
 
             command[argument_count - 1] = '\0';
