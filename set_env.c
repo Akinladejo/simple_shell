@@ -2,6 +2,10 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+/**
+ * free_double_pointer - Frees a double pointer.
+ * @pointer: The double pointer to be freed.
+ */
 void free_double_pointer(char **pointer) {
 	if (!pointer)
 		return;
@@ -12,10 +16,17 @@ void free_double_pointer(char **pointer) {
 	free(pointer);
 }
 
+/**
+ * copy_double_pointer - Copies a double pointer to a new size.
+ * @pointer: The original double pointer.
+ * @old_size: The old size of the double pointer.
+ * @new_size: The new size of the double pointer.
+ * Return: The copied double pointer or (NULL) on failure.
+ */
 char **copy_double_pointer(char **pointer, int old_size, int new_size) {
 	switch (old_size == new_size) {
 	case 1:
-		return NULL;
+		return (NULL);
 	}
 
 	int copy_size = (new_size < old_size) ? new_size : old_size;
@@ -31,35 +42,48 @@ char **copy_double_pointer(char **pointer, int old_size, int new_size) {
 				while (--i >= 0)
 					free(copy[i]);
 				free(copy);
-				return NULL;
+				return (NULL);
 			}
 		}
 	}
 
 	copy[new_size] = NULL;
-	return copy;
+	return (copy);
 }
 
+/**
+ * string_array_length - Calculates the length of a string array.
+ * @array: The string array.
+ * Return: The length of the string array.
+ */
 int string_array_length(char **array) {
 	if (!array)
-		return 0;
+		return (0);
 
 	int length;
 	for (length = 0; array[length] != NULL; length++)
 		;
 
-	return length;
+	return (length);
 }
 
+/**
+ * set_environment_variable - Sets an environment variable.
+ * @env: The environment array.
+ * @variable: The variable to be set.
+ * @value: The value to set for the variable.
+ * @shell_info: The shell information.
+ * Return: The modified environment array or (NULL) on failure.
+ */
 char **set_environment_variable(char **env, char *variable, char *value,
-				ShellInfo *shell_info) {
+                                ShellInfo *shell_info) {
 	if (!variable || string_length(variable) == 0)
-		return handle_error(3, shell_info, 1), NULL;
+		return (handle_error(3, shell_info, 1), NULL);
 
 	char *env_join2 = concatenate_strings(variable, "=");
 	switch (!!env_join2) {
 	case 0:
-		return handle_error(3, shell_info, 1), NULL;
+		return (handle_error(3, shell_info, 1), NULL);
 	}
 
 	char *env_join = concatenate_strings(env_join2, value);
@@ -67,7 +91,7 @@ char **set_environment_variable(char **env, char *variable, char *value,
 
 	switch (!!env_join) {
 	case 0:
-		return handle_error(3, shell_info, 1), NULL;
+		return (handle_error(3, shell_info, 1), NULL);
 	}
 
 	int len_variable = string_length(variable);
@@ -77,8 +101,7 @@ char **set_environment_variable(char **env, char *variable, char *value,
 		int check = 0;
 		for (int j = 0; j < len_variable && env[i][j] != NULL; j++) {
 			if (variable[j] == '=')
-				return free(env_join),
-				       handle_error(3, shell_info, 2), NULL;
+				return (free(env_join), handle_error(3, shell_info, 2), NULL);
 
 			if (env[i][j] == variable[j])
 				check++;
@@ -91,7 +114,7 @@ char **set_environment_variable(char **env, char *variable, char *value,
 
 			switch (!copy_dup) {
 			case 1:
-				return handle_error(3, shell_info, 1), NULL;
+				return (handle_error(3, shell_info, 1), NULL);
 			}
 
 			return env[i] = copy_dup, env;
@@ -103,7 +126,7 @@ char **set_environment_variable(char **env, char *variable, char *value,
 
 	switch (!copy) {
 	case 1:
-		return free(env_join), handle_error(3, shell_info, 1), NULL;
+		return (free(env_join), handle_error(3, shell_info, 1), NULL);
 	}
 
 	env = copy;
@@ -112,8 +135,8 @@ char **set_environment_variable(char **env, char *variable, char *value,
 
 	switch (!copy_dup) {
 	case 1:
-		return handle_error(3, shell_info, 1), NULL;
+		return (handle_error(3, shell_info, 1), NULL);
 	}
 
-	return env[len_env] = copy_dup, env;
+	return (env[len_env] = copy_dup, env;)
 }
