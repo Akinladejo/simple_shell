@@ -8,13 +8,20 @@
 
 #define PATH_SEPARATOR ':'
 
+/**
+ * _pathcheck - Add a dot after each PATH_SEPARATOR in the given path
+ * @path: The input path string
+ *
+ * Return: A newly allocated string with dots added after each PATH_SEPARATOR
+ *         or NULL if the input is NULL or no PATH_SEPARATOR is found.
+ */
 char *_pathcheck(const char *path) {
     if (!path)
         return (NULL);
 
+    size_t len = strlen(path);
     size_t i;
     int count = 0;
-    size_t len = strlen(path);
 
     for (i = 0; i < len; i++) {
         if ((path[i] == '=' && path[i + 1] == PATH_SEPARATOR) ||
@@ -49,6 +56,14 @@ char *_pathcheck(const char *path) {
     return (npath);
 }
 
+/**
+ * _path - Search for the given command in the PATH environment variable
+ * @cmd: The command to search for
+ * @env: The environment variables
+ * @shpack: The ShellInfo structure
+ *
+ * Return: The full path of the command if found, or NULL if not found.
+ */
 char *_path(const char *cmd, char **env, ShellInfo *shpack) {
     if (!cmd || !env || !shpack)
         return (NULL);
