@@ -31,6 +31,8 @@ char *_string_token(char *str, const char *delimiter)
     if (isEnd)
         return (NULL);
 
+    char *start;
+    
     switch (*step)
     {
         case '\0':
@@ -38,7 +40,7 @@ char *_string_token(char *str, const char *delimiter)
             return (NULL);
 
         default:
-            while (*step && _strchr(delimiter, *step))
+            while (*step && strchr(delimiter, *step))
             {
                 ++step;
             }
@@ -49,16 +51,16 @@ char *_string_token(char *str, const char *delimiter)
                 return (NULL);
             }
 
-            char *start = step;
+            start = step;
 
-            while (*step && !_strchr(delimiter, *step))
+            while (*step && !strchr(delimiter, *step))
             {
                 ++step;
             }
 
             if (*step)
             {
-                *_strchr(delimiter, *step) = '\0';
+                *strchr(delimiter, *step) = '\0';
                 ++step;
             } else
             {
