@@ -198,8 +198,7 @@ ShellInfo *shell_info);
 /**
  * unset_environment_variable - Unset an environment variable
  */
-char **unset_environment_variable(char **env, const char *variable,
-ShellInfo *shell_info);
+char **unset_environment_variable(char **env, const char *variable, ShellInfo *shell_info);
 
 /**
  * is_digit - Check if a character is a digit
