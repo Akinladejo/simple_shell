@@ -22,6 +22,12 @@
 typedef struct ShellInfo ShellInfo;
 
 /**
+ * unset_environment_variable - Unset an environment variable
+ */
+char **unset_environment_variable(char **env, const char *variable, ShellInfo *shell_info);
+
+
+/**
  * struct BuiltIn - Structure for built-in commands
  *
  * @command: Name of the built-in command
@@ -195,10 +201,6 @@ char **copy_double_pointer(char **pointer, int old_size, int new_size);
 char **set_environment_variable(char **env, char *variable, char *value,
 ShellInfo *shell_info);
 
-/**
- * unset_environment_variable - Unset an environment variable
- */
-char **unset_environment_variable(char **env, const char *variable, ShellInfo *shell_info);
 
 /**
  * is_digit - Check if a character is a digit
