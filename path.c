@@ -95,7 +95,6 @@ char *_path(const char *cmd, char **env, ShellInfo *shpack)
 
 		if (stat(concat2, &st) == 0) 
 		{
-			/* Found the command in PATH */
 			free(path);
 			return (concat2);
 		}
