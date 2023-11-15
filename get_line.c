@@ -64,6 +64,7 @@ int get_line(char **buffer, size_t *buffer_size, int file_descriptor)
     size_t size = BUFFER_SIZE;
     size_t len = 0;
     int read_result;
+    size_t i;  /* Declare 'i' outside of the loop */
 
     buf = malloc(size);
     if (buf == NULL)
@@ -71,7 +72,6 @@ int get_line(char **buffer, size_t *buffer_size, int file_descriptor)
         return (-1);
     }
 
-    size_t i;  /* Declare 'i' outside of the loop */
     while (1)
     {
         read_result = read(file_descriptor, buf + len, size - len);
