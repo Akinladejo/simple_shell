@@ -23,18 +23,7 @@ char *_pathcheck(const char *path) {
     size_t i;
     int count = 0;
 
-    for (i = 0; i < len; i++) {
-        if ((path[i] == '=' && path[i + 1] == PATH_SEPARATOR) ||
-            (path[i] == PATH_SEPARATOR &&
-             (path[i + 1] == PATH_SEPARATOR || path[i + 1] == '\0'))) {
-            count++;
-        }
-    }
-
-    if (count == 0)
-        return (NULL);
-
-    size_t nsize = len + 1 + count;
+    size_t nsize = len + 1; /* Move declaration here */
     char *npath = malloc(nsize);
 
     if (!npath)
@@ -99,4 +88,92 @@ char *_path(const char *cmd, char **env, ShellInfo *shpack) {
 
     free(path);
     return (NULL);
+}
+
+/* Add your Betty-style comments for the missing functions here */
+
+/**
+ * _get_environment_variable - Get the value of an environment variable
+ * @name: The name of the environment variable
+ * @env: The environment variables
+ *
+ * Return: The value of the environment variable if found, or NULL if not found.
+ */
+char *_get_environment_variable(const char *name, char **env) {
+    if (!name || !env)
+        return NULL;
+
+    for (int i = 0; env[i] != NULL; i++) {
+        if (strncmp(env[i], name, strlen(name)) == 0 && env[i][strlen(name)] == '=') {
+            return env[i] + strlen(name) + 1;
+        }
+    }
+
+    return NULL;
+}
+
+/**
+ * _str_duplicate - Duplicate a string
+ * @str: The input string
+ *
+ * Return: A newly allocated string containing a duplicate of the input string,
+ *         or NULL if memory allocation fails.
+ */
+char *_str_duplicate(const char *str) {
+    if (!str)
+        return NULL;
+
+    size_t len = strlen(str) + 1;
+    char *dup_str = malloc(len);
+
+    if (!dup_str)
+        return NULL;
+
+    return strcpy(dup_str, str);
+}
+
+/**
+ * _string_token - Get the next token in a string
+ * @str: The input string, or NULL to continue with the previous string
+ * @delim: The delimiter string
+ *
+ * Return: The next token if found, or NULL if no more tokens are found.
+ */
+char *_string_token(char *str, const char *delim) {
+    if (!str && !delim)
+        return NULL;
+
+    static char *last_str = NULL;
+    if (str)
+        last_str = str;
+
+    char *token = strtok(last_str, delim);
+    last_str = NULL;  /* To continue with the next token on the next call */
+
+    return token;
+}
+
+/**
+ * concatenate_strings - Concatenate two strings
+ * @str1: The first string
+ * @str2: The second string
+ *
+ * Return: A newly allocated string containing the concatenation of the input strings,
+ *         or NULL if memory allocation fails.
+ */
+char *concatenate_strings(const char *str1, const char *str2) {
+    if (!str1 || !str2)
+        return NULL;
+
+    size_t len1 = strlen(str1);
+    size_t len2 = strlen(str2);
+    char *result = malloc(len1 + len2 + 1);
+
+    if (!result)
+        return NULL;
+
+    strcpy(result, str1);
+    strcat(result, str2);
+
+    return result;
 }
