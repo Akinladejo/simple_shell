@@ -17,46 +17,54 @@
  *
  * Return: Tokenized substring or NULL if the end of the string is reached
  */
-char *_string_token(char *str, const char *delimiter) {
+char *_string_token(char *str, const char *delimiter)
+{
     static char *step = NULL;
     static int isEnd = 0;
 
-    if (str) {
+    if (str)
+    {
         isEnd = 0;
         step = str;
     }
 
     if (isEnd)
-        return NULL;
+        return (NULL);
 
-    switch (*step) {
+    switch (*step)
+    {
         case '\0':
             isEnd = 1;
-            return NULL;
+            return (NULL);
 
         default:
-            while (*step && _strchr(delimiter, *step)) {
+            while (*step && _strchr(delimiter, *step))
+            {
                 ++step;
             }
 
-            if (!*step) {
+            if (!*step)
+            {
                 isEnd = 1;
-                return NULL;
+                return (NULL);
             }
 
             char *start = step;
 
-            while (*step && !_strchr(delimiter, *step)) {
+            while (*step && !_strchr(delimiter, *step))
+            {
                 ++step;
             }
 
-            if (*step) {
+            if (*step)
+            {
                 *_strchr(delimiter, *step) = '\0';
                 ++step;
-            } else {
+            } else
+            {
                 isEnd = 1;
             }
 
-            return start;
+            return (start);
     }
 }
