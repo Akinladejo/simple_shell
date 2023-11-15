@@ -45,7 +45,7 @@ int string_length(const char *s)
  * Return: Pointer to the destination string
  * On error: NULL for inappropriate entry
  */
-char *_string_copy(char *destination, char *source)
+char *_string_copy(char *destination, const char *source)
 {
 	int i = 0;
 
