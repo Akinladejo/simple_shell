@@ -21,7 +21,7 @@ char *_memset(char *dest, char value, unsigned int count)
 	{
 		dest[i] = value;
 	}
-	return dest;
+	return (dest);
 }
 
 /**
