@@ -146,6 +146,7 @@ char *generate_error_info(int errn, char *result, char *option)
 int create_error(int errn, ShellInfo *shell_info, int exit_num)
 {
     int error_count = *(shell_info->error_count);
+    temp_result;
     char *current_command = shell_info->current_command;
     char **command_options = shell_info->command_options;
     char *shell_name = shell_info->shell_name;
@@ -164,7 +165,8 @@ int create_error(int errn, ShellInfo *shell_info, int exit_num)
     };
 
     char *result;
-    char *temp_result
+    char *temp_result;
+    
     result = concatenate_strings(shell_name, ": ");
     if (!result) 
     {
