@@ -157,7 +157,7 @@ int create_error(int errn, ShellInfo *shell_info, int exit_num)
     current_command = shell_info->current_command;
     command_options = shell_info->command_options;
     shell_name = shell_info->shell_name;
-    error_messages[] =
+    error_messages[10] =
     {
         "not found",
         "Permission denied",
