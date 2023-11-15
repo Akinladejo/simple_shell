@@ -21,6 +21,7 @@ char *_string_token(char *str, const char *delimiter)
 {
     static char *step = NULL;
     static int isEnd = 0;
+    char *start;
 
     if (str)
     {
