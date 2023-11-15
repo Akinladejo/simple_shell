@@ -25,29 +25,22 @@ int main(int argc, char **argv, char **env)
 	    is_runnable = 0, size_env, unset_environment = 0;
 	ssize_t is_builtin;
 
-	/* Check for valid input */
 	if (argc > 1 || argv == NULL)
 	{
 		write(2, "Please run with no arguments\n", 29);
 		exit(127);
 	}
 
-	/* Set up signal handler */
 	signal(SIGINT, handle_signal);
 
-	/* Initialize shell information structure */
 	size_env = string_array_length(env);
 	env = copy_double_pointer(env, size_env, size_env);
-	shell_info = initialize_shell_info(argv[0], &error_number, &exit_number,
-					   &logical_relation, &is_runnable,
-					   &env, &unset_environment);
+	shell_info = initialize_shell_info(argv[0], &error_number, &exit_number, &logical_relation, &is_runnable, &env, &unset_environment);
 
-	/* Main shell loop */
 	while (1)
 	{
 		command = NULL;
-		command = check_input(argc, argv, &buffer_size, &input_buffer,
-				      shell_info);
+		command = check_input(argc, argv, &buffer_size, &input_buffer, shell_info);
 
 		if (!command)
 		{
@@ -88,7 +81,6 @@ int main(int argc, char **argv, char **env)
 		free(path_command);
 	}
 
-	/* Cleanup */
 	free_double_pointer(*(shell_info->environment_copy));
 	free(shell_info);
 	return (0);
