@@ -5,9 +5,9 @@
  *
  * Return: No Return
  */
-void print_help_help(void) {
-	print_string(
-	    "Shell HSH, version 1.0(1)-release (x86_64-pc-linux-gnu)\n");
+void print_help_help(void)
+{
+	print_string("Shell HSH, version 1.0(1)-release (x86_64-pc-linux-gnu)\n");
 	print_string("These shell commands are defined internally.\n");
 	print_string("Type `help' to see this list.\n");
 	print_string("Type help 'BUILTIN' to find out more about ");
