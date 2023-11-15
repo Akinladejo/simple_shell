@@ -71,8 +71,8 @@ ssize_t cd_command(ShellInfo *shell_info)
 
 	current_directory = getcwd(NULL, 4096);
 	if (!current_directory)
-		return (handle_error(4, shell_info, 2),
-		       free(shell_info->command_options), -1;
+		return ((handle_error(4, shell_info, 2),
+		       free(shell_info->command_options), -1);
 
 	switch (!shell_info->command_options[1] ||
 		(!_compare_strings(shell_info->command_options[1], "~")))
