@@ -28,8 +28,7 @@ long power(long base, long exponent)
  * convert_to_integer - Convert a string to an integer
  * @s: input string
  *
- * Return: Transformed integer
- *         On error: -1 for inappropriate entry
+ * Return: Transformed integer On error: -1 for inappropriate entry
  */
 long convert_to_integer(char *s)
 {
@@ -39,17 +38,15 @@ long convert_to_integer(char *s)
 	}
 
 	long result = 0;
-	long sign = 1; /* 1 represents positive, -1 represents negative */
+	long sign = 1;
 
-	/* Handle the sign */
-	if (*s == '-')
+		if (*s == '-')
 	{
 		sign = -1;
 		s++;
 	}
 
-	/* Process digits */
-	while (*s >= '0' && *s <= '9')
+		while (*s >= '0' && *s <= '9')
 	{
 		result = result * 10 + (*s - '0');
 		s++;
@@ -73,7 +70,7 @@ int compare_strings(char *string1, char *string2)
 		string2++;
 	}
 
-	return ((*string1 - *string2));
+	return (*string1 - *string2);
 }
 
 /**
@@ -84,7 +81,7 @@ int compare_strings(char *string1, char *string2)
  */
 int is_digit(int character)
 {
-	return ((character >= '0' && character <= '9'));
+	return (character >= '0' && character <= '9');
 }
 
 /**
