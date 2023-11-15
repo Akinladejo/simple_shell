@@ -8,7 +8,7 @@
  * Return: Pointer to the duplicated string
  * On error: NULL for inappropriate entry or memory allocation failure
  */
-char *_str_duplicate(char *str)
+char *_str_duplicate(const char *str)
 {
 	char *duplicate;
 
