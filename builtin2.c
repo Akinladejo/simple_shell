@@ -85,7 +85,7 @@ ssize_t cd_command(ShellInfo *shell_info)
 		break;
 
 	default:
-		if (!_compare_strings(shell_info->command_options[1], "-"))
+		if (!compare_strings(shell_info->command_options[1], "-"))
 		{
 			directory = auxiliary_cd(shell_info, current_directory);
 			if (!directory)
