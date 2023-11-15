@@ -196,7 +196,7 @@ char **set_environment_variable(char **env, char *variable, char *value,
 /**
  * unset_environment_variable - Unset an environment variable
  */
-char **unset_environment_variable(char **env, char *variable,
+char **unset_environment_variable(char **env, const char *variable,
 				  ShellInfo *shell_info);
 
 /**
