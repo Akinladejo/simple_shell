@@ -4,7 +4,7 @@
 #include <stdlib.h>
 #include <sys/types.h>
 #include <unistd.h>
-aa
+
 /**
  * exit_command - Built-in command to exit the shell
  * @shell_info: Struct containing shell information
@@ -69,7 +69,8 @@ ssize_t env_command(ShellInfo *shell_info)
 
 	envCopy = *(shell_info->environment_copy);
 
-	switch (shell_info->command_options[1] == NULL) {
+	switch (shell_info->command_options[1] == NULL)
+	{
 	case 1:
 		for (; envCopy && *envCopy; envCopy++)
 		{
@@ -189,8 +190,7 @@ ssize_t unsetenv_command(ShellInfo *shell_info)
  */
 ssize_t execute_built_ins(ShellInfo *shell_info)
 {
-	BuiltIn builtIns[] =
-	{
+	BuiltIn builtIns[] = {
 	    {"exit", exit_command},	{"env", env_command},
 	    {"setenv", setenv_command}, {"unsetenv", unsetenv_command},
 	    {"cd", change_directory},	{"help", help_command}
@@ -199,7 +199,8 @@ ssize_t execute_built_ins(ShellInfo *shell_info)
 	int i = 6; /* length of builtIns array */
 	ssize_t builtCheck = 0;
 
-	while (i--) {
+	while (i--)
+	{
 		if (compare_strings(shell_info->current_command,
 				    builtIns[i].command))
 		{
