@@ -79,12 +79,12 @@ char *concatenate_strings(const char *s1, const char *s2);
 /**
  * string_length - Get the length of a string
  */
-int string_length(char *s);
+int string_length(const char *s);
 
 /**
  * _string_copy - Copy a string
  */
-char *_string_copy(char *destination, char *source);
+char *_string_copy(char *destination, const char *source);
 
 /**
  * _string_token - Tokenize a string
