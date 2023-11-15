@@ -77,7 +77,7 @@ char *_get_absolute_path(char *command, char **env, ShellInfo *shell_info);
 /**
  * _str_duplicate - Duplicate a string
  */
-char *_str_duplicate(char *str);
+char *_str_duplicate( const char *str);
 
 /**
  * concatenate_strings - Concatenate two strings
