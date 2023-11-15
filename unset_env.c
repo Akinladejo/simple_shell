@@ -5,12 +5,12 @@
  * @variable: Environment variable to unset
  * @shell_info: Struct with shell info
  *
- * Return: (Modified environment array on success), (NULL on error)
+ * Return: Modified environment array on success, NULL on error
  */
-char **unset_environment_variable(char **env, const char *variable,
-				  ShellInfo *shell_info) 
+char **unset_environment_variable(char **env, const char *variable, ShellInfo *shell_info) 
 {
-	if (!env || !variable) {
+	if (!env || !variable)
+	{
 		handle_error(3, shell_info, 1);
 		return (NULL);
 	}
@@ -21,27 +21,33 @@ char **unset_environment_variable(char **env, const char *variable,
 	size_t i, j;
 	int found = 0;
 
-	for (i = 0; i < env_length; i++) {
+	for (i = 0; i < env_length; i++)
+	{
 		int check = 0;
 
-		for (j = 0; j < var_length && env[i][j] != '\0'; j++) {
-			if (variable[j] == '=') {
+		for (j = 0; j < var_length && env[i][j] != '\0'; j++)
+		{
+			if (variable[j] == '=')
+			{
 				handle_error(3, shell_info, 2);
 				return (NULL);
 			}
 
-			if (env[i][j] == variable[j]) {
+			if (env[i][j] == variable[j])
+			{
 				check++;
 			}
 		}
 
-		if (check == var_length && env[i][check] == '=') {
+		if (check == var_length && env[i][check] == '=')
+		{
 			found = 1;
 			break;
 		}
 	}
 
-	switch (found) {
+	switch (found)
+	{
 	case 0:
 		write(2, "VARIABLE not found\n", 19);
 		return (NULL);
@@ -49,14 +55,18 @@ char **unset_environment_variable(char **env, const char *variable,
 	case 1:
 		char **copy = NULL;
 
-		if (env_length > 1) {
+		if (env_length > 1)
+		{
 			copy = copy_double_pointer(env, env_length - 1, i);
 
-			if (!copy) {
+			if (!copy)
+			{
 				handle_error(7, shell_info, 1);
 				return (NULL);
 			}
-		} else {
+		}
+		else
+		{
 			copy = NULL;
 			shell_info->unset_environment[0] = 1;
 		}
