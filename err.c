@@ -12,12 +12,14 @@
 void reverse_string(char *s)
 {
     int length = 0;
+    int i, j;  // Move declarations to the beginning
+
     while (s[length] != '\0') 
     {
         length++;
     }
 
-    int i = 0, j = length - 1;
+    i = 0, j = length - 1;
     while (i < j) 
     {
         char tmp = s[i];
@@ -25,26 +27,6 @@ void reverse_string(char *s)
         s[j] = tmp;
         i++, j--;
     }
-}
-
-/**
- * number_length - Calculates the length of a number in a given base
- *
- * @n: Number
- * @base: Base of the number
- * Return: Length of the number
- */
-int number_length(unsigned long int n, unsigned long int base)
-{
-    int length = 0;
-
-    while (n > 0) 
-    {
-        n = n / base;
-        length++;
-    }
-
-    return (length);
 }
 
 /**
@@ -58,6 +40,7 @@ char *_itoa(int n)
     unsigned long int base = 10;
     unsigned long int value = (n < 0) ? -n : n;
     int length = (n == 0) ? 1 : number_length(value, base) + 1;
+    int i = 0;  // Move declaration to the beginning
 
     char *str = malloc(length + 1);  /* +1 for the null terminator */
     if (!str) 
@@ -66,7 +49,6 @@ char *_itoa(int n)
         return (NULL);
     }
 
-    int i = 0;
     while (value > 0) 
     {
         str[i++] = (value % base) + '0';
@@ -99,39 +81,45 @@ char *generate_error_info(int errn, char *result, char *option)
     switch (errn) 
     {
         case 2:
-            temp_result = concatenate_strings(result, colspace);
-            if (!temp_result) 
             {
-                /* handle error or return NULL */
-                return (NULL);
-            }
+                int length = 0;  // Move declaration to the beginning
+                temp_result = concatenate_strings(result, colspace);
+                if (!temp_result) 
+                {
+                    /* handle error or return NULL */
+                    return (NULL);
+                }
 
-            char *temp = concatenate_strings(temp_result, option);
-            free(temp_result);
-            temp_result = temp;
-            if (!temp_result) 
-            {
-                /* handle error or return NULL */
-                return (NULL);
+                char *temp = concatenate_strings(temp_result, option);
+                free(temp_result);
+                temp_result = temp;
+                if (!temp_result) 
+                {
+                    /* handle error or return NULL */
+                    return (NULL);
+                }
             }
             break;
 
         default:
             if (errn > 3) 
             {
-                char *temp = concatenate_strings(result, colspace);
-                if (!temp) 
                 {
-                    /* handle error or return NULL */
-                    return (NULL);
-                }
+                    int length = 0;  // Move declaration to the beginning
+                    char *temp = concatenate_strings(result, colspace);
+                    if (!temp) 
+                    {
+                        /* handle error or return NULL */
+                        return (NULL);
+                    }
 
-                temp_result = concatenate_strings(temp, option);
-                free(temp);
-                if (!temp_result) 
-                {
-                    /* handle error or return NULL */
-                    return (NULL);
+                    temp_result = concatenate_strings(temp, option);
+                    free(temp);
+                    if (!temp_result) 
+                    {
+                        /* handle error or return NULL */
+                        return (NULL);
+                    }
                 }
             }
             break;
@@ -204,14 +192,16 @@ int create_error(int errn, ShellInfo *shell_info, int exit_num)
         return (handle_error(7, shell_info, (1)));
     }
 
-    int length = 0;
-    while (temp_result[length] != '\0') 
     {
-        length++;
-    }
+        int length = 0;  // Move declaration to the beginning
+        while (temp_result[length] != '\0') 
+        {
+            length++;
+        }
 
-    write(2, temp_result, length);
-    write(2, "\n", (1));
+        write(2, temp_result, length);
+        write(2, "\n", (1));
+    }
 
     free(temp_result);
     *(shell_info->exit_number) = exit_num;
