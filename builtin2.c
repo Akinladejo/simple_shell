@@ -75,7 +75,7 @@ ssize_t cd_command(ShellInfo *shell_info)
 		       free(shell_info->command_options), -1));
 
 	switch (!shell_info->command_options[1] ||
-		(!_compare_strings(shell_info->command_options[1], "~")))
+		(!compare_strings(shell_info->command_options[1], "~")))
 	{
 	case 1:
 		directory = auxiliary_cd_2(shell_info, current_directory);
@@ -103,7 +103,7 @@ ssize_t cd_command(ShellInfo *shell_info)
 		check = chdir(directory);
 
 	if (check == 0 && check_minus == 1)
-		write(1, directory, _string_length(directory)),
+		write(1, directory, string_length(directory)),
 		    write(1, "\n", 1);
 
 	switch (check != 0)
