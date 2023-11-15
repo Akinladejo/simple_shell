@@ -33,7 +33,7 @@ char **unset_environment_variable(char **env, const char *variable, ShellInfo *s
 		{
 			if (variable[j] == '=' || env[i][j] != variable[j])
 			{
-				check = 0;  // Reset the check if characters don't match
+				check = 0;
 				break;
 			}
 			else
