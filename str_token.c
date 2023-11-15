@@ -32,7 +32,7 @@ char *_string_token(char *str, const char *delimiter)
     if (isEnd)
         return (NULL);
 
-    char *start = NULL; /* Pointer to the start of the token */
+    start = NULL; /* Pointer to the start of the token */
 
     switch (*step)
     {
