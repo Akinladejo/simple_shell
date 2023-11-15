@@ -8,7 +8,7 @@
  *
  * Return: Pointer to the concatenated string.
  */
-char *concatenate_strings(char *s1, char *s2)
+char *concatenate_strings(const char *s1, const char *s2)
 {
 	if (s1 == NULL)
 	{
