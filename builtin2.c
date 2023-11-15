@@ -136,7 +136,7 @@ char *determine_directory(ShellInfo *shell_info, const char *current_directory)
 }
 
 /**
- * change_directory - Change the current working directory
+ * chang_directory - Change the current working directory
  *
  * @directory: The target directory
  * @shell_info: Structure containing shell information
