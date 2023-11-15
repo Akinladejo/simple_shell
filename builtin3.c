@@ -23,7 +23,7 @@ long power(base, exponent)
         result *= base;
     }
 
-    return result;
+    return (result);
 }
 
 /**
@@ -40,7 +40,7 @@ long convert_to_integer(s)
 
     if (!s)
     {
-        return 0;
+        return (0);
     }
 
     if (*s == '-')
@@ -55,5 +55,5 @@ long convert_to_integer(s)
         s++;
     }
 
-    return sign * result;
+    return (sign * result);
 }
