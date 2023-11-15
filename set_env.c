@@ -89,12 +89,18 @@ int string_array_length(char **array)
  */
 char **set_environment_variable(char **env, char *variable, char *value, ShellInfo *shell_info)
 {
+	int len_variable;
+	int len_env;
+	char *env_join2;
+	int i;
+	char *env_join;
+	
 	if (!variable || string_length(variable) == 0)
 		return (handle_error(3, shell_info, 1), NULL);
 
 	int len_variable = string_length(variable);
 	int len_env = string_array_length(env);
-	int i; /* Move declaration to the beginning */
+	
 
 	char *env_join2 = concatenate_strings(variable, "=");
 	if (!env_join2)
@@ -132,6 +138,8 @@ char **set_environment_variable(char **env, char *variable, char *value, ShellIn
 		}
 	}
 
+	char **copy;
+	
 	char **copy = copy_double_pointer(env, len_env, len_env + 1);
 	free_double_pointer(env);
 
