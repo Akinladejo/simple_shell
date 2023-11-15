@@ -3,18 +3,18 @@
 #include <unistd.h>
 
 /**
- * _puts - prints a string to standard output
- * @str: string (must be NULL terminated)
+ * _puts - Prints a string to standard output.
+ * @str: String (must be NULL terminated).
  *
  * Return: No Return
  */
 void _puts(char *str)
-{ 
-	write(1, str, string_length(str)); 
+{
+	write(1, str, string_length(str));
 }
 
 /**
- * help_exit - prints help for the exit built-in command
+ * help_exit - Prints help for the exit built-in command.
  *
  * Return: No Return
  */
@@ -28,19 +28,19 @@ void help_exit(void)
 }
 
 /**
- * help_env - prints help for the env built-in command
+ * help_env - Prints help for the env built-in command.
  *
  * Return: No Return
  */
 void help_env(void)
 {
 	_puts("env: env\n");
-	_puts("    prints the current environment.\n\n");
+	_puts("    Prints the current environment.\n\n");
 	_puts("    Has no options\n");
 }
 
 /**
- * help_setenv - prints help for the setenv built-in command
+ * help_setenv - Prints help for the setenv built-in command.
  *
  * Return: No Return
  */
@@ -55,8 +55,8 @@ void help_setenv(void)
 }
 
 /**
- * help_cmd - prints help for built-in commands
- * @shell_info: struct containing shell information
+ * help_cmd - Prints help for built-in commands.
+ * @shell_info: Struct containing shell information.
  *
  * Return: 1 if successful, -1 if fail
  */
@@ -64,8 +64,8 @@ ssize_t help_cmd(ShellInfo *shell_info)
 {
 	int check = 1, bcheck = 0;
 	HelpInfo help[] = {
-	    {"exit", help_exit}, {"env", help_env}, {"setenv", help_setenv},
-	    // Add other built-in commands here
+		{"exit", help_exit}, {"env", help_env}, {"setenv", help_setenv},
+		// Add other built-in commands here
 	};
 
 	int i = 3;
@@ -94,7 +94,7 @@ ssize_t help_cmd(ShellInfo *shell_info)
 		bcheck = 1;
 	}
 
-	if (bcheck == 0) 
+	if (bcheck == 0)
 	{
 		check = -1;
 		handle_error(6, shell_info, 2);
