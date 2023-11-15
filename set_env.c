@@ -94,19 +94,21 @@ char **set_environment_variable(char **env, char *variable, char *value, ShellIn
 	char *env_join2;
 	int i;
 	char *env_join;
+	char **copy;
+	char *copy_dup;
 	
 	if (!variable || string_length(variable) == 0)
 		return (handle_error(3, shell_info, 1), NULL);
 
-	int len_variable = string_length(variable);
-	int len_env = string_array_length(env);
+	len_variable = string_length(variable);
+	len_env = string_array_length(env);
 	
 
-	char *env_join2 = concatenate_strings(variable, "=");
+	env_join2 = concatenate_strings(variable, "=");
 	if (!env_join2)
 		return (handle_error(3, shell_info, 1), NULL);
 
-	char *env_join = concatenate_strings(env_join2, value);
+	env_join = concatenate_strings(env_join2, value);
 	free(env_join2);
 
 	if (!env_join)
@@ -116,7 +118,7 @@ char **set_environment_variable(char **env, char *variable, char *value, ShellIn
 	{
 		int check = 0;
 		int j;
-		for (j = 0; j < len_variable && env[i][j] != NULL; j++)
+		for (j = 0; j < len_variable && env[i][j] != '\0'; j++)
 		{
 			if (variable[j] == '=')
 				return (free(env_join), handle_error(3, shell_info, 2), NULL);
@@ -137,17 +139,15 @@ char **set_environment_variable(char **env, char *variable, char *value, ShellIn
 			return (env[i] = copy_dup, env);
 		}
 	}
-
-	char **copy;
 	
-	char **copy = copy_double_pointer(env, len_env, len_env + 1);
+	copy = copy_double_pointer(env, len_env, len_env + 1);
 	free_double_pointer(env);
 
 	if (!copy)
 		return (free(env_join), handle_error(3, shell_info, 1), NULL);
 
 	env = copy;
-	char *copy_dup = _str_duplicate(env_join);
+	copy_dup = _str_duplicate(env_join);
 	free(env_join);
 
 	if (!copy_dup)
