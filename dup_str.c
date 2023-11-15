@@ -32,7 +32,7 @@ char *_str_duplicate(char *str)
  * Return: Length of the string
  * On error: -1 for inappropriate entry
  */
-int string_length(char *s)
+int string_length(const char *s)
 {
 	return (!*s) ? 0 : 1 + string_length(s + 1);
 }
