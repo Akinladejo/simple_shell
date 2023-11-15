@@ -7,68 +7,76 @@
 #include <unistd.h>
 
 /**
- * @brief Check if the current directory must be added to the PATH
+ * _pathcheck - Check if the current directory must be added to the PATH
  *
- * @param path Environment variable containing the PATH
- * @return Pointer to the new PATH with the current directory added
+ * @path: Environment variable containing the PATH
+ * Return: Pointer to the new PATH with the current directory added
  */
-char *_pathcheck(const char *path) {
+char *_pathcheck(const char *path) 
+{
 	if (!path)
-		return NULL;
+		return (NULL);
 
 	int count = 0;
 	size_t len = strlen(path);
 
-	for (size_t i = 0; i < len; i++) {
+	for (size_t i = 0; i < len; i++) 
+	{
 		if ((path[i] == '=' && path[i + 1] == ':') ||
 		    (path[i] == ':' &&
-		     (path[i + 1] == ':' || path[i + 1] == '\0'))) {
+		     (path[i + 1] == ':' || path[i + 1] == '\0'))) 
+		{
 			count++;
 		}
 	}
 
 	if (count == 0)
-		return NULL;
+		return (NULL);
 
 	size_t nsize = len + 1 + count;
 	char *npath = malloc(nsize);
 
 	if (!npath)
-		return NULL;
+		return (NULL);
 
 	size_t j = 0;
-	for (size_t i = 0; i < nsize; i++, j++) {
+	for (size_t i = 0; i < nsize; i++, j++) 
+	{
 		if ((path[j] == '=' && path[j + 1] == ':') ||
 		    (path[j] == ':' &&
-		     (path[j + 1] == ':' || path[j + 1] == '\0'))) {
+		     (path[j + 1] == ':' || path[j + 1] == '\0'))) 
+		{
 			npath[i] = path[j];
 			npath[i + 1] = '.';
 			i++;
-		} else {
+		} 
+		else 
+		{
 			npath[i] = path[j];
 		}
 	}
 
-	return npath;
+	return (npath);
 }
 
 /**
- * @brief Search for a command in the PATH
+ * _path - Search for a command in the PATH
  *
- * @param cmd String containing the command
- * @param env Current environment
- * @param shpack Structure containing shell info
- * @return Pointer to the address of cmd in PATH or by itself
+ * @cmd: String containing the command
+ * @env: Current environment
+ * @shpack: Structure containing shell info
+ * Return: Pointer to the address of cmd in PATH or by itself
  */
-char *_path(const char *cmd, char **env, ShellInfo *shpack) {
+char *_path(const char *cmd, char **env, ShellInfo *shpack) 
+{
 	if (!cmd || !env || !shpack)
-		return NULL;
+		return (NULL);
 
 	struct stat st;
 	char *path2 = _get_environment_variable("PATH", env);
 
 	if (!path2)
-		return NULL;
+		return (NULL);
 
 	char *path = _str_duplicate(path2);
 	char *pathcheck = _pathcheck(path);
@@ -79,15 +87,17 @@ char *_path(const char *cmd, char **env, ShellInfo *shpack) {
 	char *delim = ":=";
 	char *token = _string_token(path, delim);
 
-	while (token) {
+	while (token) 
+	{
 		char *concat = concatenate_strings(token, "/");
 		char *concat2 = concatenate_strings(concat, cmd);
 		free(concat);
 
-		if (stat(concat2, &st) == 0) {
+		if (stat(concat2, &st) == 0) 
+		{
 			/* Found the command in PATH */
 			free(path);
-			return concat2;
+			return (concat2);
 		}
 
 		free(concat2);
@@ -95,5 +105,5 @@ char *_path(const char *cmd, char **env, ShellInfo *shpack) {
 	}
 
 	free(path);
-	return NULL;
+	return (NULL);
 }
