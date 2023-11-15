@@ -19,20 +19,7 @@
  * @environment_copy: Copy of the environment variables
  * @unset_environment: Indicator for unset environment variables
  */
-typedef struct ShellInfo {
-	char *shell_name;
-	char *input_buffer;
-	char *current_command;
-	char **command_options;
-	char *command_path;
-	int *error_count;
-	int *exit_number;
-	int *logical_relation;
-	int *is_runnable;
-	struct ShellInfo *next_command;
-	char ***environment_copy;
-	int *unset_environment;
-} ShellInfo;
+typedef struct ShellInfo ShellInfo;
 
 /**
  * struct BuiltIn - Structure for built-in commands
@@ -41,9 +28,24 @@ typedef struct ShellInfo {
  * @function: Pointer to the function handling the command
  */
 typedef struct BuiltIn {
-	char *command;
-	ssize_t (*function)(ShellInfo *shell_info);
+    char *command;
+    ssize_t (*function)(ShellInfo *shell_info);
 } BuiltIn;
+
+struct ShellInfo {
+    char *shell_name;
+    char *input_buffer;
+    char *current_command;
+    char **command_options;
+    char *command_path;
+    int *error_count;
+    int *exit_number;
+    int *logical_relation;
+    int *is_runnable;
+    struct ShellInfo *next_command;
+    char ***environment_copy;
+    int *unset_environment;
+};
 
 /**
  * struct HelpInfo - Structure for built-in help commands
