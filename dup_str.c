@@ -15,12 +15,12 @@ char *_str_duplicate(char *str)
 	if (!str)
 		return (NULL);
 
-	duplicate = malloc((_strlen(str) * sizeof(*duplicate)) + 1);
+	duplicate = malloc((string_length(str) * sizeof(*duplicate)) + 1);
 
 	if (!duplicate)
 		return (NULL);
 
-	_strcpy(duplicate, str);
+	_string_copy(duplicate, str);
 
 	return (duplicate);
 }
