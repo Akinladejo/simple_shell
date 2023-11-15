@@ -15,7 +15,7 @@
  * @buffer: Buffer in the prompt
  * @shell_info: Struct containing shell information
  *
- * Return: (On success, returns a command array). (On error, returns NULL).
+ * Return: On success, returns a command array. On error, returns NULL.
  */
 char **check_input(int argument_count, char **arguments, size_t *buffer_size,
                    char **buffer, ShellInfo *shell_info) {
@@ -74,7 +74,7 @@ char **check_input(int argument_count, char **arguments, size_t *buffer_size,
  *
  * @string: String to operate
  *
- * Return: (Pointer to the modified string).
+ * Return: Pointer to the modified string.
  */
 char *remove_comments(char *string) {
     char *original = string;
