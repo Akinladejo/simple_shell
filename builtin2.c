@@ -6,18 +6,18 @@
 #include <unistd.h>
 
 /**
- * @brief Auxiliary function for the cd built-in command
+ * auxiliary_cd_2 - Auxiliary function for the cd built-in command
  *
- * @param shell_info Structure containing shell information
- * @param current_directory The current directory
- * @return Pointer to HOME or NULL if fail
+ * @shell_info: Structure containing shell information
+ * @current_directory: The current directory
+ * @return: Pointer to HOME or NULL if fail
  */
-char *auxiliary_cd_2(ShellInfo *shell_info, char *current_directory) {
+char *auxiliary_cd_2(ShellInfo *shell_info, char *current_directory)
+{
 	char *home, *directory = NULL;
 
 	(void)current_directory;
-	home =
-	    _get_environment_variable("HOME", *(shell_info->environment_copy));
+	home = _get_environment_variable("HOME", *(shell_info->environment_copy));
 	if (home)
 		directory = home + 5;
 
@@ -25,17 +25,19 @@ char *auxiliary_cd_2(ShellInfo *shell_info, char *current_directory) {
 }
 
 /**
- * @brief Auxiliary function for the cd built-in command
+ * auxiliary_cd - Auxiliary function for the cd built-in command
  *
- * @param shell_info Structure containing shell information
- * @param current_directory The current directory
- * @return Pointer to directory or NULL if fail
+ * @shell_info: Structure containing shell information
+ * @current_directory: The current directory
+ * @return: Pointer to directory or NULL if fail
  */
-char *auxiliary_cd(ShellInfo *shell_info, char *current_directory) {
+char *auxiliary_cd(ShellInfo *shell_info, char *current_directory)
+{
 	char *oldpwd2 = NULL, *oldpwd = NULL, *directory = NULL;
 
 	switch (shell_info->command_options[1] != NULL &&
-		shell_info->command_options[2] != NULL) {
+		shell_info->command_options[2] != NULL)
+	{
 	case 1:
 		write(2, "cd: too many arguments\n", 23);
 		*(shell_info->exit_number) = 2;
@@ -47,9 +49,8 @@ char *auxiliary_cd(ShellInfo *shell_info, char *current_directory) {
 		    "OLDPWD", *(shell_info->environment_copy)));
 		if (oldpwd2)
 			oldpwd = _str_duplicate(oldpwd2 + 7), free(oldpwd2);
-		if (!oldpwd2) {
+		if (!oldpwd2)
 			oldpwd = _str_duplicate(current_directory);
-		}
 
 		directory = oldpwd;
 		return directory;
@@ -57,12 +58,13 @@ char *auxiliary_cd(ShellInfo *shell_info, char *current_directory) {
 }
 
 /**
- * @brief Built-in command cd
+ * cd_command - Built-in command cd
  *
- * @param shell_info Structure containing shell information
- * @return 1 if successful, -1 if fail
+ * @shell_info: Structure containing shell information
+ * @return: 1 if successful, -1 if fail
  */
-ssize_t cd_command(ShellInfo *shell_info) {
+ssize_t cd_command(ShellInfo *shell_info)
+{
 	char *current_directory = NULL, *directory = NULL, **new_environment,
 	     *oldpwd = NULL;
 	int exit_code = 1, check = 1, check_minus = 0;
@@ -73,7 +75,8 @@ ssize_t cd_command(ShellInfo *shell_info) {
 		       free(shell_info->command_options), -1;
 
 	switch (!shell_info->command_options[1] ||
-		(!_compare_strings(shell_info->command_options[1], "~"))) {
+		(!_compare_strings(shell_info->command_options[1], "~")))
+	{
 	case 1:
 		directory = auxiliary_cd_2(shell_info, current_directory);
 		if (!directory)
@@ -82,13 +85,16 @@ ssize_t cd_command(ShellInfo *shell_info) {
 		break;
 
 	default:
-		if (!_compare_strings(shell_info->command_options[1], "-")) {
+		if (!_compare_strings(shell_info->command_options[1], "-"))
+		{
 			directory = auxiliary_cd(shell_info, current_directory);
 			if (!directory)
 				return free(shell_info->command_options),
 				       free(current_directory), 1;
 			check_minus = 1;
-		} else {
+		}
+		else
+		{
 			directory = shell_info->command_options[1];
 		}
 	}
@@ -100,7 +106,8 @@ ssize_t cd_command(ShellInfo *shell_info) {
 		write(1, directory, _string_length(directory)),
 		    write(1, "\n", 1);
 
-	switch (check != 0) {
+	switch (check != 0)
+	{
 	case 1:
 		handle_error(4, shell_info, 2);
 		exit_code = -1;
@@ -124,5 +131,5 @@ ssize_t cd_command(ShellInfo *shell_info) {
 	if (check_minus == 1)
 		free(directory);
 
-	return exit_code;
+	return (exit_code);
 }
