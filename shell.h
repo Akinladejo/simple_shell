@@ -74,7 +74,7 @@ char *_str_duplicate(char *str);
 /**
  * concatenate_strings - Concatenate two strings
  */
-char *concatenate_strings(char *s1, char *s2);
+char *concatenate_strings(const char *s1, const char *s2);
 
 /**
  * string_length - Get the length of a string
