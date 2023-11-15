@@ -7,6 +7,7 @@
  * reverse_string - Reverses a string in place
  *
  * @s: String to reverse
+ Return: rev string
  */
 void reverse_string(char *s)
 {
@@ -31,7 +32,7 @@ void reverse_string(char *s)
  *
  * @n: Number
  * @base: Base of the number
- * @return: Length of the number
+ * Return: Length of the number
  */
 int number_length(unsigned long int n, unsigned long int base)
 {
@@ -50,7 +51,7 @@ int number_length(unsigned long int n, unsigned long int base)
  * _itoa - Converts an integer to a string
  *
  * @n: Number
- * @return: Pointer to the string
+ * Return: Pointer to the string
  */
 char *_itoa(int n)
 {
@@ -61,7 +62,7 @@ char *_itoa(int n)
 	char *str = malloc(length);
 	if (!str) 
 	{
-		return (handle_error(7, NULL, (1))); // Memory error
+		return (handle_error(7, NULL, (1)));
 	}
 
 	int i = 0;
@@ -87,7 +88,7 @@ char *_itoa(int n)
  * @errn: Number corresponding to the type of error
  * @result: Error part from _error
  * @option: Command option
- * @return: Pointer to the string
+ * Return: Pointer to the string
  */
 char *generate_error_info(int errn, char *result, char *option);
 
@@ -97,7 +98,7 @@ char *generate_error_info(int errn, char *result, char *option);
  * @errn: Number corresponding to the type of error
  * @shell_info: Struct containing shell information
  * @exit_num: Value of exit the shell should have
- * @return: 0 success, -1 fail
+ * Return: 0 success, -1 fail
  */
 int create_error(int errn, ShellInfo *shell_info, int exit_num)
 {
@@ -105,7 +106,8 @@ int create_error(int errn, ShellInfo *shell_info, int exit_num)
 	char *current_command = shell_info->current_command;
 	char **command_options = shell_info->command_options;
 	char *shell_name = shell_info->shell_name;
-	char *error_messages[] = {
+	char *error_messages[] =
+	{
 	    "not found",
 	    "Permission denied",
 	    "Illegal number",
@@ -115,12 +117,13 @@ int create_error(int errn, ShellInfo *shell_info, int exit_num)
 	    "Help command error",
 	    "Error allocating memory",
 	    "Wrong Alias",
-	    NULL};
+	    NULL
+};
 
 	char *result = concatenate_strings(shell_name, ": ");
 	if (!result) 
 	{
-		return (handle_error(7, shell_info, (1))); // Memory error
+		return (handle_error(7, shell_info, (1)));
 	}
 
 	char *temp_result = concatenate_strings(result, _itoa(error_count));
@@ -128,7 +131,7 @@ int create_error(int errn, ShellInfo *shell_info, int exit_num)
 
 	if (!temp_result) 
 	{
-		return (handle_error(7, shell_info, (1))); // Memory error
+		return (handle_error(7, shell_info, (1)));
 	}
 
 	result = concatenate_strings(temp_result, ": ");
@@ -151,7 +154,7 @@ int create_error(int errn, ShellInfo *shell_info, int exit_num)
 
 	if (!temp_result) 
 	{
-		return (handle_error(7, shell_info, (1))); // Memory error
+		return (handle_error(7, shell_info, (1)));
 	}
 
 	int length = 0;
@@ -174,7 +177,7 @@ int create_error(int errn, ShellInfo *shell_info, int exit_num)
  * @errn: Number corresponding to the type of error
  * @result: Error part from _error
  * @option: Command option
- * @return: Pointer to the string
+ * Return: Pointer to the string
  */
 char *generate_error_info(int errn, char *result, char *option)
 {
@@ -187,7 +190,7 @@ char *generate_error_info(int errn, char *result, char *option)
 			temp_result = concatenate_strings(result, colspace);
 			if (!temp_result) 
 			{
-				return (handle_error(7, NULL, (1))); // Memory error
+				return (handle_error(7, NULL, (1)));
 			}
 
 			char *temp = concatenate_strings(temp_result, option);
@@ -195,7 +198,7 @@ char *generate_error_info(int errn, char *result, char *option)
 			temp_result = temp;
 			if (!temp_result) 
 			{
-				return (handle_error(7, NULL, (1))); // Memory error
+				return (handle_error(7, NULL, (1)));
 			}
 			break;
 
@@ -207,7 +210,7 @@ char *generate_error_info(int errn, char *result, char *option)
 				temp_result = temp;
 				if (!temp_result) 
 				{
-					return (handle_error(7, NULL, (1))); // Memory error
+					return (handle_error(7, NULL, (1)));
 				}
 			}
 			break;
