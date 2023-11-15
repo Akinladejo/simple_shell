@@ -1,84 +1,122 @@
-#include <stddef.h>
+#include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
+#include "shell.h"
 
 /**
- * unset_environment_variable - Unsets an environmental variable
+ * _copy_double_pointer - copies an array of strings (double pointer)
  *
- * @env: Array of environment variables
- * @variable: Environment variable to unset
- * @shell_info: Struct with shell info
+ * @p: double pointer to copy
+ * @new_size: size of copy
+ * @jump: value that must be skipped in copy
+ *
+ * Return: Pointer malloec
+ */
+char **_copy_double_pointer(char **p, int new_size, int jump)
+{
+    char **copy;
+    int i, j, csize;
+
+    csize = new_size;
+    copy = malloc(sizeof(char *) * (csize + 1));
+    if (copy == NULL)
+        return (NULL);
+
+    for (i = 0, j = 0; j < csize; i++, j++)
+    {
+        if (i == jump)
+            i++;
+        copy[j] = _str_duplicate(p[i]);
+        if (copy[j] == NULL)
+        {
+            j--;
+            for (; j >= 0; j--)
+                free(copy[j]);
+            free(copy);
+            return (NULL);
+        }
+    }
+
+    copy[new_size] = NULL;
+
+    return (copy);
+}
+
+/**
+ * _unset_environment_variable - unsets an environmental variable
+ *
+ * @env: array of env variables
+ * @variable: env variable to unset
+ * @shell_info: struct with shell info
  *
  * Return: Modified environment array on success, NULL on error
  */
-char **unset_environment_variable(char **env, const char *variable, ShellInfo *shell_info)
+char **_unset_environment_variable(char **env, const char *variable, ShellInfo *shell_info)
 {
-	if (!env || !variable)
-	{
-		handle_error(3, shell_info, 1);
-		return (NULL);
-	}
+    int i, j, check, l = 0, lenv = 0, found = 0;
+    char **copy;
 
-	size_t var_length = string_length(variable);
-	size_t env_length = string_array_length(env);
+    shell_info->unset_environment[0] = 0;
 
-	size_t i, j;
-	int found = 0;
+    if (!env)
+    {
+        handle_error(3, shell_info, 1);
+        return (NULL);
+    }
 
-	for (i = 0; i < env_length; i++)
-	{
-		int check = 0;
+    if (string_length(variable) == 0 || variable == NULL)
+    {
+        handle_error(3, shell_info, 2);
+        return (NULL);
+    }
 
-		for (j = 0; j < var_length && env[i][j] != '\0'; j++)
-		{
-			if (variable[j] == '=' || env[i][j] != variable[j])
-			{
-				check = 0;
-				break;
-			}
-			else
-			{
-				check++;
-			}
-		}
+    l = string_length(variable);
+    lenv = string_array_length(env);
 
-		if (check == var_length && env[i][check] == '=')
-		{
-			found = 1;
-			break;
-		}
-	}
+    for (i = 0; env[i] != NULL; i++)
+    {
+        for (check = 0, j = 0; j < l && env[i][j] != '\0'; j++)
+        {
+            if (variable[j] == '=')
+            {
+                handle_error(3, shell_info, 3);
+                return (NULL);
+            }
 
-	switch (found)
-	{
-	case 0:
-		write(2, "VARIABLE not found\n", 19);
-		return (NULL);
+            if (env[i][j] == variable[j])
+                check++;
+        }
 
-	case 1:
-		char **copy = NULL;
+        if (check == l && env[i][check] == '=')
+        {
+            /* Found env to erase */
+            found = 1;
 
-		if (env_length > 1)
-		{
-			copy = copy_double_pointer(env, env_length - 1, i);
+            if ((lenv - 1) != 0)
+            {
+                copy = _copy_double_pointer(env, lenv - 1, i);
+                if (copy == NULL)
+                {
+                    handle_error(7, shell_info, 1);
+                    return (NULL);
+                }
+            }
+            else
+            {
+                shell_info->unset_environment[0] = 1;
+                copy = NULL;
+            }
 
-			if (!copy)
-			{
-				handle_error(7, shell_info, 1);
-				return (NULL);
-			}
-		}
-		else
-		{
-			copy = NULL;
-			shell_info->unset_environment[0] = 1;
-		}
+            free_double_pointer(env);
+            return (copy);
+        }
+    }
 
-		free_double_pointer(env);
-		return (copy);
+    if (found == 0)
+    {
+        write(2, "VARIABLE not found\n", 19);
+        return (NULL);
+    }
 
-	default:
-		handle_error(8, shell_info, 1);
-		return (NULL);
-	}
+    return (env);
 }
