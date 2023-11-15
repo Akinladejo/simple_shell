@@ -6,7 +6,8 @@
  *
  * Return: No Return
  */
-void display_help_unsetenv(void) {
+void display_help_unsetenv(void)
+{
 	// Using the print_string function from shell.h
 	print_string("unsetenv: unsetenv [VARIABLE]\n");
 	print_string("    Initializes a new environment variable, or ");
@@ -22,7 +23,8 @@ void display_help_unsetenv(void) {
  *
  * Return: No Return
  */
-void display_help_change_directory(void) {
+void display_help_change_directory(void)
+{
 	print_string("cd: cd [DIRECTORY]\n");
 	print_string("    Change the shell working directory.\n\n");
 	print_string("    Change the current directory to DIR.  ");
@@ -46,7 +48,8 @@ void display_help_change_directory(void) {
  *
  * Return: No Return
  */
-void display_help_help(void) {
+void display_help_help(void)
+{
 	print_string("help: help [BUILTIN ...]\n");
 	print_string("    Display information about builtin commands.\n\n");
 	print_string("    Displays brief summaries of builtin commands.  If "
@@ -67,7 +70,8 @@ void display_help_help(void) {
  *
  * Return: No Return
  */
-void display_help_alias(void) {
+void display_help_alias(void)
+{
 	print_string("alias: alias alias [name[='value'] ...]\n");
 	print_string("    Define or display aliases.\n\n");
 	print_string(
