@@ -16,8 +16,9 @@ char *_get_environment_variable(const char *name, char **env)
     while (name[name_length] != '\0')
         name_length++;
 
+    size_t check;
     for (int i = 0; env[i] != NULL; i++) {
-        size_t check = 0;
+        check = 0;
         size_t j = 0;
 
         while (j < name_length && env[i][j] != '\0') {
