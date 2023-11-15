@@ -24,14 +24,14 @@ char *_pathcheck(const char *path) {
     if (!path)
         return (NULL);
 
-    size_t len = strlen(path);
-    size_t nsize = len + 1; /* Move declaration here */
+    len = strlen(path);
+    nsize = len + 1; /* Move declaration here */
     char *npath = malloc(nsize);
 
     if (!npath)
         return (NULL);
 
-    size_t j = 0;
+    j = 0;
     for (i = 0; i < nsize; i++, j++) {
         if ((path[j] == '=' && path[j + 1] == PATH_SEPARATOR) ||
             (path[j] == PATH_SEPARATOR &&
@@ -62,23 +62,24 @@ char *_path(const char *cmd, char **env, ShellInfo *shpack)
     char *pathcheck;
     char *delim;
     char *token;
+    char *path;
 
     if (!cmd || !env || !shpack)
         return (NULL);
 
-    char *path2 = _get_environment_variable("PATH", env);
+    path2 = _get_environment_variable("PATH", env);
 
     if (!path2)
         return (NULL);
 
-    char *path = _str_duplicate(path2);
-    char *pathcheck = _pathcheck(path);
+    path = _str_duplicate(path2);
+    pathcheck = _pathcheck(path);
 
     if (pathcheck)
         path = pathcheck;
 
-    char *delim = ":=";
-    char *token = _string_token(path, delim);
+    delim = ":=";
+    token = _string_token(path, delim);
 
     while (token) {
         char *concat = concatenate_strings(token, "/");
@@ -138,8 +139,8 @@ char *_str_duplicate(const char *str)
     if (!str)
         return NULL;
 
-    size_t len = strlen(str) + 1;
-    char *dup_str = malloc(len);
+    len = strlen(str) + 1;
+    dup_str = malloc(len);
 
     if (!dup_str)
         return NULL;
@@ -154,15 +155,19 @@ char *_str_duplicate(const char *str)
  *
  * Return: The next token if found, or NULL if no more tokens are found.
  */
-char *_string_token(char *str, const char *delim) {
+char *_string_token(char *str, const char *delim)
+{
+    static char *last_str;
+    char *token;
+    
     if (!str && !delim)
         return NULL;
 
-    static char *last_str = NULL;
+    last_str = NULL;
     if (str)
         last_str = str;
 
-    char *token = strtok(last_str, delim);
+    token = strtok(last_str, delim);
     last_str = NULL;  /* To continue with the next token on the next call */
 
     return token;
@@ -185,9 +190,9 @@ char *concatenate_strings(const char *str1, const char *str2)
     if (!str1 || !str2)
         return NULL;
 
-    size_t len1 = strlen(str1);
-    size_t len2 = strlen(str2);
-    char *result = malloc(len1 + len2 + 1);
+    len1 = strlen(str1);
+    len2 = strlen(str2);
+    result = malloc(len1 + len2 + 1);
 
     if (!result)
         return NULL;
