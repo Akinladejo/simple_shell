@@ -86,6 +86,7 @@ char *generate_error_info(int errn, char *result, char *option)
 {
     char *temp_result = NULL;
     char *colspace = ": ";
+    char *temp;
 
     switch (errn) 
     {
@@ -97,9 +98,6 @@ char *generate_error_info(int errn, char *result, char *option)
                 /* handle error or return NULL */
                 return (NULL);
             }
-
-            char *temp;
-            
             temp= concatenate_strings(temp_result, option);
             free(temp_result);
             temp_result = temp;
@@ -166,13 +164,14 @@ int create_error(int errn, ShellInfo *shell_info, int exit_num)
     };
 
     char *result;
+    char *temp_result
     result = concatenate_strings(shell_name, ": ");
     if (!result) 
     {
         return (handle_error(7, shell_info, (1)));
     }
 
-    char *temp_result = concatenate_strings(result, _itoa(error_count));
+    temp_result = concatenate_strings(result, _itoa(error_count));
     free(result);
 
     if (!temp_result) 
