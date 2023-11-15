@@ -21,7 +21,6 @@
  */
 
 
-
 typedef struct ShellInfo {
     char *shell_name;
     char *input_buffer;
@@ -193,8 +192,7 @@ char **copy_double_pointer(char **pointer, int old_size, int new_size);
 /**
  * set_environment_variable - Set an environment variable
  */
-char **set_environment_variable(char **env, char *variable, char *value,
-ShellInfo *shell_info);
+char **set_environment_variable(char **env, char *variable, char *value, ShellInfo *shell_info);
 
 /**
  * unset_environment_variable - Unset an environment variable
