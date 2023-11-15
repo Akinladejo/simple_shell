@@ -4,8 +4,20 @@
 #include <sys/types.h>
 
 /**
- * @struct ShellInfo
- * @brief Structure containing important shell information
+ * struct ShellInfo - Structure containing important shell information
+ *
+ * @shell_name: Name of the shell
+ * @input_buffer: Buffer to store user input
+ * @current_command: Current command being processed
+ * @command_options: Array of command options
+ * @command_path: Path of the command
+ * @error_count: Count of errors
+ * @exit_number: Exit number
+ * @logical_relation: Logical relation indicator
+ * @is_runnable: Indicator for command execution
+ * @next_command: Pointer to the next command
+ * @environment_copy: Copy of the environment variables
+ * @unset_environment: Indicator for unset environment variables
  */
 typedef struct ShellInfo {
 	char *shell_name;
@@ -23,8 +35,10 @@ typedef struct ShellInfo {
 } ShellInfo;
 
 /**
- * @struct BuiltIn
- * @brief Structure for built-in commands
+ * struct BuiltIn - Structure for built-in commands
+ *
+ * @command: Name of the built-in command
+ * @function: Pointer to the function handling the command
  */
 typedef struct BuiltIn {
 	char *command;
@@ -32,8 +46,10 @@ typedef struct BuiltIn {
 } BuiltIn;
 
 /**
- * @struct HelpInfo
- * @brief Structure for built-in help commands
+ * struct HelpInfo - Structure for built-in help commands
+ *
+ * @built_in_command: Name of the built-in command for help
+ * @help_function: Pointer to the function displaying help
  */
 typedef struct HelpInfo {
 	char *built_in_command;
@@ -41,84 +57,84 @@ typedef struct HelpInfo {
 } HelpInfo;
 
 /**
- * @brief Get the value of an environment variable
+ * _get_environment_variable - Get the value of an environment variable
  */
 char *_get_environment_variable(const char *name, char **env);
 
 /**
- * @brief Get the absolute path of a command
+ * _get_absolute_path - Get the absolute path of a command
  */
 char *_get_absolute_path(char *command, char **env, ShellInfo *shell_info);
 
 /**
- * @brief Duplicate a string
+ * _str_duplicate - Duplicate a string
  */
 char *_str_duplicate(char *str);
 
 /**
- * @brief Concatenate two strings
+ * concatenate_strings - Concatenate two strings
  */
 char *concatenate_strings(char *s1, char *s2);
 
 /**
- * @brief Get the length of a string
+ * string_length - Get the length of a string
  */
 int string_length(char *s);
 
 /**
- * @brief Copy a string
+ * _string_copy - Copy a string
  */
 char *_string_copy(char *destination, char *source);
 
 /**
- * @brief Tokenize a string
+ * _string_token - Tokenize a string
  */
 char *_string_token(char *str, const char *delimiter);
 
 /**
- * @brief Get parameters from a buffer
+ * get_parameters - Get parameters from a buffer
  */
 char **get_parameters(char *buffer, ShellInfo *shell_info);
 
 /**
- * @brief Execute a command
+ * execute_command - Execute a command
  */
 int execute_command(char *program, char *command[], char **env,
 		    ShellInfo *shell_info);
 
 /**
- * @brief Handle a signal
+ * handle_signal - Handle a signal
  */
 void handle_signal(int signal_number);
 
 /**
- * @brief Handle another signal
+ * handle_signal2 - Handle another signal
  */
 void handle_signal2(int signal_number);
 
 /**
- * @brief Get a line of input
+ * get_line - Get a line of input
  */
 int get_line(char **buffer, size_t *buffer_size, int file_descriptor);
 
 /**
- * @brief Free a double pointer
+ * free_double_pointer - Free a double pointer
  */
 void free_double_pointer(char **pointer);
 
 /**
- * @brief Get the length of a string array
+ * string_array_length - Get the length of a string array
  */
 int string_array_length(char **array);
 
 /**
- * @brief Check and process input
+ * check_input - Check and process input
  */
 char **check_input(int argument_count, char **arguments, size_t *buffer_size,
 		   char **buffer, ShellInfo *shell_info);
 
 /**
- * @brief Initialize the shell information structure
+ * initialize_shell_info - Initialize the shell information structure
  */
 ShellInfo *initialize_shell_info(char *argv0, int *error_number,
 				 int *exit_number, int *logical_relation,
@@ -126,115 +142,115 @@ ShellInfo *initialize_shell_info(char *argv0, int *error_number,
 				 int *unset_environment);
 
 /**
- * @brief Handle errors
+ * handle_error - Handle errors
  */
 int handle_error(int error_number, ShellInfo *shell_info, int exit_number);
 
 /**
- * @brief Add a command to the shell information
+ * add_command - Add a command to the shell information
  */
 void add_command(ShellInfo *shell_info, char *input_buffer, char *command,
 		 char **parameters);
 
 /**
- * @brief Add a path to the current command
+ * add_path_to_command - Add a path to the current command
  */
 void add_path_to_command(ShellInfo *shell_info, char *path_command);
 
 /**
- * @brief Execute built-in commands
+ * execute_built_ins - Execute built-in commands
  */
 ssize_t execute_built_ins(ShellInfo *shell_info);
 
 /**
- * @brief Handle the exit command
+ * exit_command - Handle the exit command
  */
 ssize_t exit_command(ShellInfo *shell_info);
 
 /**
- * @brief Compare two strings
+ * compare_strings - Compare two strings
  */
 int compare_strings(char *string1, char *string2);
 
 /**
- * @brief Convert a string to an integer
+ * convert_to_integer - Convert a string to an integer
  */
 long convert_to_integer(char *string);
 
 /**
- * @brief Calculate the power of a number
+ * power - Calculate the power of a number
  */
 long power(long base, long exponent);
 
 /**
- * @brief Copy a double pointer with resizing
+ * copy_double_pointer - Copy a double pointer with resizing
  */
 char **copy_double_pointer(char **pointer, int old_size, int new_size);
 
 /**
- * @brief Set an environment variable
+ * set_environment_variable - Set an environment variable
  */
 char **set_environment_variable(char **env, char *variable, char *value,
 				ShellInfo *shell_info);
 
 /**
- * @brief Unset an environment variable
+ * unset_environment_variable - Unset an environment variable
  */
 char **unset_environment_variable(char **env, char *variable,
 				  ShellInfo *shell_info);
 
 /**
- * @brief Check if a character is a digit
+ * is_digit - Check if a character is a digit
  */
 int is_digit(int character);
 
 /**
- * @brief Check if a string is a number
+ * is_number - Check if a string is a number
  */
 int is_number(char *string);
 
 /**
- * @brief Change the current directory
+ * change_directory - Change the current directory
  */
 ssize_t change_directory(ShellInfo *shell_info);
 
 /**
- * @brief Remove comments from a string
+ * remove_comments - Remove comments from a string
  */
 char *remove_comments(char *string);
 
 /**
- * @brief Handle the help command
+ * help_command - Handle the help command
  */
 ssize_t help_command(ShellInfo *shell_info);
 
 /**
- * @brief Print a string
+ * print_string - Print a string
  */
 void print_string(char *string);
 
 /**
- * @brief Display help for the unsetenv command
+ * display_help_unsetenv - Display help for the unsetenv command
  */
 void display_help_unsetenv(void);
 
 /**
- * @brief Display help for the cd command
+ * display_help_change_directory - Display help for the cd command
  */
 void display_help_change_directory(void);
 
 /**
- * @brief Display help for the help command
+ * display_help_help - Display help for the help command
  */
 void display_help_help(void);
 
 /**
- * @brief Display help for the alias command
+ * display_help_alias - Display help for the alias command
  */
 void display_help_alias(void);
 
 /**
- * @brief Print general help
+ * print_help - Print general help
  */
 void print_help(void);
 
