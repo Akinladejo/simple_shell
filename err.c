@@ -145,12 +145,19 @@ char *generate_error_info(int errn, char *result, char *option)
  */
 int create_error(int errn, ShellInfo *shell_info, int exit_num)
 {
-    int error_count = *(shell_info->error_count);
-    temp_result;
-    char *current_command = shell_info->current_command;
-    char **command_options = shell_info->command_options;
-    char *shell_name = shell_info->shell_name;
-    char *error_messages[] =
+    char *result;
+    char *temp_result;
+    int error_count;
+    char *current_command;
+    char **command_options;
+    char *shell_name;
+    char *error_messages[];
+    
+    error_count = *(shell_info->error_count);
+    current_command = shell_info->current_command;
+    command_options = shell_info->command_options;
+    shell_name = shell_info->shell_name;
+    error_messages[] =
     {
         "not found",
         "Permission denied",
@@ -164,8 +171,7 @@ int create_error(int errn, ShellInfo *shell_info, int exit_num)
         NULL
     };
 
-    char *result;
-    char *temp_result;
+   
     
     result = concatenate_strings(shell_name, ": ");
     if (!result) 
