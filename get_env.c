@@ -9,19 +9,20 @@
  */
 char *_get_environment_variable(const char *name, char **env)
 {
+    size_t check;
+    size_t j;
+    size_t name_length;
+
+    name_length = 0;
+
     if (!env || !name)
         return (NULL);
 
-    /* Calculate the length of the name */
-    size_t name_length = 0;
     while (name[name_length] != '\0')
         name_length++;
 
-    size_t check;
-    size_t j;
-
-    /* Iterate through the environment variables */
-    for (int i = 0; env[i] != NULL; i++) {
+    for (int i = 0; env[i] != NULL; i++)
+    {
         check = 0;
         j = 0;
 
