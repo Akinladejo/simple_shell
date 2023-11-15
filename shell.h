@@ -214,7 +214,7 @@ int is_number(char *string);
  */
 ssize_t change_directory(ShellInfo *shell_info);
 char *determine_directory(ShellInfo *shell_info, const char *current_directory);
-int change_directory(const char *directory, ShellInfo *shell_info);
+int chang_directory(const char *directory, ShellInfo *shell_info);
 void update_environment_variables(ShellInfo *shell_info, const char *directory);
 void handle_directory_change_result(int result, ShellInfo *shell_info, const char *current_directory, const char *directory);
 void free_resources(ShellInfo *shell_info, char *current_directory, char *directory);
