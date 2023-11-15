@@ -12,18 +12,17 @@
  *
  * Return: Result of base to the power of exponent.
  */
-long power(base, exponent)
-    long base;
-    long exponent;
+long power(long base, long exponent)
 {
     long result = 1;
-    
-    for (long i = 0; i < exponent; i++)
+    long i;
+
+    for (i = 0; i < exponent; i++)
     {
         result *= base;
     }
 
-    return (result);
+    return result;
 }
 
 /**
@@ -32,15 +31,14 @@ long power(base, exponent)
  *
  * Return: Transformed integer. On error: (-1) for inappropriate entry.
  */
-long convert_to_integer(s)
-    char *s;
+long convert_to_integer(char *s)
 {
     long result = 0;
     long sign = 1;
 
     if (!s)
     {
-        return (0);
+        return 0;
     }
 
     if (*s == '-')
@@ -55,5 +53,24 @@ long convert_to_integer(s)
         s++;
     }
 
-    return (sign * result);
+    return sign * result;
+}
+
+/**
+ * main - Example usage of power and convert_to_integer functions.
+ *
+ * Return: Always 0.
+ */
+int main(void)
+{
+    long result1, result2;
+    char str[] = "12345";
+
+    result1 = power(2, 3);
+    result2 = convert_to_integer(str);
+
+    printf("Power: %ld\n", result1);
+    printf("Converted Integer: %ld\n", result2);
+
+    return 0;
 }
