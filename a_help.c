@@ -65,7 +65,6 @@ ssize_t help_cmd(ShellInfo *shell_info)
 	int check = 1, bcheck = 0;
 	HelpInfo help[] = {
 		{"exit", help_exit}, {"env", help_env}, {"setenv", help_setenv},
-		// Add other built-in commands here
 	};
 
 	int i = 3;
@@ -75,8 +74,7 @@ ssize_t help_cmd(ShellInfo *shell_info)
 	{
 		while (i--)
 		{
-			switch (compare_strings(shell_info->command_options[p],
-						help[i].built_in_command))
+			switch (compare_strings(shell_info->command_options[p], help[i].built_in_command))
 			{
 			case 1:
 				help[i].help_function();
@@ -101,5 +99,5 @@ ssize_t help_cmd(ShellInfo *shell_info)
 	}
 
 	free_double_pointer(shell_info->command_options);
-	return check;
+	return (check);
 }
