@@ -15,86 +15,85 @@
  * @buffer: Buffer in the prompt
  * @shell_info: Struct containing shell information
  *
- * Return: On success, returns a command array. On error, returns NULL.
+ * Return: (On success, returns a command array). (On error, returns NULL).
  */
 char **check_input(int argument_count, char **arguments, size_t *buffer_size,
-		   char **buffer, ShellInfo *shell_info) {
-	ssize_t characters;
-	char **command;
-	int exit_number;
+                   char **buffer, ShellInfo *shell_info) {
+    ssize_t characters;
+    char **command;
+    int exit_number;
 
-	switch (argument_count) {
-	case 1:
-		if (isatty(STDIN_FILENO))
-			write(1, "$ ", 2);
+    switch (argument_count) {
+        case 1:
+            if (isatty(STDIN_FILENO))
+                write(1, "$ ", 2);
 
-		characters = getline(buffer, buffer_size, stdin);
+            characters = getline(buffer, buffer_size, stdin);
 
-		if (characters == -1) {
-			exit_number = shell_info->exit_number[0];
-			free(*buffer);
+            if (characters == -1) {
+                exit_number = shell_info->exit_number[0];
+                free(*buffer);
 
-			if (*(shell_info->environment_copy))
-				free_double_pointer(
-				    *(shell_info->environment_copy));
+                if (*(shell_info->environment_copy))
+                    free_double_pointer(*(shell_info->environment_copy));
 
-			free(shell_info);
+                free(shell_info);
 
-			if (isatty(STDIN_FILENO))
-				write(1, "\n", 1);
+                if (isatty(STDIN_FILENO))
+                    write(1, "\n", 1);
 
-			exit(exit_number);
-		}
+                return (exit(exit_number));
+            }
 
-		if (**buffer == '#' || !characters || **buffer == '\n')
-			return NULL;
+            if (**buffer == '#' || !characters || **buffer == '\n')
+                return (NULL);
 
-		*buffer = remove_comments(*buffer);
-		command = get_parameters(*buffer, shell_info);
-		break;
+            *buffer = remove_comments(*buffer);
+            command = get_parameters(*buffer, shell_info);
+            break;
 
-	default:
-		command = malloc(sizeof(char *) * argument_count);
-		if (!command) {
-			handle_error(7, shell_info, 1);
-			return NULL;
-		}
+        default:
+            command = malloc(sizeof(char *) * argument_count);
+            if (!command) {
+                handle_error(7, shell_info, 1);
+                return (NULL);
+            }
 
-		command[argument_count - 1] = '\0';
+            command[argument_count - 1] = '\0';
 
-		while (argument_count--)
-			command[argument_count - 1] = arguments[argument_count];
-		break;
-	}
+            while (argument_count--)
+                command[argument_count - 1] = arguments[argument_count];
+            break;
+    }
 
-	return command;
+    return (command);
 }
+
 /**
  * remove_comments - Removes comments from a command line
  *
  * @string: String to operate
  *
- * Return: Pointer to the modified string
+ * Return: (Pointer to the modified string).
  */
-
 char *remove_comments(char *string) {
-	char *original = string;
+    char *original = string;
 
-	while (string && *string) {
-		switch (*string) {
-		case '#':
-			if (*(string - 1) == ' ') {
-				*string = '\0';
-				return original;
-			}
-			break;
+    while (string && *string) {
+        switch (*string) {
+            case '#':
+                if (*(string - 1) == ' ') {
+                    *string = '\0';
+                    return (original);
+                }
+                break;
 
-		default:
-			break;
-		}
+            default:
+                break;
+        }
 
-		string++;
-	}
+        string++;
+    }
 
-	return original;
+    return (original);
 }
