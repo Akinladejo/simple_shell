@@ -1,3 +1,7 @@
+#include <stddef.h>
+#include <stdlib.h>
+#include <unistd.h>
+
 /**
  * unset_environment_variable - Unsets an environmental variable
  *
@@ -7,7 +11,7 @@
  *
  * Return: Modified environment array on success, NULL on error
  */
-char **unset_environment_variable(char **env, const char *variable, ShellInfo *shell_info) 
+char **unset_environment_variable(char **env, const char *variable, ShellInfo *shell_info)
 {
 	if (!env || !variable)
 	{
@@ -27,13 +31,12 @@ char **unset_environment_variable(char **env, const char *variable, ShellInfo *s
 
 		for (j = 0; j < var_length && env[i][j] != '\0'; j++)
 		{
-			if (variable[j] == '=')
+			if (variable[j] == '=' || env[i][j] != variable[j])
 			{
-				handle_error(3, shell_info, 2);
-				return (NULL);
+				check = 0;  // Reset the check if characters don't match
+				break;
 			}
-
-			if (env[i][j] == variable[j])
+			else
 			{
 				check++;
 			}
