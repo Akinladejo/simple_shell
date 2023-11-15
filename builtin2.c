@@ -10,7 +10,7 @@
  *
  * @shell_info: Structure containing shell information
  * @current_directory: The current directory
- * @return: Pointer to HOME or NULL if fail
+ * Return: Pointer to HOME or NULL if fail
  */
 char *auxiliary_cd_2(ShellInfo *shell_info, char *current_directory)
 {
@@ -21,7 +21,7 @@ char *auxiliary_cd_2(ShellInfo *shell_info, char *current_directory)
 	if (home)
 		directory = home + 5;
 
-	return directory;
+	return (directory);
 }
 
 /**
@@ -29,7 +29,7 @@ char *auxiliary_cd_2(ShellInfo *shell_info, char *current_directory)
  *
  * @shell_info: Structure containing shell information
  * @current_directory: The current directory
- * @return: Pointer to directory or NULL if fail
+ * Return : Pointer to directory or NULL if fail
  */
 char *auxiliary_cd(ShellInfo *shell_info, char *current_directory)
 {
@@ -43,7 +43,7 @@ char *auxiliary_cd(ShellInfo *shell_info, char *current_directory)
 		*(shell_info->exit_number) = 2;
 		free(shell_info->command_options);
 		free(current_directory);
-		return directory;
+		return (directory);
 	default:
 		oldpwd2 = _str_duplicate(_get_environment_variable(
 		    "OLDPWD", *(shell_info->environment_copy)));
@@ -53,7 +53,7 @@ char *auxiliary_cd(ShellInfo *shell_info, char *current_directory)
 			oldpwd = _str_duplicate(current_directory);
 
 		directory = oldpwd;
-		return directory;
+		return (directory);
 	}
 }
 
@@ -61,7 +61,7 @@ char *auxiliary_cd(ShellInfo *shell_info, char *current_directory)
  * cd_command - Built-in command cd
  *
  * @shell_info: Structure containing shell information
- * @return: 1 if successful, -1 if fail
+ * Return : 1 if successful, -1 if fail
  */
 ssize_t cd_command(ShellInfo *shell_info)
 {
@@ -71,7 +71,7 @@ ssize_t cd_command(ShellInfo *shell_info)
 
 	current_directory = getcwd(NULL, 4096);
 	if (!current_directory)
-		return handle_error(4, shell_info, 2),
+		return (handle_error(4, shell_info, 2),
 		       free(shell_info->command_options), -1;
 
 	switch (!shell_info->command_options[1] ||
@@ -80,8 +80,8 @@ ssize_t cd_command(ShellInfo *shell_info)
 	case 1:
 		directory = auxiliary_cd_2(shell_info, current_directory);
 		if (!directory)
-			return free(shell_info->command_options),
-			       free(current_directory), 1;
+			return (free(shell_info->command_options),
+			       free(current_directory), 1);
 		break;
 
 	default:
@@ -89,8 +89,8 @@ ssize_t cd_command(ShellInfo *shell_info)
 		{
 			directory = auxiliary_cd(shell_info, current_directory);
 			if (!directory)
-				return free(shell_info->command_options),
-				       free(current_directory), 1;
+				return (free(shell_info->command_options),
+				       free(current_directory), 1);
 			check_minus = 1;
 		}
 		else
@@ -113,9 +113,7 @@ ssize_t cd_command(ShellInfo *shell_info)
 		exit_code = -1;
 		break;
 	default:
-		new_environment =
-		    set_environment_variable(*(shell_info->environment_copy),
-					     "PWD", directory, shell_info);
+		new_environment = set_environment_variable(*(shell_info->environment_copy), "PWD", directory, shell_info);
 		*(shell_info->environment_copy) = new_environment;
 
 		new_environment = set_environment_variable(
