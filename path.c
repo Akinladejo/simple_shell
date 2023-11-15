@@ -16,13 +16,15 @@
  *         or NULL if the input is NULL or no PATH_SEPARATOR is found.
  */
 char *_pathcheck(const char *path) {
+    size_t len;
+    size_t j;
+    size_t i;
+    size_t nsize;
+
     if (!path)
         return (NULL);
 
     size_t len = strlen(path);
-    size_t i;
-    int count = 0;
-
     size_t nsize = len + 1; /* Move declaration here */
     char *npath = malloc(nsize);
 
@@ -53,11 +55,17 @@ char *_pathcheck(const char *path) {
  *
  * Return: The full path of the command if found, or NULL if not found.
  */
-char *_path(const char *cmd, char **env, ShellInfo *shpack) {
+char *_path(const char *cmd, char **env, ShellInfo *shpack) 
+{
+    struct stat st;
+    char *path2;
+    char *pathcheck;
+    char *delim;
+    char *token;
+
     if (!cmd || !env || !shpack)
         return (NULL);
 
-    struct stat st;
     char *path2 = _get_environment_variable("PATH", env);
 
     if (!path2)
@@ -99,11 +107,14 @@ char *_path(const char *cmd, char **env, ShellInfo *shpack) {
  *
  * Return: The value of the environment variable if found, or NULL if not found.
  */
-char *_get_environment_variable(const char *name, char **env) {
+char *_get_environment_variable(const char *name, char **env) 
+{
+    int i;
+    
     if (!name || !env)
         return NULL;
 
-    for (int i = 0; env[i] != NULL; i++) {
+    for (i = 0; env[i] != NULL; i++) {
         if (strncmp(env[i], name, strlen(name)) == 0 && env[i][strlen(name)] == '=') {
             return env[i] + strlen(name) + 1;
         }
@@ -119,7 +130,11 @@ char *_get_environment_variable(const char *name, char **env) {
  * Return: A newly allocated string containing a duplicate of the input string,
  *         or NULL if memory allocation fails.
  */
-char *_str_duplicate(const char *str) {
+char *_str_duplicate(const char *str)
+{
+    size_t len;
+    char *dup_str;
+    
     if (!str)
         return NULL;
 
@@ -161,7 +176,12 @@ char *_string_token(char *str, const char *delim) {
  * Return: A newly allocated string containing the concatenation of the input strings,
  *         or NULL if memory allocation fails.
  */
-char *concatenate_strings(const char *str1, const char *str2) {
+char *concatenate_strings(const char *str1, const char *str2) 
+{
+    size_t len1;
+    size_t len2;
+    char *result;
+    
     if (!str1 || !str2)
         return NULL;
 
