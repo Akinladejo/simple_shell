@@ -15,12 +15,10 @@
  * @count: Number of bytes to set
  * Return: (Pointer to the memory area dest)
  */
-char *_memset(char *dest, char value, unsigned int count)
-{
-    unsigned int i;  /* Declare 'i' outside of the loop */
-    for (i = 0; i < count; i++)
-    {
-        dest[i] = value;
+char *_memset(char *dest, char value, unsigned int count) {
+    unsigned int i; /* Declare 'i' outside of the loop */
+    for (i = 0; i < count; i++) {
+	dest[i] = value;
     }
     return (dest);
 }
@@ -33,18 +31,15 @@ char *_memset(char *dest, char value, unsigned int count)
  * @new_size: Size of the new memory block
  * Return: (Pointer to the newly allocated memory block)
  */
-void *_realloc(void *ptr, unsigned int old_size, unsigned int new_size)
-{
+void *_realloc(void *ptr, unsigned int old_size, unsigned int new_size) {
     void *new_ptr = malloc(new_size);
-    if (new_ptr == NULL)
-    {
-        return (NULL);
+    if (new_ptr == NULL) {
+	return (NULL);
     }
 
-    if (ptr != NULL && old_size > 0)
-    {
-        memcpy(new_ptr, ptr, old_size);
-        free(ptr);
+    if (ptr != NULL && old_size > 0) {
+	memcpy(new_ptr, ptr, old_size);
+	free(ptr);
     }
 
     return (new_ptr);
@@ -58,67 +53,57 @@ void *_realloc(void *ptr, unsigned int old_size, unsigned int new_size)
  * @file_descriptor: File descriptor to read from
  * Return: (Number of bytes read, or -1 on failure)
  */
-int get_line(char **buffer, size_t *buffer_size, int file_descriptor)
-{
+int get_line(char **buffer, size_t *buffer_size, int file_descriptor) {
     char *buf = NULL;
     size_t size = BUFFER_SIZE;
     size_t len = 0;
     int read_result;
-    size_t i;  /* Declare 'i' outside of the loop */
+    size_t i; /* Declare 'i' outside of the loop */
 
     buf = malloc(size);
-    if (buf == NULL)
-    {
-        return (-1);
+    if (buf == NULL) {
+	return (-1);
     }
 
-    while (1)
-    {
-        read_result = read(file_descriptor, buf + len, size - len);
-        if (read_result == -1)
-        {
-            free(buf);
-            return (-1);
-        }
+    while (1) {
+	read_result = read(file_descriptor, buf + len, size - len);
+	if (read_result == -1) {
+	    free(buf);
+	    return (-1);
+	}
 
-        if (read_result == 0)
-        {
-            break;
-        }
+	if (read_result == 0) {
+	    break;
+	}
 
-        len += read_result;
+	len += read_result;
 
-        if (len >= size)
-        {
-            size *= 2;
-            buf = _realloc(buf, size, size);
-            if (buf == NULL)
-            {
-                free(buf);
-                return (-1);
-            }
-        }
+	if (len >= size) {
+	    size *= 2;
+	    buf = _realloc(buf, size, size);
+	    if (buf == NULL) {
+		free(buf);
+		return (-1);
+	    }
+	}
 
-        for (i = 0; i < len; i++)
-        {
-            switch (buf[i])
-            {
-            case '\n':
-                buf[i] = '\0';
-                *buffer = buf;
-                *buffer_size = size;
-                return (len);
+	for (i = 0; i < len; i++) {
+	    switch (buf[i]) {
+	    case '\n':
+		buf[i] = '\0';
+		*buffer = buf;
+		*buffer_size = size;
+		return (len);
 
-            default:
-                break;
-            }
-        }
+	    default:
+		break;
+	    }
+	}
     }
 
-    if (len == 0)
-    {
-        free(buf);
-        return (-1);
+    if (len == 0) {
+	free(buf);
+	return (-1);
     }
 
     buf[len] = '\0';

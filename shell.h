@@ -20,7 +20,6 @@
  * @unset_environment: Indicator for unset environment variables
  */
 
-
 typedef struct ShellInfo {
     char *shell_name;
     char *input_buffer;
@@ -54,8 +53,8 @@ typedef struct BuiltIn {
  * @help_function: Pointer to the function displaying help
  */
 typedef struct HelpInfo {
-	char *built_in_command;
-	void (*help_function)(void);
+    char *built_in_command;
+    void (*help_function)(void);
 } HelpInfo;
 
 /**
@@ -192,13 +191,15 @@ char **copy_double_pointer(char **pointer, int old_size, int new_size);
 /**
  * set_environment_variable - Set an environment variable
  */
-char **set_environment_variable(char **env, char *variable, char *value, ShellInfo *shell_info);
+char **set_environment_variable(char **env, char *variable, char *value,
+				ShellInfo *shell_info);
 
 /**
  * unset_environment_variable - Unset an environment variable
  */
 
-char **unset_environment_variable(char **env, const char *variable, ShellInfo *shell_info);
+char **unset_environment_variable(char **env, const char *variable,
+				  ShellInfo *shell_info);
 
 /**
  * is_digit - Check if a character is a digit
@@ -217,8 +218,11 @@ ssize_t change_directory(ShellInfo *shell_info);
 char *determine_directory(ShellInfo *shell_info, const char *current_directory);
 int chang_directory(const char *directory, ShellInfo *shell_info);
 void update_environment_variables(ShellInfo *shell_info, const char *directory);
-void handle_directory_change_result(int result, ShellInfo *shell_info, const char *current_directory, const char *directory);
-void free_resources(ShellInfo *shell_info, char *current_directory, char *directory);
+void handle_directory_change_result(int result, ShellInfo *shell_info,
+				    const char *current_directory,
+				    const char *directory);
+void free_resources(ShellInfo *shell_info, char *current_directory,
+		    char *directory);
 
 /**
  * remove_comments - Remove comments from a string

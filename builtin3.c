@@ -12,14 +12,12 @@
  *
  * Return: Result of base to the power of exponent.
  */
-long power(long base, long exponent)
-{
+long power(long base, long exponent) {
     long result = 1;
     long i;
 
-    for (i = 0; i < exponent; i++)
-    {
-        result *= base;
+    for (i = 0; i < exponent; i++) {
+	result *= base;
     }
 
     return result;
@@ -31,26 +29,22 @@ long power(long base, long exponent)
  *
  * Return: Transformed integer. On error: (-1) for inappropriate entry.
  */
-long convert_to_integer(char *s)
-{
+long convert_to_integer(char *s) {
     long result = 0;
     long sign = 1;
 
-    if (!s)
-    {
-        return 0;
+    if (!s) {
+	return 0;
     }
 
-    if (*s == '-')
-    {
-        sign = -1;
-        s++;
+    if (*s == '-') {
+	sign = -1;
+	s++;
     }
 
-    while (*s >= '0' && *s <= '9')
-    {
-        result = result * 10 + (*s - '0');
-        s++;
+    while (*s >= '0' && *s <= '9') {
+	result = result * 10 + (*s - '0');
+	s++;
     }
 
     return sign * result;
@@ -61,8 +55,7 @@ long convert_to_integer(char *s)
  *
  * Return: Always 0.
  */
-int main(void)
-{
+int main(void) {
     long result1, result2;
     char str[] = "12345";
 

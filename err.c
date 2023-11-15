@@ -9,23 +9,20 @@
  * @s: String to reverse
  * Return: Reversed string
  */
-void reverse_string(char *s)
-{
+void reverse_string(char *s) {
     int length = 0;
-    int i, j;  /* Move declarations to the beginning */
+    int i, j; /* Move declarations to the beginning */
 
-    while (s[length] != '\0') 
-    {
-        length++;
+    while (s[length] != '\0') {
+	length++;
     }
 
     i = 0, j = length - 1;
-    while (i < j) 
-    {
-        char tmp = s[i];
-        s[i] = s[j];
-        s[j] = tmp;
-        i++, j--;
+    while (i < j) {
+	char tmp = s[i];
+	s[i] = s[j];
+	s[j] = tmp;
+	i++, j--;
     }
 }
 
@@ -44,29 +41,25 @@ int number_length(unsigned long int n, unsigned long int base);
  * @n: Number
  * Return: Pointer to the string
  */
-char *_itoa(int n)
-{
+char *_itoa(int n) {
     unsigned long int base = 10;
     unsigned long int value = (n < 0) ? -n : n;
     int length = (n == 0) ? 1 : number_length(value, base) + 1;
-    int i = 0;  /* Move declaration to the beginning */
+    int i = 0; /* Move declaration to the beginning */
 
-    char *str = malloc(length + 1);  /* +1 for the null terminator */
-    if (!str) 
-    {
-        /* handle error differently or change the return type */
-        return (NULL);
+    char *str = malloc(length + 1); /* +1 for the null terminator */
+    if (!str) {
+	/* handle error differently or change the return type */
+	return (NULL);
     }
 
-    while (value > 0) 
-    {
-        str[i++] = (value % base) + '0';
-        value = value / base;
+    while (value > 0) {
+	str[i++] = (value % base) + '0';
+	value = value / base;
     }
 
-    if (n < 0) 
-    {
-        str[i++] = '-';
+    if (n < 0) {
+	str[i++] = '-';
     }
 
     str[i] = '\0';
@@ -82,54 +75,45 @@ char *_itoa(int n)
  * @option: Command option
  * Return: Pointer to the string
  */
-char *generate_error_info(int errn, char *result, char *option)
-{
+char *generate_error_info(int errn, char *result, char *option) {
     char *temp_result = NULL;
     char *colspace = ": ";
     char *temp;
 
-    switch (errn) 
-    {
-        case 2:
-        {
-            temp_result = concatenate_strings(result, colspace);
-            if (!temp_result) 
-            {
-                /* handle error or return NULL */
-                return (NULL);
-            }
-            temp= concatenate_strings(temp_result, option);
-            free(temp_result);
-            temp_result = temp;
-            if (!temp_result) 
-            {
-                /* handle error or return NULL */
-                return (NULL);
-            }
-        }
-        break;
+    switch (errn) {
+    case 2: {
+	temp_result = concatenate_strings(result, colspace);
+	if (!temp_result) {
+	    /* handle error or return NULL */
+	    return (NULL);
+	}
+	temp = concatenate_strings(temp_result, option);
+	free(temp_result);
+	temp_result = temp;
+	if (!temp_result) {
+	    /* handle error or return NULL */
+	    return (NULL);
+	}
+    } break;
 
-        default:
-            if (errn > 3) 
-            {
-                {
-                    char *temp = concatenate_strings(result, colspace);
-                    if (!temp) 
-                    {
-                        /* handle error or return NULL */
-                        return (NULL);
-                    }
+    default:
+	if (errn > 3) {
+	    {
+		char *temp = concatenate_strings(result, colspace);
+		if (!temp) {
+		    /* handle error or return NULL */
+		    return (NULL);
+		}
 
-                    temp_result = concatenate_strings(temp, option);
-                    free(temp);
-                    if (!temp_result) 
-                    {
-                        /* handle error or return NULL */
-                        return (NULL);
-                    }
-                }
-            }
-            break;
+		temp_result = concatenate_strings(temp, option);
+		free(temp);
+		if (!temp_result) {
+		    /* handle error or return NULL */
+		    return (NULL);
+		}
+	    }
+	}
+	break;
     }
 
     return (temp_result);
@@ -153,11 +137,9 @@ char *error_messages[] = {
     "Help command error",
     "Error allocating memory",
     "Wrong Alias",
-    NULL
-};
+    NULL};
 
-int create_error(int errn, ShellInfo *shell_info, int exit_num)
-{
+int create_error(int errn, ShellInfo *shell_info, int exit_num) {
     char *result;
     char *temp_result;
     int error_count;
@@ -171,17 +153,15 @@ int create_error(int errn, ShellInfo *shell_info, int exit_num)
     shell_name = shell_info->shell_name;
 
     result = concatenate_strings(shell_name, ": ");
-    if (!result) 
-    {
-        return (handle_error(7, shell_info, (1)));
+    if (!result) {
+	return (handle_error(7, shell_info, (1)));
     }
 
     temp_result = concatenate_strings(result, _itoa(error_count));
     free(result);
 
-    if (!temp_result) 
-    {
-        return (handle_error(7, shell_info, (1)));
+    if (!temp_result) {
+	return (handle_error(7, shell_info, (1)));
     }
 
     result = concatenate_strings(temp_result, ": ");
@@ -196,25 +176,23 @@ int create_error(int errn, ShellInfo *shell_info, int exit_num)
     temp_result = concatenate_strings(result, error_messages[errn]);
     free(result);
 
-    if (errn > 1 && errn < 6 && errn != 3) 
-    {
-        temp_result = generate_error_info(errn, temp_result, command_options[1]);
+    if (errn > 1 && errn < 6 && errn != 3) {
+	temp_result =
+	    generate_error_info(errn, temp_result, command_options[1]);
     }
 
-    if (!temp_result) 
-    {
-        return (handle_error(7, shell_info, (1)));
+    if (!temp_result) {
+	return (handle_error(7, shell_info, (1)));
     }
 
     {
-        int length = 0;
-        while (temp_result[length] != '\0') 
-        {
-            length++;
-        }
+	int length = 0;
+	while (temp_result[length] != '\0') {
+	    length++;
+	}
 
-        write(2, temp_result, length);
-        write(2, "\n", (1));
+	write(2, temp_result, length);
+	write(2, "\n", (1));
     }
 
     free(temp_result);

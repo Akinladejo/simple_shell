@@ -23,26 +23,26 @@ char *_pathcheck(const char *path) {
     char *npath;
 
     if (!path)
-        return (NULL);
+	return (NULL);
 
     len = strlen(path);
     nsize = len + 1; /* Move declaration here */
     npath = malloc(nsize);
 
     if (!npath)
-        return (NULL);
+	return (NULL);
 
     j = 0;
     for (i = 0; i < nsize; i++, j++) {
-        if ((path[j] == '=' && path[j + 1] == PATH_SEPARATOR) ||
-            (path[j] == PATH_SEPARATOR &&
-             (path[j + 1] == PATH_SEPARATOR || path[j + 1] == '\0'))) {
-            npath[i] = path[j];
-            npath[i + 1] = '.';
-            i++;
-        } else {
-            npath[i] = path[j];
-        }
+	if ((path[j] == '=' && path[j + 1] == PATH_SEPARATOR) ||
+	    (path[j] == PATH_SEPARATOR &&
+	     (path[j + 1] == PATH_SEPARATOR || path[j + 1] == '\0'))) {
+	    npath[i] = path[j];
+	    npath[i + 1] = '.';
+	    i++;
+	} else {
+	    npath[i] = path[j];
+	}
     }
 
     return (npath);
@@ -56,8 +56,7 @@ char *_pathcheck(const char *path) {
  *
  * Return: The full path of the command if found, or NULL if not found.
  */
-char *_path(const char *cmd, char **env, ShellInfo *shpack) 
-{
+char *_path(const char *cmd, char **env, ShellInfo *shpack) {
     struct stat st;
     char *path2;
     char *pathcheck;
@@ -66,34 +65,34 @@ char *_path(const char *cmd, char **env, ShellInfo *shpack)
     char *path;
 
     if (!cmd || !env || !shpack)
-        return (NULL);
+	return (NULL);
 
     path2 = _get_environment_variable("PATH", env);
 
     if (!path2)
-        return (NULL);
+	return (NULL);
 
     path = _str_duplicate(path2);
     pathcheck = _pathcheck(path);
 
     if (pathcheck)
-        path = pathcheck;
+	path = pathcheck;
 
     delim = ":=";
     token = _string_token(path, delim);
 
     while (token) {
-        char *concat = concatenate_strings(token, "/");
-        char *concat2 = concatenate_strings(concat, cmd);
-        free(concat);
+	char *concat = concatenate_strings(token, "/");
+	char *concat2 = concatenate_strings(concat, cmd);
+	free(concat);
 
-        if (stat(concat2, &st) == 0) {
-            free(path);
-            return (concat2);
-        }
+	if (stat(concat2, &st) == 0) {
+	    free(path);
+	    return (concat2);
+	}
 
-        free(concat2);
-        token = _string_token(NULL, delim);
+	free(concat2);
+	token = _string_token(NULL, delim);
     }
 
     free(path);
@@ -109,17 +108,17 @@ char *_path(const char *cmd, char **env, ShellInfo *shpack)
  *
  * Return: The value of the environment variable if found, or NULL if not found.
  */
-char *_get_environment_variable(const char *name, char **env) 
-{
+char *_get_environment_variable(const char *name, char **env) {
     int i;
-    
+
     if (!name || !env)
-        return NULL;
+	return NULL;
 
     for (i = 0; env[i] != NULL; i++) {
-        if (strncmp(env[i], name, strlen(name)) == 0 && env[i][strlen(name)] == '=') {
-            return env[i] + strlen(name) + 1;
-        }
+	if (strncmp(env[i], name, strlen(name)) == 0 &&
+	    env[i][strlen(name)] == '=') {
+	    return env[i] + strlen(name) + 1;
+	}
     }
 
     return NULL;
@@ -132,19 +131,18 @@ char *_get_environment_variable(const char *name, char **env)
  * Return: A newly allocated string containing a duplicate of the input string,
  *         or NULL if memory allocation fails.
  */
-char *_str_duplicate(const char *str)
-{
+char *_str_duplicate(const char *str) {
     size_t len;
     char *dup_str;
-    
+
     if (!str)
-        return NULL;
+	return NULL;
 
     len = strlen(str) + 1;
     dup_str = malloc(len);
 
     if (!dup_str)
-        return NULL;
+	return NULL;
 
     return strcpy(dup_str, str);
 }
@@ -156,20 +154,19 @@ char *_str_duplicate(const char *str)
  *
  * Return: The next token if found, or NULL if no more tokens are found.
  */
-char *_string_token(char *str, const char *delim)
-{
+char *_string_token(char *str, const char *delim) {
     static char *last_str;
     char *token;
-    
+
     if (!str && !delim)
-        return NULL;
+	return NULL;
 
     last_str = NULL;
     if (str)
-        last_str = str;
+	last_str = str;
 
     token = strtok(last_str, delim);
-    last_str = NULL;  /* To continue with the next token on the next call */
+    last_str = NULL; /* To continue with the next token on the next call */
 
     return token;
 }
@@ -179,24 +176,23 @@ char *_string_token(char *str, const char *delim)
  * @str1: The first string
  * @str2: The second string
  *
- * Return: A newly allocated string containing the concatenation of the input strings,
- *         or NULL if memory allocation fails.
+ * Return: A newly allocated string containing the concatenation of the input
+ * strings, or NULL if memory allocation fails.
  */
-char *concatenate_strings(const char *str1, const char *str2) 
-{
+char *concatenate_strings(const char *str1, const char *str2) {
     size_t len1;
     size_t len2;
     char *result;
-    
+
     if (!str1 || !str2)
-        return NULL;
+	return NULL;
 
     len1 = strlen(str1);
     len2 = strlen(str2);
     result = malloc(len1 + len2 + 1);
 
     if (!result)
-        return NULL;
+	return NULL;
 
     strcpy(result, str1);
     strcat(result, str2);
