@@ -130,7 +130,7 @@ char **set_environment_variable(char **env, char *variable, char *value, ShellIn
 		if (check == len_variable && env[i][check] == '=')
 		{
 			free(env[i]);
-			char *copy_dup = _str_duplicate(env_join);
+			copy_dup = _str_duplicate(env_join);
 			free(env_join);
 
 			if (!copy_dup)
