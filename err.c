@@ -91,7 +91,6 @@ char *generate_error_info(int errn, char *result, char *option)
     {
         case 2:
         {
-            int length = 0;  /* Move declaration to the beginning */
             temp_result = concatenate_strings(result, colspace);
             if (!temp_result) 
             {
@@ -99,7 +98,9 @@ char *generate_error_info(int errn, char *result, char *option)
                 return (NULL);
             }
 
-            char *temp = concatenate_strings(temp_result, option);
+            char *temp;
+            
+            temp= concatenate_strings(temp_result, option);
             free(temp_result);
             temp_result = temp;
             if (!temp_result) 
@@ -114,7 +115,6 @@ char *generate_error_info(int errn, char *result, char *option)
             if (errn > 3) 
             {
                 {
-                    int length = 0;  /* Move declaration to the beginning */
                     char *temp = concatenate_strings(result, colspace);
                     if (!temp) 
                     {
@@ -165,7 +165,8 @@ int create_error(int errn, ShellInfo *shell_info, int exit_num)
         NULL
     };
 
-    char *result = concatenate_strings(shell_name, ": ");
+    char *result;
+    result = concatenate_strings(shell_name, ": ");
     if (!result) 
     {
         return (handle_error(7, shell_info, (1)));
