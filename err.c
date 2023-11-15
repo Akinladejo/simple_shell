@@ -151,7 +151,7 @@ int create_error(int errn, ShellInfo *shell_info, int exit_num)
     char *current_command;
     char **command_options;
     char *shell_name;
-    char *error_messages;
+    char *error_messages[10];
     
     error_count = *(shell_info->error_count);
     current_command = shell_info->current_command;
