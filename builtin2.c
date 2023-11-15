@@ -69,7 +69,7 @@ char *auxiliary_cd(ShellInfo *shell_info, char *current_directory)
 ssize_t cd_command(ShellInfo *shell_info)
 {
 	char *current_directory = getcwd(NULL, 4096);
-	
+
 	if (!current_directory)
 	{
 		handle_error(4, shell_info, 2);
@@ -78,7 +78,7 @@ ssize_t cd_command(ShellInfo *shell_info)
 	}
 
 	char *directory = determine_directory(shell_info, current_directory);
-	
+
 	if (!directory)
 	{
 		free(shell_info->command_options);
@@ -94,8 +94,8 @@ ssize_t cd_command(ShellInfo *shell_info)
 		write(1, "\n", 1);
 	}
 
-	handle_directory_change_result(result, shell_info, current_directory, 
-					directory);
+	handle_directory_change_result(result, shell_info, current_directory,
+		directory);
 
 	free_resources(shell_info, current_directory, directory);
 
@@ -114,7 +114,7 @@ char *determine_directory(ShellInfo *shell_info, const char *current_directory)
 {
 	char *directory = NULL;
 
-	if (!shell_info->command_options[1] || 
+	if (!shell_info->command_options[1] ||
 		!_compare_strings(shell_info->command_options[1], "~"))
 	{
 		directory = auxiliary_cd_2(shell_info, current_directory);
@@ -143,10 +143,10 @@ char *determine_directory(ShellInfo *shell_info, const char *current_directory)
  *
  * Return: 0 on success, -1 on failure
  */
-int change_directory(const char *directory, ShellInfo *shell_info)
+int chang_directory(const char *directory, ShellInfo *shell_info)
 {
 	int result = chdir(directory);
-	
+
 	if (result != 0)
 	{
 		handle_error(4, shell_info, 2);
@@ -169,11 +169,11 @@ int change_directory(const char *directory, ShellInfo *shell_info)
 void update_environment_variables(ShellInfo *shell_info, const char *directory)
 {
 	char **new_environment = set_environment_variable(*(shell_info->environment_copy),
-				"PWD", directory, shell_info);
+	"PWD", directory, shell_info);
 	*(shell_info->environment_copy) = new_environment;
 
-	new_environment = set_environment_variable(*(shell_info->environment_copy), "OLDPWD", 
-					shell_info->current_directory, shell_info);
+	new_environment = set_environment_variable(*(shell_info->environment_copy), "OLDPWD",
+		shell_info->current_directory, shell_info);
 	*(shell_info->environment_copy) = new_environment;
 
 	shell_info->current_directory = directory;
@@ -187,8 +187,8 @@ void update_environment_variables(ShellInfo *shell_info, const char *directory)
  * @current_directory: The current directory
  * @directory: The target directory
  */
-void handle_directory_change_result(int result, ShellInfo *shell_info, 
-			const char *current_directory, const char *directory)
+void handle_directory_change_result(int result, ShellInfo *shell_info,
+const char *current_directory, const char *directory)
 {
 	if (result != 0)
 	{
@@ -208,8 +208,8 @@ void handle_directory_change_result(int result, ShellInfo *shell_info,
  * @current_directory: The current directory
  * @directory: The target directory
  */
-void free_resources(ShellInfo *shell_info, char *current_directory, 
-			char *directory)
+void free_resources(ShellInfo *shell_info, char *current_directory,
+char *directory)
 {
 	free(shell_info->command_options);
 	free(current_directory);
