@@ -20,13 +20,14 @@ char *_pathcheck(const char *path) {
     size_t j;
     size_t i;
     size_t nsize;
+    char *npath;
 
     if (!path)
         return (NULL);
 
     len = strlen(path);
     nsize = len + 1; /* Move declaration here */
-    char *npath = malloc(nsize);
+    npath = malloc(nsize);
 
     if (!npath)
         return (NULL);
