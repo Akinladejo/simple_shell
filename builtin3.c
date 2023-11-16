@@ -21,7 +21,7 @@ long power(long base, long exponent)
 	{
 		result *= base;
 	}
-	return result;
+	return (result);
 }
 
 /**
@@ -37,7 +37,7 @@ long convert_to_integer(char *s)
 
 	if (!s)
 	{
-		return 0;
+		return (0);
 	}
 
 	if (*s == '-')
@@ -51,7 +51,7 @@ long convert_to_integer(char *s)
 		result = result * 10 + (*s - '0');
 		s++;
 	}
-	return sign * result;
+	return (sign * result);
 }
 
 /**
@@ -69,5 +69,5 @@ int main(void)
 
 	printf("Power: %ld\n", result1);
 	printf("Converted Integer: %ld\n", result2);
-	return 0;
+	return (0);
 }
