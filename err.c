@@ -25,6 +25,7 @@ void reverse_string(char *s)
 		char tmp = s[i];
 		s[i] = s[j];
 		s[j] = tmp;
+
 		i++, j--;
 	}
 }
@@ -115,6 +116,7 @@ char *generate_error_info(int errn, char *result, char *option)
 			{
 				{
 					char *temp = concatenate_strings(result, colspace);
+
 					if (!temp)
 					{
 						/* handle error or return NULL */
@@ -204,6 +206,7 @@ int create_error(int errn, ShellInfo *shell_info, int exit_num)
 	}
 	{
 		int length = 0;
+
 		while (temp_result[length] != '\0')
 		{
 			length++;
