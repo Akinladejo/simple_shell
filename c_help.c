@@ -1,5 +1,7 @@
 #include "shell.h"
 #include <stdio.h>
+#include <unistd.h>
+#include <stdlib.h>
 
 /**
  * print_help_help - Display help for the help command
