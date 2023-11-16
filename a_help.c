@@ -10,7 +10,7 @@
  */
 void _puts(char *str)
 {
-	write(1, str, string_length(str)); 
+	write(1, str, string_length(str));
 }
 
 /**
@@ -20,11 +20,11 @@ void _puts(char *str)
  */
 void help_exit(void)
 {
-    _puts("exit: exit [n]\n");
-    _puts("    Exit the shell.\n\n");
-    _puts("    Exits the shell with a status of N.  ");
-    _puts("    If N is omitted, the exit status\n");
-    _puts("    is that of the last command executed.\n");
+	_puts("exit: exit [n]\n");
+	_puts("    Exit the shell.\n\n");
+	_puts("    Exits the shell with a status of N.  ");
+	_puts("    If N is omitted, the exit status\n");
+	_puts("    is that of the last command executed.\n");
 }
 
 /**
@@ -34,9 +34,9 @@ void help_exit(void)
  */
 void help_env(void)
 {
-    _puts("env: env\n");
-    _puts("    Prints the current environment.\n\n");
-    _puts("    Has no options\n");
+	_puts("env: env\n");
+	_puts("    Prints the current environment.\n\n");
+	_puts("    Has no options\n");
 }
 
 /**
@@ -46,12 +46,12 @@ void help_env(void)
  */
 void help_setenv(void)
 {
-    _puts("setenv: setenv [VARIABLE] [VALUE]\n");
-    _puts("    Initializes a new environment variable, ");
-    _puts("    or modifies an existing one.\n\n");
-    _puts("    VARIABLE must not have the character '='.\n");
-    _puts("    If no arguments are given, setenv prints ");
-    _puts("    the current environment.\n");
+	_puts("setenv: setenv [VARIABLE] [VALUE]\n");
+	_puts("    Initializes a new environment variable, ");
+	_puts("    or modifies an existing one.\n\n");
+	_puts("    VARIABLE must not have the character '='.\n");
+	_puts("    If no arguments are given, setenv prints ");
+	_puts("    the current environment.\n");
 }
 
 /**
@@ -62,45 +62,44 @@ void help_setenv(void)
  */
 ssize_t help_cmd(ShellInfo *shell_info)
 {
-    int check = 1, bcheck = 0;
-    HelpInfo help[] = {
+	int check = 1, bcheck = 0;
+	HelpInfo help[] = {
 	{"exit", help_exit},
 	{"env", help_env},
 	{"setenv", help_setenv},
-    };
-
-    int i = 3;
-    int p = 1;
-
-    for (; shell_info->command_options[p]; p++, i = 3)
-    {
-	while (i--)
+}
+	
+	int i = 3;
+	int p = 1;
+	
+	for (; shell_info->command_options[p]; p++, i = 3)
 	{
-	    switch (compare_strings(shell_info->command_options[p],
-				    help[i].built_in_command))
-	    {
-	    case 1:
-		help[i].help_function();
-		bcheck = 1;
-		break;
-	    default:
-		break;
-	    }
+		while (i--);
+		{
+			switch (compare_strings(shell_info->command_options[p],
+				help[i].built_in_command))
+			{
+				case 1:
+					help[i].help_function();
+					bcheck = 1;
+					break;
+				default:
+					break;
+			}
+		}
 	}
-    }
 
-    if (shell_info->command_options[1] == NULL)
-    {
-	print_help();
-	bcheck = 1;
-    }
+	if (shell_info->command_options[1] == NULL)
+	{
+		print_help();
+		bcheck = 1;
+	}
+	if (bcheck == 0)
+	{
+		check = -1;
+		handle_error(6, shell_info, 2);
+	}
 
-    if (bcheck == 0)
-    {
-	check = -1;
-	handle_error(6, shell_info, 2);
-    }
-
-    free_double_pointer(shell_info->command_options);
-    return (check);
+	free_double_pointer(shell_info->command_options);
+	return (check);
 }
