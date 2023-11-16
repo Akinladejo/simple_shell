@@ -21,18 +21,18 @@
  */
 
 typedef struct ShellInfo {
-    char *shell_name;
-    char *input_buffer;
-    char *current_command;
-    char **command_options;
-    char *command_path;
-    int *error_count;
-    int *exit_number;
-    int *logical_relation;
-    int *is_runnable;
-    struct ShellInfo *next_command;
-    char ***environment_copy;
-    int *unset_environment;
+char *shell_name;
+char *input_buffer;
+char *current_command;
+char **command_options;
+char *command_path;
+int *error_count;
+int *exit_number;
+int *logical_relation;
+int *is_runnable;
+struct ShellInfo *next_command;
+char ***environment_copy;
+int *unset_environment;
 } ShellInfo;
 
 /**
@@ -42,8 +42,8 @@ typedef struct ShellInfo {
  * @function: Pointer to the function handling the command
  */
 typedef struct BuiltIn {
-    char *command;
-    ssize_t (*function)(ShellInfo *shell_info);
+char *command;
+ssize_t (*function)(ShellInfo *shell_info);
 } BuiltIn;
 
 /**
@@ -53,8 +53,8 @@ typedef struct BuiltIn {
  * @help_function: Pointer to the function displaying help
  */
 typedef struct HelpInfo {
-    char *built_in_command;
-    void (*help_function)(void);
+char *built_in_command;
+void (*help_function)(void);
 } HelpInfo;
 
 /**
@@ -101,7 +101,7 @@ char **get_parameters(char *buffer, ShellInfo *shell_info);
  * execute_command - Execute a command
  */
 int execute_command(char *program, char *command[], char **env,
-		    ShellInfo *shell_info);
+ShellInfo *shell_info);
 
 /**
  * handle_signal - Handle a signal
@@ -132,15 +132,14 @@ int string_array_length(char **array);
  * check_input - Check and process input
  */
 char **check_input(int argument_count, char **arguments, size_t *buffer_size,
-		   char **buffer, ShellInfo *shell_info);
-
+char **buffer, ShellInfo *shell_info);
 /**
  * initialize_shell_info - Initialize the shell information structure
  */
 ShellInfo *initialize_shell_info(char *argv0, int *error_number,
-				 int *exit_number, int *logical_relation,
-				 int *is_runnable, char ***environment,
-				 int *unset_environment);
+int *exit_number, int *logical_relation,
+int *is_runnable, char ***environment,
+int *unset_environment);
 
 /**
  * handle_error - Handle errors
@@ -151,7 +150,7 @@ int handle_error(int error_number, ShellInfo *shell_info, int exit_number);
  * add_command - Add a command to the shell information
  */
 void add_command(ShellInfo *shell_info, char *input_buffer, char *command,
-		 char **parameters);
+char **parameters);
 
 /**
  * add_path_to_command - Add a path to the current command
