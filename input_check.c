@@ -18,55 +18,53 @@
  * Return: On success, returns a command array. On error, exits the program.
  */
 char **check_input(int argument_count, char **arguments, size_t *buffer_size,
-		   char **buffer, ShellInfo *shell_info) {
-    ssize_t characters;
-    char **command;
-    int exit_number;
+char **buffer, ShellInfo *shell_info)
+{
+	ssize_t characters;
+	char **command;
+	int exit_number;
 
-    switch (argument_count) {
-    case 1:
-	if (isatty(STDIN_FILENO))
-	    write(1, "$ ", 2);
+	switch (argument_count)
+	{
+		case 1:
+			if (isatty(STDIN_FILENO))
+				write(1, "$ ", 2);
+			characters = getline(buffer, buffer_size, stdin);
 
-	characters = getline(buffer, buffer_size, stdin);
+			if (characters == -1)
+			{
+				exit_number = shell_info->exit_number[0];
+				free(*buffer);
 
-	if (characters == -1) {
-	    exit_number = shell_info->exit_number[0];
-	    free(*buffer);
+				if (*(shell_info->environment_copy))
+					free_double_pointer(*(shell_info->environment_copy));
+				free(shell_info);
 
-	    if (*(shell_info->environment_copy))
-		free_double_pointer(*(shell_info->environment_copy));
+				if (isatty(STDIN_FILENO))
+					write(1, "\n", 1);
+				exit(exit_number);
+			}
 
-	    free(shell_info);
+			if (**buffer == '#' || !characters || **buffer == '\n')
+				return (NULL);
 
-	    if (isatty(STDIN_FILENO))
-		write(1, "\n", 1);
+			*buffer = remove_comments(*buffer);
+			command = get_parameters(*buffer, shell_info);
+			break;
+		default:
+			command = malloc(sizeof(char *) * argument_count);
+			if (!command)
+			{
+				handle_error(7, shell_info, 1);
+				exit(1);
+			}
 
-	    exit(exit_number);
+			command[argument_count - 1] = '\0';
+			while (argument_count--)
+				command[argument_count - 1] = arguments[argument_count];
+			break;
 	}
-
-	if (**buffer == '#' || !characters || **buffer == '\n')
-	    return (NULL);
-
-	*buffer = remove_comments(*buffer);
-	command = get_parameters(*buffer, shell_info);
-	break;
-
-    default:
-	command = malloc(sizeof(char *) * argument_count);
-	if (!command) {
-	    handle_error(7, shell_info, 1);
-	    exit(1);
-	}
-
-	command[argument_count - 1] = '\0';
-
-	while (argument_count--)
-	    command[argument_count - 1] = arguments[argument_count];
-	break;
-    }
-
-    return (command);
+	return (command);
 }
 
 /**
@@ -76,24 +74,25 @@ char **check_input(int argument_count, char **arguments, size_t *buffer_size,
  *
  * Return: Pointer to the modified string.
  */
-char *remove_comments(char *string) {
-    char *original = string;
+char *remove_comments(char *string)
+{
+	char *original = string;
 
-    while (string && *string) {
-	switch (*string) {
-	case '#':
-	    if (*(string - 1) == ' ') {
-		*string = '\0';
-		return (original);
-	    }
-	    break;
-
-	default:
-	    break;
+	while (string && *string)
+	{
+		switch (*string)
+		{
+			case '#':
+				if (*(string - 1) == ' ')
+				{
+					*string = '\0';
+					return (original);
+				}
+				break;
+			default:
+				break;
+		}
+		string++;
 	}
-
-	string++;
-    }
-
-    return (original);
+	return (original);
 }
