@@ -1,5 +1,7 @@
 #include "shell.h"
+#include <stdio.h>
 #include <unistd.h>
+#include <stdlib.h>
 
 /**
  * display_help_unsetenv - Display help for unsetenv built-in command.
