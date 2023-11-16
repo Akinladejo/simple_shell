@@ -5,8 +5,10 @@
  * handle_signal - Signal handler for handling ctrl + c during runtime
  *
  * @signal_number: Unused parameter (just for betty)
+ * Return: 0
  */
-void handle_signal(int signal_number) {
+void handle_signal(int signal_number)
+{
     (void)signal_number;
     write(1, "\n$ ", 3);
 }
@@ -16,8 +18,10 @@ void handle_signal(int signal_number) {
  * execution
  *
  * @signal_number: Unused parameter (just for betty)
+ * Return: 0
  */
-void handle_signal2(int signal_number) {
+void handle_signal2(int signal_number)
+{
     (void)signal_number;
     write(1, "\n", 1);
 }
