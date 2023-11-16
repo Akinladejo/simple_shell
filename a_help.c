@@ -75,7 +75,7 @@ ssize_t help_cmd(ShellInfo *shell_info)
 
 	for (; shell_info->command_options[p]; p++, i = 3)
 	{
-		while (i--);
+		while (i--)
 		{
 			switch (compare_strings(shell_info->command_options[p],
 				help[i].built_in_command))
