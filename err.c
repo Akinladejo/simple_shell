@@ -23,6 +23,7 @@ void reverse_string(char *s)
 	while (i < j)
 	{
 		char tmp = s[i];
+
 		s[i] = s[j];
 		s[j] = tmp;
 
