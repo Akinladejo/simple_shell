@@ -54,8 +54,8 @@ void display_help_help(void)
 {
 	print_string("help: help [BUILTIN ...]\n");
 	print_string("    Display information about builtin commands.\n\n");
-	print_string("    Displays brief summaries of builtin commands."
-		"If BUILTIN is\n");
+	print_string("    Displays brief summaries of builtin commands 
+		if BUILTIN is\n");
 	print_string("    specified, gives detailed help on all commands ");
 	print_string("    matching BUILTIN,\n");
 	print_string("    otherwise, the list of help topics is printed.\n\n");
