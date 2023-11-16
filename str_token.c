@@ -17,49 +17,57 @@
  *
  * Return: Tokenized substring or NULL if the end of the string is reached
  */
-char *_string_token(char *str, const char *delimiter) {
-    static char *step = NULL;
-    static int isEnd = 0;
-    char *start;
+char *_string_token(char *str, const char *delimiter)
+{
+	static char *step = NULL;
+	static int isEnd = 0;
+	char *start;
 
-    if (str) {
-	isEnd = 0;
-	step = str;
-    }
-
-    if (isEnd)
-	return (NULL);
-
-    start = NULL; /* Pointer to the start of the token */
-
-    switch (*step) {
-    case '\0':
-	isEnd = 1;
-	return (NULL);
-
-    default:
-	while (*step && strchr(delimiter, *step)) {
-	    ++step;
+	if (str)
+	{
+		isEnd = 0;
+		step = str;
 	}
 
-	if (!*step) {
-	    isEnd = 1;
-	    return (NULL);
+	if (isEnd)
+		return (NULL);
+
+	start = NULL; /* Pointer to the start of the token */
+
+	switch (*step)
+	{
+		case '\0':
+			isEnd = 1;
+			return (NULL);
+		default:
+			while (*step && strchr(delimiter, *step))
+			{
+				++step;
+			}
+
+			if (!*step)
+			{
+				isEnd = 1;
+				return (NULL);
+			}
+
+			start = step;
+
+			while (*step && !strchr(delimiter, *step))
+			{
+				++step;
+			}
+
+			if (*step)
+			{
+				*strchr(delimiter, *step) = '\0';
+				++step;
+			}
+			else
+			{
+				isEnd = 1;
+			}
+
+			return (start);
 	}
-
-	start = step;
-
-	while (*step && !strchr(delimiter, *step)) {
-	    ++step;
-	}
-
-	if (*step) {
-	    *strchr(delimiter, *step) = '\0';
-	    ++step;
-	} else {
-	    isEnd = 1;
-	}
-
-	return (start);
-    }
 }
