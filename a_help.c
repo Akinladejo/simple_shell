@@ -1,6 +1,7 @@
 #include "shell.h"
-#include <stdlib.h>
+#include <stdio.h>
 #include <unistd.h>
+#include <stdlib.h>
 
 /**
  * _puts - Prints a string to standard output.
