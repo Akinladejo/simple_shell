@@ -32,7 +32,7 @@ char *_str_duplicate(const char *str)
  */
 int string_length(const char *s)
 {
-	return (!*s) ? 0 : 1 + string_length(s + 1);
+	return ((!*s) ? 0 : 1 + string_length(s + 1));
 }
 
 /**
