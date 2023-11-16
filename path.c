@@ -15,37 +15,42 @@
  * Return: A newly allocated string with dots added after each PATH_SEPARATOR
  *         or NULL if the input is NULL or no PATH_SEPARATOR is found.
  */
-char *_pathcheck(const char *path) {
-    size_t len;
-    size_t j;
-    size_t i;
-    size_t nsize;
-    char *npath;
+char *_pathcheck(const char *path)
+{
+	size_t len;
+	size_t j;
+	size_t i;
+	size_t nsize;
+	char *npath;
 
-    if (!path)
-	return (NULL);
+	if (!path)
+		return (NULL);
 
-    len = strlen(path);
-    nsize = len + 1; /* Move declaration here */
-    npath = malloc(nsize);
+	len = strlen(path);
+	nsize = len + 1; /* Move declaration here */
+	npath = malloc(nsize);
 
-    if (!npath)
-	return (NULL);
+	if (!npath)
+		return (NULL);
 
-    j = 0;
-    for (i = 0; i < nsize; i++, j++) {
-	if ((path[j] == '=' && path[j + 1] == PATH_SEPARATOR) ||
-	    (path[j] == PATH_SEPARATOR &&
-	     (path[j + 1] == PATH_SEPARATOR || path[j + 1] == '\0'))) {
-	    npath[i] = path[j];
-	    npath[i + 1] = '.';
-	    i++;
-	} else {
-	    npath[i] = path[j];
+	j = 0;
+	for (i = 0; i < nsize; i++, j++)
+	{
+		if ((path[j] == '=' && path[j + 1] == PATH_SEPARATOR) ||
+			(path[j] == PATH_SEPARATOR &&
+			(path[j + 1] == PATH_SEPARATOR || path[j + 1] == '\0')))
+		{
+			npath[i] = path[j];
+			npath[i + 1] = '.';
+			i++;
+		}
+		else
+		{
+			npath[i] = path[j];
+		}
 	}
-    }
 
-    return (npath);
+	return (npath);
 }
 
 /**
@@ -56,47 +61,50 @@ char *_pathcheck(const char *path) {
  *
  * Return: The full path of the command if found, or NULL if not found.
  */
-char *_path(const char *cmd, char **env, ShellInfo *shpack) {
-    struct stat st;
-    char *path2;
-    char *pathcheck;
-    char *delim;
-    char *token;
-    char *path;
+char *_path(const char *cmd, char **env, ShellInfo *shpack)
+{
+	struct stat st;
+	char *path2;
+	char *pathcheck;
+	char *delim;
+	char *token;
+	char *path;
 
-    if (!cmd || !env || !shpack)
-	return (NULL);
+	if (!cmd || !env || !shpack)
+		return (NULL);
 
-    path2 = _get_environment_variable("PATH", env);
+	path2 = _get_environment_variable("PATH", env);
 
-    if (!path2)
-	return (NULL);
+	if (!path2)
+		return (NULL);
 
-    path = _str_duplicate(path2);
-    pathcheck = _pathcheck(path);
+	path = _str_duplicate(path2);
+	pathcheck = _pathcheck(path);
 
-    if (pathcheck)
-	path = pathcheck;
+	if (pathcheck)
+		path = pathcheck;
 
-    delim = ":=";
-    token = _string_token(path, delim);
+	delim = ":=";
+	token = _string_token(path, delim);
 
-    while (token) {
-	char *concat = concatenate_strings(token, "/");
-	char *concat2 = concatenate_strings(concat, cmd);
-	free(concat);
+	while (token)
+	{
+		char *concat = concatenate_strings(token, "/");
+		char *concat2 = concatenate_strings(concat, cmd);
+		free(concat);
 
-	if (stat(concat2, &st) == 0) {
-	    free(path);
-	    return (concat2);
+		if (stat(concat2, &st) == 0)
+		{
+			free(path);
+			return (concat2);
+		}
+
+		free(concat2);
+		token = _string_token(NULL, delim);
 	}
 
-	free(concat2);
-	token = _string_token(NULL, delim);
-    }
-
-    free(path);
-    return (NULL);
+	free(path);
+	return (NULL);
 }
 
 /* Add your Betty-style comments for the missing functions here */
@@ -108,20 +116,22 @@ char *_path(const char *cmd, char **env, ShellInfo *shpack) {
  *
  * Return: The value of the environment variable if found, or NULL if not found.
  */
-char *_get_environment_variable(const char *name, char **env) {
-    int i;
+char *_get_environment_variable(const char *name, char **env)
+{
+	int i;
 
-    if (!name || !env)
-	return NULL;
+	if (!name || !env)
+		return NULL;
 
-    for (i = 0; env[i] != NULL; i++) {
-	if (strncmp(env[i], name, strlen(name)) == 0 &&
-	    env[i][strlen(name)] == '=') {
-	    return env[i] + strlen(name) + 1;
+	for (i = 0; env[i] != NULL; i++)
+	{
+		if (strncmp(env[i], name, strlen(name)) == 0 &&
+			env[i][strlen(name)] == '=')
+		{
+			return env[i] + strlen(name) + 1;
+		}
 	}
-    }
-
-    return NULL;
+	return NULL;
 }
 
 /**
@@ -131,20 +141,21 @@ char *_get_environment_variable(const char *name, char **env) {
  * Return: A newly allocated string containing a duplicate of the input string,
  *         or NULL if memory allocation fails.
  */
-char *_str_duplicate(const char *str) {
-    size_t len;
-    char *dup_str;
+char *_str_duplicate(const char *str)
+{
+	size_t len;
+	char *dup_str;
 
-    if (!str)
-	return NULL;
+	if (!str)
+		return NULL;
 
-    len = strlen(str) + 1;
-    dup_str = malloc(len);
+	len = strlen(str) + 1;
+	dup_str = malloc(len);
 
-    if (!dup_str)
-	return NULL;
+	if (!dup_str)
+		return NULL;
 
-    return strcpy(dup_str, str);
+	return strcpy(dup_str, str);
 }
 
 /**
@@ -154,21 +165,22 @@ char *_str_duplicate(const char *str) {
  *
  * Return: The next token if found, or NULL if no more tokens are found.
  */
-char *_string_token(char *str, const char *delim) {
-    static char *last_str;
-    char *token;
+char *_string_token(char *str, const char *delim)
+{
+	static char *last_str;
+	char *token;
 
-    if (!str && !delim)
-	return NULL;
+	if (!str && !delim)
+		return NULL;
 
-    last_str = NULL;
-    if (str)
-	last_str = str;
+	last_str = NULL;
 
-    token = strtok(last_str, delim);
-    last_str = NULL; /* To continue with the next token on the next call */
+	if (str)
+		last_str = str;
 
-    return token;
+	token = strtok(last_str, delim);
+	last_str = NULL;
+	return token;
 }
 
 /**
@@ -179,23 +191,23 @@ char *_string_token(char *str, const char *delim) {
  * Return: A newly allocated string containing the concatenation of the input
  * strings, or NULL if memory allocation fails.
  */
-char *concatenate_strings(const char *str1, const char *str2) {
-    size_t len1;
-    size_t len2;
-    char *result;
+char *concatenate_strings(const char *str1, const char *str2)
+{
+	size_t len1;
+	size_t len2;
+	char *result;
 
-    if (!str1 || !str2)
-	return NULL;
+	if (!str1 || !str2)
+		return NULL;
 
-    len1 = strlen(str1);
-    len2 = strlen(str2);
-    result = malloc(len1 + len2 + 1);
+	len1 = strlen(str1);
+	len2 = strlen(str2);
+	result = malloc(len1 + len2 + 1);
 
-    if (!result)
-	return NULL;
+	if (!result)
+		return NULL;
 
-    strcpy(result, str1);
-    strcat(result, str2);
-
-    return result;
+	strcpy(result, str1);
+	strcat(result, str2);
+	return result;
 }
