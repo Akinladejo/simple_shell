@@ -9,16 +9,16 @@
  * This function frees the memory occupied by a double pointer.
  * Return: None
  */
-void free_double_pointer(char **pointer) {
-    int i; /* Move declaration to the beginning */
+void free_double_pointer(char **pointer)
+{
+	int i; /* Move declaration to the beginning */
 
-    if (!pointer)
-	return;
+	if (!pointer)
+		return;
 
-    for (i = 0; pointer[i] != NULL; i++)
-	free(pointer[i]);
-
-    free(pointer);
+	for (i = 0; pointer[i] != NULL; i++)
+		free(pointer[i]);
+	free(pointer);
 }
 
 /**
@@ -30,27 +30,29 @@ void free_double_pointer(char **pointer) {
  * This function copies a double pointer to a new size.
  * Returns the copied double pointer or NULL on failure.
  */
-char **copy_double_pointer(char **pointer, int old_size, int new_size) {
-    int i; /* Move declaration to the beginning */
-    int copy_size = (new_size < old_size) ? new_size : old_size;
-    char **copy = malloc(sizeof(char *) * (copy_size + 1));
+char **copy_double_pointer(char **pointer, int old_size, int new_size)
+{
+	int i; /* Move declaration to the beginning */
+	int copy_size = (new_size < old_size) ? new_size : old_size;
+	char **copy = malloc(sizeof(char *) * (copy_size + 1));
 
-    if (!copy)
-	return NULL;
+	if (!copy)
+		return NULL;
 
-    for (i = 0; i < copy_size; i++) {
-	copy[i] = _str_duplicate(pointer[i]);
-
-	if (!copy[i]) {
-	    while (--i >= 0)
-		free(copy[i]);
-	    free(copy);
-	    return NULL;
+	for (i = 0; i < copy_size; i++)
+	{
+		copy[i] = _str_duplicate(pointer[i]);
+		if (!copy[i])
+		{
+			while (--i >= 0)
+				free(copy[i]);
+			free(copy);
+			return NULL;
+		}
 	}
-    }
 
-    copy[new_size] = NULL;
-    return copy;
+	copy[new_size] = NULL;
+	return copy;
 }
 
 /**
@@ -60,16 +62,17 @@ char **copy_double_pointer(char **pointer, int old_size, int new_size) {
  * This function calculates the length of a string array.
  * Return: The length of the string array.
  */
-int string_array_length(char **array) {
-    int length; /* Move declaration to the beginning */
+int string_array_length(char **array)
+{
+	int length; /* Move declaration to the beginning */
 
-    if (array == NULL)
-	return 0;
+	if (array == NULL)
+		return 0;
 
-    for (length = 0; array[length] != NULL; length++)
-	;
+	for (length = 0; array[length] != NULL; length++)
+		;
 
-    return length;
+	return length;
 }
 
 /**
@@ -83,66 +86,70 @@ int string_array_length(char **array) {
  * Returns the modified environment array or NULL on failure.
  */
 char **set_environment_variable(char **env, char *variable, char *value,
-				ShellInfo *shell_info) {
-    int len_variable;
-    int len_env;
-    char *env_join2;
-    int i;
-    char *env_join;
-    char **copy;
-    char *copy_dup;
+ShellInfo *shell_info)
+{
+	int len_variable;
+	int len_env;
+	char *env_join2;
+	int i;
+	char *env_join;
+	char **copy;
+	char *copy_dup;
 
-    if (!variable || string_length(variable) == 0)
-	return (handle_error(3, shell_info, 1), NULL);
-
-    len_variable = string_length(variable);
-    len_env = string_array_length(env);
-
-    env_join2 = concatenate_strings(variable, "=");
-    if (!env_join2)
-	return (handle_error(3, shell_info, 1), NULL);
-
-    env_join = concatenate_strings(env_join2, value);
-    free(env_join2);
-
-    if (!env_join)
-	return (handle_error(3, shell_info, 1), NULL);
-
-    for (i = 0; env && env[i] != NULL; i++) {
-	int check = 0;
-	int j;
-	for (j = 0; j < len_variable && env[i][j] != '\0'; j++) {
-	    if (variable[j] == '=')
-		return (free(env_join), handle_error(3, shell_info, 2), NULL);
-
-	    if (env[i][j] == variable[j])
-		check++;
-	}
-
-	if (check == len_variable && env[i][check] == '=') {
-	    free(env[i]);
-	    copy_dup = _str_duplicate(env_join);
-	    free(env_join);
-
-	    if (!copy_dup)
+	if (!variable || string_length(variable) == 0)
 		return (handle_error(3, shell_info, 1), NULL);
 
-	    return (env[i] = copy_dup, env);
+	len_variable = string_length(variable);
+	len_env = string_array_length(env);
+	env_join2 = concatenate_strings(variable, "=");
+
+	if (!env_join2)
+		return (handle_error(3, shell_info, 1), NULL);
+
+	env_join = concatenate_strings(env_join2, value);
+	free(env_join2);
+
+	if (!env_join)
+		return (handle_error(3, shell_info, 1), NULL);
+
+	for (i = 0; env && env[i] != NULL; i++)
+	{
+		int check = 0;
+		int j;
+		for (j = 0; j < len_variable && env[i][j] != '\0'; j++)
+		{
+			if (variable[j] == '=')
+				return (free(env_join), handle_error(3, shell_info, 2), NULL);
+
+			if (env[i][j] == variable[j])
+				check++;
+		}
+
+		if (check == len_variable && env[i][check] == '=')
+		{
+			free(env[i]);
+			copy_dup = _str_duplicate(env_join);
+			free(env_join);
+
+			if (!copy_dup)
+				return (handle_error(3, shell_info, 1), NULL);
+
+			return (env[i] = copy_dup, env);
+		}
 	}
-    }
 
-    copy = copy_double_pointer(env, len_env, len_env + 1);
-    free_double_pointer(env);
+	copy = copy_double_pointer(env, len_env, len_env + 1);
+	free_double_pointer(env);
 
-    if (!copy)
-	return (free(env_join), handle_error(3, shell_info, 1), NULL);
+	if (!copy)
+		return (free(env_join), handle_error(3, shell_info, 1), NULL);
 
-    env = copy;
-    copy_dup = _str_duplicate(env_join);
-    free(env_join);
+	env = copy;
+	copy_dup = _str_duplicate(env_join);
+	free(env_join);
 
-    if (!copy_dup)
-	return (handle_error(3, shell_info, 1), NULL);
+	if (!copy_dup)
+		return (handle_error(3, shell_info, 1), NULL);
 
-    return (env[len_env] = copy_dup, env);
+	return (env[len_env] = copy_dup, env);
 }
