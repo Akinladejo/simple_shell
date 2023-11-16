@@ -68,10 +68,10 @@ ssize_t help_cmd(ShellInfo *shell_info)
 	{"env", help_env},
 	{"setenv", help_setenv},
 }
-	
+
 	int i = 3;
 	int p = 1;
-	
+
 	for (; shell_info->command_options[p]; p++, i = 3)
 	{
 		while (i--);
