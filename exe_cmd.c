@@ -9,7 +9,7 @@
 #include <unistd.h>
 
 /**
- * @execute_command - Execute a command using fork and execve
+ * execute_command - Execute a command using fork and execve
  *
  * @program: Path to the command executable
  * @command: Arguments for the command
