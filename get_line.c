@@ -17,9 +17,9 @@
  */
 char *_memset(char *dest, char value, unsigned int count)
 {
-	unsigned int i; /* Declare 'i' outside of the loop */
+	int i;
 
-	for (i = 0; i < count; i++)
+	for (unsigned i = 0; i < count; i++)
 	{
 		dest[i] = value;
 	}
@@ -37,6 +37,7 @@ char *_memset(char *dest, char value, unsigned int count)
 void *_realloc(void *ptr, unsigned int old_size, unsigned int new_size)
 {
 	void *new_ptr = malloc(new_size);
+
 	if (new_ptr == NULL)
 	{
 		return (NULL);
@@ -51,7 +52,7 @@ void *_realloc(void *ptr, unsigned int old_size, unsigned int new_size)
 }
 
 /**
- * get_line - Reads a line from a file descriptor into a buffer
+ * Reads a line from a file descriptor into a buffer.
  *
  * @buffer: Pointer to the buffer that will contain the line
  * @buffer_size: Pointer to the size of the buffer
@@ -64,7 +65,6 @@ int get_line(char **buffer, size_t *buffer_size, int file_descriptor)
 	size_t size = BUFFER_SIZE;
 	size_t len = 0;
 	int read_result;
-	size_t i;
 
 	buf = malloc(size);
 	if (buf == NULL)
@@ -74,7 +74,8 @@ int get_line(char **buffer, size_t *buffer_size, int file_descriptor)
 
 	while (1)
 	{
-		read_result = read(file_descriptor, buf + len, size - len);
+		read_result = read_file_into_buffer(&buf, &len, size, file_descriptor);
+
 		if (read_result == -1)
 		{
 			free(buf);
@@ -90,38 +91,88 @@ int get_line(char **buffer, size_t *buffer_size, int file_descriptor)
 
 		if (len >= size)
 		{
-			size *= 2;
-			buf = _realloc(buf, size, size);
-			if (buf == NULL)
+			if (!resize_buffer(&buf, &size, size))
 			{
 				free(buf);
 				return (-1);
 			}
 		}
 
-		for (i = 0; i < len; i++)
+		if (process_buffer(buf, len, buffer, buffer_size, &size))
 		{
-			switch (buf[i])
-			{
-				case '\n':
-					buf[i] = '\0';
-					*buffer = buf;
-					*buffer_size = size;
-					return (len);
-				default:
-					break;
-			}
+			return (len);
 		}
 	}
 
-	if (len == 0)
+	free(buf);
+	return ((len == 0) ? -1 : len);
+}
+
+/**
+ * Reads data from a file descriptor into the buffer.
+ *
+ * @buf: Pointer to the buffer
+ * @len: Pointer to the length of the buffer
+ * @size: Size of the buffer
+ * @file_descriptor: File descriptor to read from
+ * Return: Number of bytes read, or -1 on failure
+ */
+int read_file_into_buffer(char **buf, size_t *len, size_t size, int file_descriptor)
+{
+	int read_result;
+
+	read_result = read(file_descriptor, *buf + *len, size - *len);
+
+	if (read_result == -1)
 	{
-		free(buf);
 		return (-1);
 	}
 
-	buf[len] = '\0';
-	*buffer = buf;
-	*buffer_size = size;
-	return (len);
+	return (read_result);
+}
+
+/**
+ * Resizes the buffer if needed.
+ *
+ * @buf: Pointer to the buffer
+ * @size: Pointer to the size of the buffer
+ * @min_size: Minimum size required
+ * Return: 1 on success, 0 on failure
+ */
+int resize_buffer(char **buf, size_t *size, size_t min_size)
+{
+	*size *= 2;
+
+	*buf = _realloc(*buf, *size / 2, *size);
+	return ((*buf != NULL) ? 1 : 0);
+}
+
+/**
+ * Processes the buffer, checking for newline characters.
+ *
+ * @buf: Pointer to the buffer
+ * @len: Length of the buffer
+ * @buffer: Pointer to the output buffer
+ * @buffer_size: Pointer to the size of the output buffer
+ * @size: Pointer to the size of the buffer
+ * Return: 1 if newline is found, 0 otherwise
+ */
+int process_buffer(char *buf, size_t len, char **buffer, size_t *buffer_size, size_t *size)
+{
+	size_t i;
+
+	for (i = 0; i < len; i++)
+	{
+		switch (buf[i])
+		{
+			case '\n':
+				buf[i] = '\0';
+				*buffer = buf;
+				*buffer_size = *size;
+				return (1);
+			default:
+				break;
+		}
+	}
+	return (0);
 }
