@@ -63,7 +63,7 @@ int read_file_into_buffer(char **buf, size_t *len, size_t size, int file_descrip
  * @min_size: Minimum size required
  * Return: 1 on success, 0 on failure
  */
-int resize_buffer(char **buf, size_t *size, size_t min_size)
+int resize_buffer(char **buf, size_t *size)
 {
 	*size *= 2;
 
@@ -156,5 +156,5 @@ int get_line(char **buffer, size_t *buffer_size, int file_descriptor)
 	}
 
 	free(buf);
-	return ((len == 0) ? -1 : len);
+	return ((len == 0) ? (size_t)-1 : len);
 }
