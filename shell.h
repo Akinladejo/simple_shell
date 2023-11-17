@@ -141,6 +141,11 @@ int *exit_number, int *logical_relation,
 int *is_runnable, char ***environment,
 int *unset_environment);
 
+void *_realloc(void *ptr, unsigned int old_size, unsigned int new_size);
+int read_file_into_buffer(char **buf, size_t *len, size_t size, int file_descriptor);
+int resize_buffer(char **buf, size_t *size, size_t min_size);
+int process_buffer(char *buf, size_t len, char **buffer, size_t *buffer_size, size_t *size);
+
 /**
  * handle_error - Handle errors
  */
