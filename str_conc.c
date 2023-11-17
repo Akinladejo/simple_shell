@@ -35,5 +35,5 @@ char *concatenate_strings(const char *s1, const char *s2)
 	_string_copy(result, s1);
 	/* Copy the second string into the result after the first one */
 	_string_copy(result + l1, s2);
-	return result;
+	return (result);
 }
