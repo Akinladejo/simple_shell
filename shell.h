@@ -133,6 +133,7 @@ int string_array_length(char **array);
  */
 char **check_input(int argument_count, char **arguments, size_t *buffer_size,
 char **buffer, ShellInfo *shell_info);
+char **get_user_input(size_t *buffer_size, char **buffer, ShellInfo *shell_info);
 /**
  * initialize_shell_info - Initialize the shell information structure
  */
