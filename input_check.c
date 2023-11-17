@@ -30,7 +30,6 @@ char **buffer, ShellInfo *shell_info)
 			if (isatty(STDIN_FILENO))
 				write(1, "$ ", 2);
 			characters = getline(buffer, buffer_size, stdin);
-
 			if (characters == -1)
 			{
 				exit_number = shell_info->exit_number[0];
@@ -44,10 +43,8 @@ char **buffer, ShellInfo *shell_info)
 					write(1, "\n", 1);
 				exit(exit_number);
 			}
-
 			if (**buffer == '#' || !characters || **buffer == '\n')
 				return (NULL);
-
 			*buffer = remove_comments(*buffer);
 			command = get_parameters(*buffer, shell_info);
 			break;
@@ -58,7 +55,6 @@ char **buffer, ShellInfo *shell_info)
 				handle_error(7, shell_info, 1);
 				exit(1);
 			}
-
 			command[argument_count - 1] = '\0';
 			while (argument_count--)
 				command[argument_count - 1] = arguments[argument_count];
