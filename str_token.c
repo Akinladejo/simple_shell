@@ -19,12 +19,9 @@
 char *init_string_token(char *str)
 {
 	static char *step;
-	int isEnd;
 
-	isEnd = 0;
 	if (str)
 	{
-		isEnd = 0;
 		step = str;
 	}
 
@@ -43,7 +40,8 @@ char *_string_token(char *str, const char *delimiter)
 {
 	char *start;
 	static char *step;
-	static int isEnd;
+	static int isEnd = 0;
+	str = NULL;
 
 	if (*step == '\0')
 	{
