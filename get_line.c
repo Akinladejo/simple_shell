@@ -7,26 +7,6 @@
 #define BUFFER_SIZE 1024
 
 /**
- * _memset - Fills the first n bytes of the memory area pointed to by dest
- *           with the constant byte value.
- *
- * @dest: Pointer to the memory area
- * @value: Byte value to be set
- * @count: Number of bytes to set
- * Return: (Pointer to the memory area dest)
- */
-char *_memset(char *dest, char value, unsigned int count)
-{
-	int i;
-
-	for (unsigned i = 0; i < count; i++)
-	{
-		dest[i] = value;
-	}
-	return (dest);
-}
-
-/**
  * _realloc - Reallocates a memory block using malloc and free
  *
  * @ptr: Pointer to the old memory block
@@ -52,7 +32,7 @@ void *_realloc(void *ptr, unsigned int old_size, unsigned int new_size)
 }
 
 /**
- * Reads a line from a file descriptor into a buffer.
+ * get_line - Reads a line from a file descriptor into a buffer.
  *
  * @buffer: Pointer to the buffer that will contain the line
  * @buffer_size: Pointer to the size of the buffer
@@ -109,7 +89,7 @@ int get_line(char **buffer, size_t *buffer_size, int file_descriptor)
 }
 
 /**
- * Reads data from a file descriptor into the buffer.
+ * read_file_into_buffer - Reads data from a file descriptor.
  *
  * @buf: Pointer to the buffer
  * @len: Pointer to the length of the buffer
@@ -132,7 +112,7 @@ int read_file_into_buffer(char **buf, size_t *len, size_t size, int file_descrip
 }
 
 /**
- * Resizes the buffer if needed.
+ * resize_buffer - Resizes the buffer if needed.
  *
  * @buf: Pointer to the buffer
  * @size: Pointer to the size of the buffer
@@ -148,7 +128,7 @@ int resize_buffer(char **buf, size_t *size, size_t min_size)
 }
 
 /**
- * Processes the buffer, checking for newline characters.
+ * process_buffer - Processes the buffer.
  *
  * @buf: Pointer to the buffer
  * @len: Length of the buffer
