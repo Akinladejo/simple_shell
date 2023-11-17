@@ -8,12 +8,11 @@
 #include <unistd.h>
 
 /**
- * get_parameters - Get parameters from the input buffer.
+ * get_parameters - Tokenize the input buffer into parameters
+ * @raw_buffer: The raw input buffer
+ * @shell_info: Shell information structure
  *
- * @raw_buffer: Raw input buffer containing the command and its params.
- * @shell_info: Pointer to the ShellInfo structure.
- * Return: 1 On success, returns an arr of str representing the parameters.
- *         On failure, returns (NULL).
+ * Return: Array of pointers to parameters or NULL on failure
  */
 char **get_parameters(char *raw_buffer, ShellInfo *shell_info)
 {
@@ -35,6 +34,7 @@ char **get_parameters(char *raw_buffer, ShellInfo *shell_info)
 		free(cp_raw_buffer);
 		return (NULL);
 	}
+
 	while (_string_token(NULL, " \n"))
 		cnt++;
 
@@ -50,6 +50,7 @@ char **get_parameters(char *raw_buffer, ShellInfo *shell_info)
 	buffer[0] = _string_token(raw_buffer, " \n");
 	for (i = 1; i < cnt && buffer[i - 1]; i++)
 		buffer[i] = _string_token(NULL, " \n");
+
 	switch (!buffer[i - 1])
 	{
 		case 1:
