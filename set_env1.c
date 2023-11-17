@@ -11,10 +11,9 @@
  */
 int search_environment_variable(char **env, char *variable)
 {
-	int i, j, check, len_variable, len_env;
+	int i, j, check, len_variable;
 
 	len_variable = string_length(variable);
-	len_env = string_array_length(env);
 
 	for (i = 0; env && env[i] != NULL; i++)
 	{
