@@ -8,16 +8,14 @@
 #include <unistd.h>
 
 /**
- * check_input - Check for input after the shell prompt
- * @argument_count: Count of main arguments
- * @arguments: Main arguments
- * @buffer_size: Size of the buffer in the prompt
- * @buffer: Buffer in the prompt
- * @shell_info: Struct containing shell information
+ * get_user_input - Gets user input from the command line.
  *
- * Return: On success, returns a command array. On error, exits the program.
+ * @buffer_size: Pointer to the size of the buffer.
+ * @buffer: Pointer to the buffer storing the user input.
+ * @shell_info: Pointer to ShellInfo structure containing shell information.
+ *
+ * Return: Double pointer to the parsed command or NULL if no valid input.
  */
-
 char **get_user_input(size_t *buffer_size, char **buffer, ShellInfo *shell_info)
 {
 	ssize_t characters;
@@ -45,10 +43,21 @@ char **get_user_input(size_t *buffer_size, char **buffer, ShellInfo *shell_info)
 	return (command);
 }
 
+/**
+ * check_input - Check for input after the shell prompt
+ * @argument_count: Count of main arguments
+ * @arguments: Main arguments
+ * @buffer_size: Size of the buffer in the prompt
+ * @buffer: Buffer in the prompt
+ * @shell_info: Struct containing shell information
+ *
+ * Return: On success, returns a command array. On error, exits the program.
+ */
 char **check_input(int argument_count, char **arguments, size_t *buffer_size,
-                   char **buffer, ShellInfo *shell_info)
+char **buffer, ShellInfo *shell_info)
 {
 	char **command;
+	
 	switch (argument_count)
 	{
 		case 1:
