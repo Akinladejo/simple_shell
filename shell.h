@@ -161,6 +161,10 @@ void add_path_to_command(ShellInfo *shell_info, char *path_command);
  * execute_built_ins - Execute built-in commands
  */
 ssize_t execute_built_ins(ShellInfo *shell_info);
+char *auxiliary_cd(ShellInfo *shell_info, char *current_directory);
+char *auxiliary_cd_2(ShellInfo *shell_info, char *current_directory);
+ssize_t cd_command(ShellInfo *shell_info);
+
 
 /**
  * exit_command - Handle the exit command
