@@ -15,15 +15,15 @@
 ssize_t cd_command(ShellInfo *shell_info)
 {
 	int exit_code = 1;
+	char *current_directory = get_current_directory();
+	char *directory = get_directory(shell_info);
 
 	if (!validate_cd_arguments(shell_info))
 		return (-1);
 
-	char *current_directory = get_current_directory();
 	if (!current_directory)
 		return (-1);
 
-	char *directory = get_directory(shell_info);
 	if (!directory)
 	{
 		free(current_directory);
@@ -68,6 +68,7 @@ int validate_cd_arguments(ShellInfo *shell_info)
 char *get_current_directory(void)
 {
 	char *current_directory = getcwd(NULL, 4096);
+
 	if (!current_directory)
 	{
 		handle_error(4, shell_info, 2);
