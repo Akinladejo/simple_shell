@@ -141,7 +141,8 @@ char **get_parameters(char *buffer, ShellInfo *shell_info);
  *
  * Return: The exit status of the executed command.
  */
-int execute_command(char *program, char *command[], char **env, ShellInfo *shell_info);
+int execute_command(char *program, char *command[], char **env,
+ShellInfo *shell_info);
 
 /**
  * handle_signal - Handle a signal
@@ -474,7 +475,7 @@ const char *directory);
  * @directory: The target directory
  */
 void free_resources(ShellInfo *shell_info, char *current_directory,
-                    char *directory);
+char *directory);
 
 /**
  * remove_comments - Remove comments from a string
