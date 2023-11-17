@@ -35,11 +35,12 @@ char **copy_double_pointer(char **pointer, int old_size, int new_size)
 	int i; /* Move declaration to the beginning */
 	int copy_size
 	char **copy
+
 	copy_size = (new_size < old_size) ? new_size : old_size;
 	copy = malloc(sizeof(char *) * (copy_size + 1));
 
 	if (!copy)
-		return NULL;
+		return (NULL);
 
 	for (i = 0; i < copy_size; i++)
 	{
@@ -49,12 +50,12 @@ char **copy_double_pointer(char **pointer, int old_size, int new_size)
 			while (--i >= 0)
 				free(copy[i]);
 			free(copy);
-			return NULL;
+			return (NULL);
 		}
 	}
 
 	copy[new_size] = NULL;
-	return copy;
+	return (copy);
 }
 
 /**
@@ -69,10 +70,10 @@ int string_array_length(char **array)
 	int length; /* Move declaration to the beginning */
 
 	if (array == NULL)
-		return 0;
+		return (0);
 
 	for (length = 0; array[length] != NULL; length++)
 		;
 
-	return length;
+	return (length);
 }
