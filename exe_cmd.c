@@ -16,7 +16,7 @@
  * @env: Current environment variables
  * @shell_info: Shell information structure
  *
- * Returns: 0 on success, -1 on error
+ * Return: 0 on success, -1 on error
  */
 int execute_command(char *program, char *command[], char **env,
 		    ShellInfo *shell_info)
