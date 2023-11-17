@@ -59,7 +59,7 @@ char *_pathcheck(const char *path)
  * @env: The environment variables
  * @shpack: The ShellInfo structure
  *
- * : The full path of the command if found, or NULL if not found.
+ * Return: The full path of the command if found, or NULL if not found.
  */
 char *_path(const char *cmd, char **env, ShellInfo *shpack)
 {
