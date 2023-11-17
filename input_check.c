@@ -16,7 +16,8 @@
  *
  * Return: Double pointer to the parsed command or NULL if no valid input.
  */
-char **get_user_input(size_t *buffer_size, char **buffer, ShellInfo *shell_info)
+char **get_user_input(size_t *buffer_size, char **buffer,
+ShellInfo *shell_info)
 {
 	ssize_t characters;
 	char **command;
@@ -57,7 +58,7 @@ char **check_input(int argument_count, char **arguments, size_t *buffer_size,
 char **buffer, ShellInfo *shell_info)
 {
 	char **command;
-	
+
 	switch (argument_count)
 	{
 		case 1:
