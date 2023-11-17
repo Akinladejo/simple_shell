@@ -59,7 +59,7 @@ char *_pathcheck(const char *path)
  * @env: The environment variables
  * @shpack: The ShellInfo structure
  *
- * Return: The full path of the command if found, or NULL if not found.
+ * : The full path of the command if found, or NULL if not found.
  */
 char *_path(const char *cmd, char **env, ShellInfo *shpack)
 {
@@ -72,37 +72,29 @@ char *_path(const char *cmd, char **env, ShellInfo *shpack)
 
 	if (!cmd || !env || !shpack)
 		return (NULL);
-
 	path2 = _get_environment_variable("PATH", env);
-
 	if (!path2)
 		return (NULL);
 
 	path = _str_duplicate(path2);
 	pathcheck = _pathcheck(path);
-
 	if (pathcheck)
 		path = pathcheck;
-
 	delim = ":=";
 	token = _string_token(path, delim);
-
 	while (token)
 	{
 		char *concat = concatenate_strings(token, "/");
 		char *concat2 = concatenate_strings(concat, cmd);
 		free(concat);
-
 		if (stat(concat2, &st) == 0)
 		{
 			free(path);
 			return (concat2);
 		}
-
 		free(concat2);
 		token = _string_token(NULL, delim);
 	}
-
 	free(path);
 	return (NULL);
 }
@@ -121,7 +113,7 @@ char *_get_environment_variable(const char *name, char **env)
 	int i;
 
 	if (!name || !env)
-		return NULL;
+		return (NULL);
 
 	for (i = 0; env[i] != NULL; i++)
 	{
@@ -131,7 +123,7 @@ char *_get_environment_variable(const char *name, char **env)
 			return env[i] + strlen(name) + 1;
 		}
 	}
-	return NULL;
+	return (NULL);
 }
 
 /**
@@ -147,15 +139,15 @@ char *_str_duplicate(const char *str)
 	char *dup_str;
 
 	if (!str)
-		return NULL;
+		return (NULL);
 
 	len = strlen(str) + 1;
 	dup_str = malloc(len);
 
 	if (!dup_str)
-		return NULL;
+		return (NULL);
 
-	return strcpy(dup_str, str);
+	return (strcpy(dup_str, str));
 }
 
 /**
@@ -171,7 +163,7 @@ char *_string_token(char *str, const char *delim)
 	char *token;
 
 	if (!str && !delim)
-		return NULL;
+		return (NULL);
 
 	last_str = NULL;
 
@@ -180,7 +172,7 @@ char *_string_token(char *str, const char *delim)
 
 	token = strtok(last_str, delim);
 	last_str = NULL;
-	return token;
+	return (token);
 }
 
 /**
@@ -198,16 +190,16 @@ char *concatenate_strings(const char *str1, const char *str2)
 	char *result;
 
 	if (!str1 || !str2)
-		return NULL;
+		return (NULL);
 
 	len1 = strlen(str1);
 	len2 = strlen(str2);
 	result = malloc(len1 + len2 + 1);
 
 	if (!result)
-		return NULL;
+		return (NULL);
 
 	strcpy(result, str1);
 	strcat(result, str2);
-	return result;
+	return (result);
 }
