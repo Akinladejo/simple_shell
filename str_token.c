@@ -41,6 +41,8 @@ char *init_string_token(char *str)
 char *_string_token(char *str, const char *delimiter);
 {
 	char *start;
+	static char *step;
+	static int isEnd;
 
 	if (*step == '\0')
 	{
