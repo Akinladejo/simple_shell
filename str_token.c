@@ -19,8 +19,9 @@
 char *init_string_token(char *str)
 {
 	static char *step;
-	static int isEnd;
+	int isEnd;
 
+	isEnd = 0;
 	if (str)
 	{
 		isEnd = 0;
@@ -38,7 +39,7 @@ char *init_string_token(char *str)
  *
  * Return: Tokenized substring or NULL if the end of the string is reached
  */
-char *_string_token(char *str, const char *delimiter);
+char *_string_token(char *str, const char *delimiter)
 {
 	char *start;
 	static char *step;
