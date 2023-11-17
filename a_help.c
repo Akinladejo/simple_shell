@@ -67,11 +67,11 @@ ssize_t help_cmd(ShellInfo *shell_info)
 	HelpInfo help[] = {
 	{"exit", help_exit},
 	{"env", help_env},
-	{"setenv", help_setenv},
-}
+	{"setenv", help_setenv}
+};
 
-	int i = 3;
-	int p = 1;
+	int i;
+	int p;
 
 	for (; shell_info->command_options[p]; p++, i = 3)
 	{
