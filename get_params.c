@@ -8,11 +8,13 @@
 #include <unistd.h>
 
 /**
- * get_parameters - Tokenize the input buffer into parameters
- * @raw_buffer: The raw input buffer
- * @shell_info: Shell information structure
+ * get_parameters - Get parameters from the input buffer.
  *
- * Return: Array of pointers to parameters or NULL on failure
+ * @raw_buffer: Raw input buffer containing the command and its params.
+ * @shell_info: Pointer to the ShellInfo structure.
+ *
+ * Return: On success, returns an array of strings representing the parameters.
+ *         On failure, returns NULL.
  */
 char **get_parameters(char *raw_buffer, ShellInfo *shell_info)
 {
@@ -20,11 +22,10 @@ char **get_parameters(char *raw_buffer, ShellInfo *shell_info)
 	ssize_t cnt = 0, i = 0;
 
 	cp_raw_buffer = _str_duplicate(raw_buffer);
-	switch (!cp_raw_buffer)
+	if (!cp_raw_buffer)
 	{
-		case 1:
-			handle_error(7, shell_info, 1);
-			return (NULL);
+		handle_error(7, shell_info, 1);
+		return (NULL);
 	}
 
 	if (_string_token(cp_raw_buffer, " \n"))
@@ -40,23 +41,21 @@ char **get_parameters(char *raw_buffer, ShellInfo *shell_info)
 
 	free(cp_raw_buffer);
 	buffer = malloc(sizeof(char *) * (cnt + 1));
-	switch (!buffer)
+	if (!buffer)
 	{
-		case 1:
-			handle_error(7, shell_info, 1);
-			return (NULL);
+		handle_error(7, shell_info, 1);
+		return (NULL);
 	}
 
 	buffer[0] = _string_token(raw_buffer, " \n");
 	for (i = 1; i < cnt && buffer[i - 1]; i++)
 		buffer[i] = _string_token(NULL, " \n");
 
-	switch (!buffer[i - 1])
+	if (!buffer[i - 1])
 	{
-		case 1:
-			handle_error(8, shell_info, 1);
-			free_double_pointer(buffer);
-			return (NULL);
+		handle_error(8, shell_info, 1);
+		free_double_pointer(buffer);
+		return (NULL);
 	}
 
 	buffer[i] = NULL;
