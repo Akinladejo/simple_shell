@@ -201,6 +201,7 @@ char **copy_double_pointer(char **pointer, int old_size, int new_size);
  */
 char **set_environment_variable(char **env, char *variable, char *value,
 				ShellInfo *shell_info);
+int search_environment_variable(char **env, char *variable);
 
 /**
  * unset_environment_variable - Unset an environment variable
