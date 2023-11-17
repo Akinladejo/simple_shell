@@ -86,6 +86,7 @@ char *_path(const char *cmd, char **env, ShellInfo *shpack)
 	{
 		char *concat = concatenate_strings(token, "/");
 		char *concat2 = concatenate_strings(concat, cmd);
+
 		free(concat);
 		if (stat(concat2, &st) == 0)
 		{
@@ -106,7 +107,7 @@ char *_path(const char *cmd, char **env, ShellInfo *shpack)
  * @name: The name of the environment variable
  * @env: The environment variables
  *
- * Return: The value of the environment variable if found, or NULL if not found.
+ * Return: The value of the env variable if found, or NULL if not found.
  */
 char *_get_environment_variable(const char *name, char **env)
 {
@@ -120,7 +121,7 @@ char *_get_environment_variable(const char *name, char **env)
 		if (strncmp(env[i], name, strlen(name)) == 0 &&
 			env[i][strlen(name)] == '=')
 		{
-			return env[i] + strlen(name) + 1;
+			return (env[i] + strlen(name) + 1);
 		}
 	}
 	return (NULL);
