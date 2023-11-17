@@ -1,3 +1,7 @@
+#include "shell.h"
+#include <stdio.h>
+#include <stdlib.h>
+
 /**
  * search_environment_variable - Search for an existing environment variable.
  * @env: Pointer to an array of strings representing the environment variables.
