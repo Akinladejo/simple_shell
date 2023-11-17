@@ -38,7 +38,7 @@ void display_help_change_directory(void)
 	print_string("    Each time cd runs successfully, the env variable ");
 	print_string("    PWD is updated\n\n");
 	print_string("    Exit Status:\n");
-	print_string("    Returns 1 if the directory is changed,"\n
+	print_string("    Returns 1 if the directory is changed,\n"
 		"and if $PWD is set\n");
 	print_string("    successfully when\n");
 	print_string("    is used; -1 otherwise.\n");
