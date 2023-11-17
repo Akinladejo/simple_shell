@@ -17,7 +17,7 @@
  */
 char *_memset(char *dest, char value, unsigned int count)
 {
-	unsigned  int i;
+	unsigned int i;
 
 	for (i = 0; i < count; i++)
 	{
