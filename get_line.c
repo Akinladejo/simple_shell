@@ -74,6 +74,8 @@ int resize_buffer(char **buf, size_t *size)
  * process_buffer - Processes the buffer.
  *
  * @buf: Pointer to the buffer
+ * @buffer: buffer code
+ * @buffer_size: buffer size
  * @len: Length of the buffer
  * @size: Pointer to the size of the buffer
  * Return: 1 if newline is found, 0 otherwise
@@ -107,10 +109,6 @@ int process_buffer(char *buf, size_t len, char **buffer,
  * @fd: File descriptor to read from
  * Return: (Number of bytes read, or -1 on failure)
  */
-#include <stdlib.h>
-#include <unistd.h>
-
-#define BUFFER_SIZE 1024
 
 int get_line(char **buffer, size_t *buffer_size, int fd)
 {
