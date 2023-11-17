@@ -9,7 +9,7 @@ ssize_t cd_command(ShellInfo *shell_info)
 	int exit_code = 1;
 
 	if (!validate_cd_arguments(shell_info))
-		return -1;
+		return (-1);
 
 	char *current_directory = get_current_directory();
 	if (!current_directory)
