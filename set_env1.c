@@ -22,16 +22,16 @@ int search_environment_variable(char **env, char *variable)
 		for (j = 0; j < len_variable && env[i][j] != '\0'; j++)
 		{
 			if (variable[j] == '=')
-				return -1;
+				return (-1);
 			if (env[i][j] == variable[j])
 				check++;
 		}
 
 		if (check == len_variable && env[i][check] == '=')
-			return i;
+			return (i);
 	}
 
-	return -1;
+	return (-1);
 }
 
 /**
