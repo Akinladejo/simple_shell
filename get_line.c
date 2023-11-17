@@ -109,6 +109,11 @@ int process_buffer(char *buf, size_t len, char **buffer, size_t *buffer_size, si
  * @file_descriptor: File descriptor to read from
  * Return: (Number of bytes read, or -1 on failure)
  */
+#include <stdlib.h>
+#include <unistd.h>
+
+#define BUFFER_SIZE 1024
+
 int get_line(char **buffer, size_t *buffer_size, int file_descriptor)
 {
 	char *buf = NULL;
@@ -117,11 +122,8 @@ int get_line(char **buffer, size_t *buffer_size, int file_descriptor)
 	int read_result;
 
 	buf = malloc(size);
-
 	if (buf == NULL)
-	{
 		return (-1);
-	}
 
 	while (1)
 	{
@@ -134,25 +136,18 @@ int get_line(char **buffer, size_t *buffer_size, int file_descriptor)
 		}
 
 		if (read_result == 0)
-		{
 			break;
-		}
 
 		len += read_result;
 
-		if (len >= size)
+		if (len >= size && !resize_buffer(&buf, &size))
 		{
-			if (!resize_buffer(&buf, &size))
-			{
-				free(buf);
-				return (-1);
-			}
+			free(buf);
+			return (-1);
 		}
 
 		if (process_buffer(buf, len, buffer, buffer_size, &size))
-		{
 			return (len);
-		}
 	}
 
 	free(buf);
