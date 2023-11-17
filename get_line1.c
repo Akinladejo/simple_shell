@@ -17,9 +17,9 @@
  */
 char *_memset(char *dest, char value, unsigned int count)
 {
-	int i;
+	unsigned  int i;
 
-	for (unsigned i = 0; i < count; i++)
+	for (i = 0; i < count; i++)
 	{
 		dest[i] = value;
 	}
