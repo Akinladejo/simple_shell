@@ -169,6 +169,8 @@ void change_directory(char *directory);
 char *get_directory(ShellInfo *shell_info);
 char *get_current_directory(void);
 int check_num_args(ShellInfo *shell_info);
+int validate_cd_arguments(ShellInfo *shell_info);
+void cleanup(ShellInfo *shell_info, char *current_directory, char *directory);
 
 /**
  * exit_command - Handle the exit command
