@@ -46,7 +46,6 @@ char **get_parameters(char *raw_buffer, ShellInfo *shell_info)
 		handle_error(7, shell_info, 1);
 		return (NULL);
 	}
-
 	buffer[0] = _string_token(raw_buffer, " \n");
 	for (i = 1; i < cnt && buffer[i - 1]; i++)
 		buffer[i] = _string_token(NULL, " \n");
@@ -57,7 +56,6 @@ char **get_parameters(char *raw_buffer, ShellInfo *shell_info)
 		free_double_pointer(buffer);
 		return (NULL);
 	}
-
 	buffer[i] = NULL;
 	return (buffer);
 }
