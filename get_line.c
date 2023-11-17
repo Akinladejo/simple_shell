@@ -31,62 +31,6 @@ void *_realloc(void *ptr, unsigned int old_size, unsigned int new_size)
 	return (new_ptr);
 }
 
-/**
- * get_line - Reads a line from a file descriptor into a buffer.
- *
- * @buffer: Pointer to the buffer that will contain the line
- * @buffer_size: Pointer to the size of the buffer
- * @file_descriptor: File descriptor to read from
- * Return: (Number of bytes read, or -1 on failure)
- */
-int get_line(char **buffer, size_t *buffer_size, int file_descriptor)
-{
-	char *buf = NULL;
-	size_t size = BUFFER_SIZE;
-	size_t len = 0;
-	int read_result;
-
-	buf = malloc(size);
-	if (buf == NULL)
-	{
-		return (-1);
-	}
-
-	while (1)
-	{
-		read_result = read_file_into_buffer(&buf, &len, size, file_descriptor);
-
-		if (read_result == -1)
-		{
-			free(buf);
-			return (-1);
-		}
-
-		if (read_result == 0)
-		{
-			break;
-		}
-
-		len += read_result;
-
-		if (len >= size)
-		{
-			if (!resize_buffer(&buf, &size, size))
-			{
-				free(buf);
-				return (-1);
-			}
-		}
-
-		if (process_buffer(buf, len, buffer, buffer_size, &size))
-		{
-			return (len);
-		}
-	}
-
-	free(buf);
-	return ((len == 0) ? -1 : len);
-}
 
 /**
  * read_file_into_buffer - Reads data from a file descriptor.
@@ -155,4 +99,62 @@ int process_buffer(char *buf, size_t len, char **buffer, size_t *buffer_size, si
 		}
 	}
 	return (0);
+}
+
+/**
+ * get_line - Reads a line from a file descriptor into a buffer.
+ *
+ * @buffer: Pointer to the buffer that will contain the line
+ * @buffer_size: Pointer to the size of the buffer
+ * @file_descriptor: File descriptor to read from
+ * Return: (Number of bytes read, or -1 on failure)
+ */
+int get_line(char **buffer, size_t *buffer_size, int file_descriptor)
+{
+	char *buf = NULL;
+	size_t size = BUFFER_SIZE;
+	size_t len = 0;
+	int read_result;
+
+	buf = malloc(size);
+
+	if (buf == NULL)
+	{
+		return (-1);
+	}
+
+	while (1)
+	{
+		read_result = read_file_into_buffer(&buf, &len, size, file_descriptor);
+
+		if (read_result == -1)
+		{
+			free(buf);
+			return (-1);
+		}
+
+		if (read_result == 0)
+		{
+			break;
+		}
+
+		len += read_result;
+
+		if (len >= size)
+		{
+			if (!resize_buffer(&buf, &size, size))
+			{
+				free(buf);
+				return (-1);
+			}
+		}
+
+		if (process_buffer(buf, len, buffer, buffer_size, &size))
+		{
+			return (len);
+		}
+	}
+
+	free(buf);
+	return ((len == 0) ? -1 : len);
 }
