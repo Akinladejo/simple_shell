@@ -142,7 +142,7 @@ int get_line(char **buffer, size_t *buffer_size, int file_descriptor)
 
 		if (len >= size)
 		{
-			if (!resize_buffer(&buf, &size, size))
+			if (!resize_buffer(&buf, &size))
 			{
 				free(buf);
 				return (-1);
