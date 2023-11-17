@@ -20,9 +20,7 @@
 char **check_input(int argument_count, char **arguments, size_t *buffer_size,
 char **buffer, ShellInfo *shell_info)
 {
-	ssize_t characters;
-	char **command;
-	int exit_number;
+	ssize_t characters; char **command; int exit_number;
 
 	switch (argument_count)
 	{
