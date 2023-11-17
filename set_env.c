@@ -32,9 +32,9 @@ void free_double_pointer(char **pointer)
  */
 char **copy_double_pointer(char **pointer, int old_size, int new_size)
 {
-	int i; /* Move declaration to the beginning */
-	int copy_size
-	char **copy
+	int i;
+	int copy_size;
+	char **copy;
 
 	copy_size = (new_size < old_size) ? new_size : old_size;
 	copy = malloc(sizeof(char *) * (copy_size + 1));
