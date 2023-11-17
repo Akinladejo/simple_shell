@@ -44,7 +44,7 @@ int search_environment_variable(char **env, char *variable)
  * Return: Pointer to the modified or new environment array, or NULL on error.
  */
 char **set_environment_variable(char **env, char *variable, char *value,
-                                ShellInfo *shell_info)
+ShellInfo *shell_info)
 {
 	int index;
 	char *env_join2, *env_join, **copy, *copy_dup;
@@ -73,7 +73,8 @@ char **set_environment_variable(char **env, char *variable, char *value,
 		return (env[index] = copy_dup, env);
 	}
 
-	copy = copy_double_pointer(env, string_array_length(env), string_array_length(env) + 1);
+	copy = copy_double_pointer(env, string_array_length(env),
+		string_array_length(env) + 1);
 	free_double_pointer(env);
 	if (!copy)
 		return (free(env_join), handle_error(3, shell_info, 1), NULL);
