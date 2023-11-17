@@ -38,14 +38,14 @@ void *_realloc(void *ptr, unsigned int old_size, unsigned int new_size)
  * @buf: Pointer to the buffer
  * @len: Pointer to the length of the buffer
  * @size: Size of the buffer
- * @file_descriptor: File descriptor to read from
+ * @fd: File descriptor to read from
  * Return: Number of bytes read, or -1 on failure
  */
-int read_file_into_buffer(char **buf, size_t *len, size_t size, int file_descriptor)
+int read_file_into_buffer(char **buf, size_t *len, size_t size, int fd)
 {
 	int read_result;
 
-	read_result = read(file_descriptor, *buf + *len, size - *len);
+	read_result = read(fd, *buf + *len, size - *len);
 
 	if (read_result == -1)
 	{
@@ -60,7 +60,6 @@ int read_file_into_buffer(char **buf, size_t *len, size_t size, int file_descrip
  *
  * @buf: Pointer to the buffer
  * @size: Pointer to the size of the buffer
- * @min_size: Minimum size required
  * Return: 1 on success, 0 on failure
  */
 int resize_buffer(char **buf, size_t *size)
@@ -76,12 +75,11 @@ int resize_buffer(char **buf, size_t *size)
  *
  * @buf: Pointer to the buffer
  * @len: Length of the buffer
- * @buffer: Pointer to the output buffer
- * @buffer_size: Pointer to the size of the output buffer
  * @size: Pointer to the size of the buffer
  * Return: 1 if newline is found, 0 otherwise
  */
-int process_buffer(char *buf, size_t len, char **buffer, size_t *buffer_size, size_t *size)
+int process_buffer(char *buf, size_t len, char **buffer,
+			size_t *buffer_size, size_t *size)
 {
 	size_t i;
 
@@ -106,7 +104,7 @@ int process_buffer(char *buf, size_t len, char **buffer, size_t *buffer_size, si
  *
  * @buffer: Pointer to the buffer that will contain the line
  * @buffer_size: Pointer to the size of the buffer
- * @file_descriptor: File descriptor to read from
+ * @fd: File descriptor to read from
  * Return: (Number of bytes read, or -1 on failure)
  */
 #include <stdlib.h>
@@ -114,7 +112,7 @@ int process_buffer(char *buf, size_t len, char **buffer, size_t *buffer_size, si
 
 #define BUFFER_SIZE 1024
 
-int get_line(char **buffer, size_t *buffer_size, int file_descriptor)
+int get_line(char **buffer, size_t *buffer_size, int fd)
 {
 	char *buf = NULL;
 	size_t size = BUFFER_SIZE;
@@ -127,7 +125,7 @@ int get_line(char **buffer, size_t *buffer_size, int file_descriptor)
 
 	while (1)
 	{
-		read_result = read_file_into_buffer(&buf, &len, size, file_descriptor);
+		read_result = read_file_into_buffer(&buf, &len, size, fd);
 
 		if (read_result == -1)
 		{
