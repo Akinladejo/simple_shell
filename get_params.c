@@ -10,12 +10,9 @@
 /**
  * get_parameters - Get parameters from the input buffer.
  *
- * This function tokenizes the raw input buffer and returns an array of strings
- * representing the parameters of a command.
- *
- * @param raw_buffer Raw input buffer containing the command and its parameters.
- * @param shell_info Pointer to the ShellInfo structure.
- * @return On success, returns an array of strings representing the parameters.
+ * @raw_buffer: Raw input buffer containing the command and its params.
+ * @shell_info: Pointer to the ShellInfo structure.
+ * Return: 1 On success, returns an arr of str representing the parameters.
  *         On failure, returns (NULL).
  */
 char **get_parameters(char *raw_buffer, ShellInfo *shell_info)
