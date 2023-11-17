@@ -28,7 +28,7 @@ void free_double_pointer(char **pointer)
  * @new_size: The new size of the double pointer.
  *
  * This function copies a double pointer to a new size.
- * Returns the copied double pointer or NULL on failure.
+ * Return: the copied double pointer or NULL on failure.
  */
 char **copy_double_pointer(char **pointer, int old_size, int new_size)
 {
