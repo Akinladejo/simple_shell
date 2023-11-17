@@ -28,7 +28,7 @@ char *auxiliary_cd_2(ShellInfo *shell_info, char *current_directory)
  *
  * @shell_info: Structure containing shell information
  * @current_directory: The current directory
- * Return : Pointer to directory or NULL if fail
+ * Return: Pointer to directory or NULL if fail
  */
 char *auxiliary_cd(ShellInfo *shell_info, char *current_directory)
 {
@@ -59,7 +59,7 @@ char *auxiliary_cd(ShellInfo *shell_info, char *current_directory)
  * cd_command - Built-in command cd
  *
  * @shell_info: Structure containing shell information
- * Return : 1 if successful, -1 if fail
+ * Return: 1 if successful, -1 if fail
  */
 ssize_t cd_command(ShellInfo *shell_info)
 {
