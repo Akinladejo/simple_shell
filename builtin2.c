@@ -1,3 +1,10 @@
+#include "shell.h"
+#include <limits.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <sys/types.h>
+#include <unistd.h>
+
 /**
  * cd_command - Change the current directory based on the provided arguments.
  * @shell_info: Pointer to the ShellInfo struct containing shell information.
