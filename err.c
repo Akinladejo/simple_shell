@@ -146,17 +146,6 @@ char *generate_error_info(int errn, char *result, char *option)
  * @exit_num: Value of exit the shell should have
  * Return: 0 success, -1 fail
  */
-char *error_messages[] = {
-"not found",
-"Permission denied",
-"Illegal number",
-"name is NULL, points to a string of len 0, or has an '=' char.",
-"can't cd to ",
-"Illegal option ",
-"Help command error",
-"Error allocating memory",
-"Wrong Alias",
-NULL};
 
 int create_error(int errn, ShellInfo *shell_info, int exit_num)
 {
@@ -166,6 +155,17 @@ int create_error(int errn, ShellInfo *shell_info, int exit_num)
 	char *current_command;
 	char **command_options;
 	char *shell_name;
+	char *error_messages[] = {
+	"not found",
+	"Permission denied",
+	"Illegal number",
+	"name is NULL, points to a string of len 0, or has an '=' char.",
+	"can't cd to ",
+	"Illegal option ",
+	"Help command error",
+	"Error allocating memory",
+	"Wrong Alias",
+	NULL};
 
 	error_count = *(shell_info->error_count);
 	current_command = shell_info->current_command;
