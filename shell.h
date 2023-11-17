@@ -164,7 +164,11 @@ ssize_t execute_built_ins(ShellInfo *shell_info);
 char *auxiliary_cd(ShellInfo *shell_info, char *current_directory);
 char *auxiliary_cd_2(ShellInfo *shell_info, char *current_directory);
 ssize_t cd_command(ShellInfo *shell_info);
-
+void update_environment_variables(char *directory);
+void change_directory(char *directory);
+char *get_directory(ShellInfo *shell_info);
+char *get_current_directory(void);
+int check_num_args(ShellInfo *shell_info);
 
 /**
  * exit_command - Handle the exit command
