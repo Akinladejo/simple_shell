@@ -38,8 +38,8 @@ void display_help_change_directory(void)
 	print_string("    Each time cd runs successfully, the env variable ");
 	print_string("    PWD is updated\n\n");
 	print_string("    Exit Status:\n");
-	print_string("    Returns 1 if the directory is changed,
-		and if $PWD is set ");
+	print_string("    Returns 1 if the directory is changed,"\n
+		"and if $PWD is set\n");
 	print_string("    successfully when\n");
 	print_string("    is used; -1 otherwise.\n");
 }
@@ -61,8 +61,8 @@ void display_help_help(void)
 	print_string("    Arguments:\n");
 	print_string("      BUILTIN   Builtin specifying a help topic\n\n");
 	print_string("    Exit Status:\n");
-	print_string("    Returns success unless PATTERN
-		is not found or an invalid ");
+	print_string("    Returns success unless PATTERN"
+		"is not found or an invalid \n");
 	print_string("    option is given.\n");
 }
 
