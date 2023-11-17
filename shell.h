@@ -524,4 +524,11 @@ void display_help_alias(void);
  */
 void print_help(void);
 
+/**
+ * init_string_token - Initializes a string token.
+ * @str: The input string to be tokenized.
+ * Return: A pointer to the initialized string token.
+ */
+char *init_string_token(char *str);
+
 #endif
