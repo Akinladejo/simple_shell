@@ -65,7 +65,7 @@ void (*help_function)(void);
  * @name: The name of the environment variable to retrieve
  * @env: The array of environment variables
  *
- * Return: The value of the specified environment variable, or NULL if not found.
+ * Return: The value of the specified environment var, or NULL if not found.
  */
 char *_get_environment_variable(const char *name, char **env);
 
@@ -119,7 +119,7 @@ char *_string_copy(char *destination, const char *source);
  * @str: The string to be tokenized
  * @delimiter: The delimiter used to tokenize the string
  *
- * Return: A pointer to the next token in the string, or NULL if no more tokens are found.
+ * Return: A pointer to the next token in the string
  */
 char *_string_token(char *str, const char *delimiter);
 
@@ -128,7 +128,7 @@ char *_string_token(char *str, const char *delimiter);
  * @buffer: The buffer containing the parameters
  * @shell_info: Additional information about the shell
  *
- * Return: An array of strings representing the parameters, or NULL if no parameters are found.
+ * Return: An array of strings representing the parameters
  */
 char **get_parameters(char *buffer, ShellInfo *shell_info);
 
@@ -191,8 +191,8 @@ int string_array_length(char **array);
  * Return: An array of strings representing the processed input.
  */
 char **check_input(int argument_count, char **arguments, size_t *buffer_size,
-                   char **buffer, ShellInfo *shell_info);
-                   
+char **buffer, ShellInfo *shell_info);
+
 /**
  * get_user_input - Get user input
  * @buffer_size: A pointer to the size of the input buffer
@@ -201,7 +201,8 @@ char **check_input(int argument_count, char **arguments, size_t *buffer_size,
  *
  * Return: An array of strings representing the user input.
  */
-char **get_user_input(size_t *buffer_size, char **buffer, ShellInfo *shell_info);
+char **get_user_input(size_t *buffer_size, char **buffer,
+ShellInfo *shell_info);
 
 /**
  * initialize_shell_info - Initialize the shell information structure
@@ -216,9 +217,11 @@ char **get_user_input(size_t *buffer_size, char **buffer, ShellInfo *shell_info)
  * Return: A pointer to the initialized ShellInfo structure.
  */
 ShellInfo *initialize_shell_info(char *argv0, int *error_number,
-                                 int *exit_number, int *logical_relation,
-                                 int *is_runnable, char ***environment,
-                                 int *unset_environment);
+int *exit_number,
+int *logical_relation,
+int *is_runnable,
+char ***environment,
+int *unset_environment);
 
 /**
  * _realloc - Reallocate memory for a pointer
@@ -239,7 +242,8 @@ void *_realloc(void *ptr, unsigned int old_size, unsigned int new_size);
  *
  * Return: The number of bytes read into the buffer.
  */
-int read_file_into_buffer(char **buf, size_t *len, size_t size, int file_descriptor);
+int read_file_into_buffer(char **buf, size_t *len, size_t size,
+int file_descriptor);
 
 /**
  * resize_buffer - Resize a buffer
@@ -260,7 +264,8 @@ int resize_buffer(char **buf, size_t *size);
  *
  * Return: The processed buffer.
  */
-int process_buffer(char *buf, size_t len, char **buffer, size_t *buffer_size, size_t *size);
+int process_buffer(char *buf, size_t len, char **buffer,
+size_t *buffer_size, size_t *size);
 
 /**
  * handle_error - Handle errors
@@ -280,7 +285,7 @@ int handle_error(int error_number, ShellInfo *shell_info, int exit_number);
  * @parameters: An array of strings representing the command parameters
  */
 void add_command(ShellInfo *shell_info, char *input_buffer, char *command,
-                 char **parameters);
+char **parameters);
 
 /**
  * add_path_to_command - Add a path to the current command
@@ -337,9 +342,7 @@ ssize_t exit_command(ShellInfo *shell_info);
  * @string1: The first string
  * @string2: The second string
  *
- * Return: An integer less than, equal to, or greater than zero if
- *          the first string is found to be less than, equal to, or greater than
- *          the second string, respectively.
+ * Return: An integer less than, equal to'
  */
 int compare_strings(char *string1, char *string2);
 
@@ -356,7 +359,7 @@ long convert_to_integer(char *string);
  * @base: The base of the power
  * @exponent: The exponent of the power
  *
- * Return: The result of raising the base to the power of the exponent.
+ * Return: base to the power of the exponent.
  */
 long power(long base, long exponent);
 
@@ -380,14 +383,14 @@ char **copy_double_pointer(char **pointer, int old_size, int new_size);
  * Return: The updated array of environment variables.
  */
 char **set_environment_variable(char **env, char *variable, char *value,
-                                ShellInfo *shell_info);
+ShellInfo *shell_info);
 
 /**
  * search_environment_variable - Search for an environment variable
  * @env: The array of environment variables
  * @variable: The name of the environment variable to search for
  *
- * Return: The index of the environment variable if found, or -1 if not found.
+ * Return: The index of the environment variable if found
  */
 int search_environment_variable(char **env, char *variable);
 
@@ -400,7 +403,7 @@ int search_environment_variable(char **env, char *variable);
  * Return: The updated array of environment variables.
  */
 char **unset_environment_variable(char **env, const char *variable,
-                                  ShellInfo *shell_info);
+ShellInfo *shell_info);
 
 /**
  * is_digit - Check if a character is a digit
@@ -433,7 +436,8 @@ ssize_t change_directory(ShellInfo *shell_info);
  *
  * Return: A pointer to the target directory.
  */
-char *determine_directory(ShellInfo *shell_info, const char *current_directory);
+char *determine_directory(ShellInfo *shell_info,
+const char *current_directory);
 
 /**
  * chang_directory - Change the current directory
@@ -445,22 +449,23 @@ char *determine_directory(ShellInfo *shell_info, const char *current_directory);
 int chang_directory(const char *directory, ShellInfo *shell_info);
 
 /**
- * update_environment_variables - Update environment variables after a directory change
+ * update_environment_variables - Update environment variables.
  * @shell_info: Additional information about the shell
  * @directory: The target directory
  */
-void update_environment_variables(ShellInfo *shell_info, const char *directory);
+void update_environment_variables(ShellInfo *shell_info,
+const char *directory);
 
 /**
- * handle_directory_change_result - Handle the result of a directory change
+ * handle_directory_change_result - result of a directory change
  * @result: The result of the directory change operation
  * @shell_info: Additional information about the shell
  * @current_directory: The current working directory
  * @directory: The target directory
  */
 void handle_directory_change_result(int result, ShellInfo *shell_info,
-                                    const char *current_directory,
-                                    const char *directory);
+const char *current_directory,
+const char *directory);
 
 /**
  * free_resources - Free resources allocated during directory change
