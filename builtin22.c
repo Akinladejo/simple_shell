@@ -29,6 +29,7 @@ char *get_directory(ShellInfo *shell_info)
 void change_directory(char *directory)
 {
 	int check = chdir(directory);
+
 	if (check != 0)
 	{
 		handle_error(4, shell_info, 2);
