@@ -8,20 +8,20 @@
 #include <unistd.h>
 
 /**
- * _string_token - Tokenize a string
+ * init_string_token - Initialize the string tokenization process
+ * @str: String to tokenize
  *
- * This function tokenizes a string based on the specified delimiter.
+ * This function initializes the string tokenization process by setting up
+ * the static variables and returning a pointer to the start of the string.
  *
- * @str: String to tokenize (if NULL, continue from the previous position)
- * @delimiter: Delimiter characters
- *
- * Return: Tokenized substring or NULL if the end of the string is reached
+ * Return: Pointer to the start of the string
  */
-char *_string_token(char *str, const char *delimiter)
+char *init_string_token(char *str)
 {
-	static char *step = NULL;
-	static int isEnd = 0;
-	char *start;
+	static char *step;
+	static int isEnd;
+
+	isEnd = 0;
 
 	if (str)
 	{
@@ -29,45 +29,56 @@ char *_string_token(char *str, const char *delimiter)
 		step = str;
 	}
 
-	if (isEnd)
-		return (NULL);
+	return (step);
+}
 
-	start = NULL; /* Pointer to the start of the token */
+/**
+ * _string_token - Tokenize a string
+ * @delimiter: Delimiter characters
+ *
+ * This function tokenizes a string based on the specified delimiter.
+ *
+ * Return: Tokenized substring or NULL if the end of the string is reached
+ */
+char *_string_token(const char *delimiter)
+{
+	char *start;
 
-	switch (*step)
+	if (*step == '\0')
 	{
-		case '\0':
-			isEnd = 1;
-			return (NULL);
-		default:
-			while (*step && strchr(delimiter, *step))
-			{
-				++step;
-			}
-
-			if (!*step)
-			{
-				isEnd = 1;
-				return (NULL);
-			}
-
-			start = step;
-
-			while (*step && !strchr(delimiter, *step))
-			{
-				++step;
-			}
-
-			if (*step)
-			{
-				*strchr(delimiter, *step) = '\0';
-				++step;
-			}
-			else
-			{
-				isEnd = 1;
-			}
-
-			return (start);
+		isEnd = 1;
+		return (NULL);
 	}
+
+	start = NULL;
+
+	while (*step && strchr(delimiter, *step))
+	{
+		++step;
+	}
+
+	if (!*step)
+	{
+		isEnd = 1;
+		return (NULL);
+	}
+
+	start = step;
+
+	while (*step && !strchr(delimiter, *step))
+	{
+		++step;
+	}
+
+	if (*step)
+	{
+		*strchr(delimiter, *step) = '\0';
+		++step;
+	}
+	else
+	{
+		isEnd = 1;
+	}
+
+	return (start);
 }
